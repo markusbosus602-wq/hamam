@@ -32,91 +32,82 @@ Kahilingan ng Client
 
 ## Mga Mode ng Compression
 
-### Off
+### Naka-off
 
-Walang compression na inilalapat. Ang lahat ng mensahe ay dumadaan nang walang pagbabago.
+Walang inilapat na compression. Ang lahat ng mga mensahe ay dumadaan nang hindi nagbabago.
 
-### Lite Mode (~15% na tipid, <1ms na latency)
+### Lite Mode (~ 15% na matitipid, < 1ms latency)
 
-Ang pinakaligtas na mode — walang pagbabago sa semantika, paglilinis lang ng formatting:
+Ang pinakaligtas na mode — formatting cleanup. Ang pagputol ng resulta ng tool nito ay lossy, kaya ang default na landas (walang `allow-lossy`, `engine:lite` o pinangalanang-combo opt-in) ay tumatakbo nang lite sa `compressToolResults: false`: ang mga naunang resulta ng tool ay umaabot sa provider nang hindi nagbabago.
 
-| Teknika                  | Paglalarawan                                                    |
-| ------------------------ | --------------------------------------------------------------- |
-| `collapseWhitespace`     | Pagsamahin ang magkakasunod na blankong linya at trailing space |
-| `dedupSystemPrompt`      | Alisin ang mga duplicate na system message                      |
-| `compressToolResults`    | I-compress ang mga verbose na output ng tool/function           |
-| `removeRedundantContent` | Alisin ang mga paulit-ulit na tagubilin                         |
-| `replaceImageUrls`       | Paikliin ang mga base64 image data URI                          |
+| Pamamaraan               | Paglalarawan                                                                                          |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Pagsamahin ang magkasunod na blangkong linya at trailing space                                        |
+| `dedupSystemPrompt`      | Alisin ang mga duplicate na mensahe ng system                                                         |
+| `compressToolResults`    | Putulin ang mga naunang resulta ng tool sa lite cap (lossy: lamang sa isang kahilingan sa pag-opt-in) |
+| `removeRedundantContent` | I-strip ang mga paulit-ulit na tagubilin                                                              |
+| `replaceImageUrls`       | Paikliin ang base64 image data URIs                                                                   |
 
-**Pinakamainam para sa:** Laging nakabukas na paggamit, mga workflow na kritikal sa kaligtasan.
+**Pinakamahusay para sa:** Palaging naka-on, mga workflow na kritikal sa kaligtasan.
 
-### Standard Mode (~30% na tipid)
+### Standard Mode (~ 30% na matitipid)
 
-Nakuhang inspirasyon mula sa [Caveman](https://github.com/JuliusBrussee/caveman) — nag-aalis ng mga filler word at verbose na parirala habang pinapanatili ang kahulugan:
+Inspirasyon ng [Caveman](https://github.com/JuliusBrussee/caveman) — ay nag-aalis ng mga salitang tagapuno at verbose phrasing habang pinapanatili ang kahulugan:
 
-- Nag-aalis ng mga filler word ("please", "I think", "basically", "actually")
-- Piniikli ang mga verbose na parirala ("in order to" → "to", "as a result of" → "because")
-- Nag-aalis ng magagalang na pag-aatubili ("Would you mind...", "If you could possibly...")
-- 30+ regex rule na naka-tune para sa mga coding prompt
+- Tinatanggal ang mga salitang tagapuno ("pakiusap", "sa tingin ko", "talaga", "talaga")
+- Pinagsasama-sama ang mga pandiwang parirala ("upang" → "sa", "bilang resulta ng" → "dahil")
+- Tinatanggal ang magalang na hedging ("Pwede ba...", "Kung maaari mong...")
+- 30 + regex na panuntunan ay nakatutok para sa mga coding prompt
 
-**Pinakamainam para sa:** Pang-araw-araw na coding workflow, mga koponan na nagtitipid sa gastos.
+**Pinakamahusay para sa:** Mga pang-araw-araw na daloy ng trabaho sa pag-coding, mga team na may kamalayan sa gastos.
 
-### Aggressive Mode (~50% na tipid)
+### Aggressive Mode (~ 50% na matitipid)
 
-Matalinong pamamahala ng history para sa mahabang mga sesyon:
+Smart history management para sa mahabang session:
 
-- **Message Aging** — ang mga lumang mensahe ay unti-unting kino-compress
-- **Tool Result Compression** — ang mga mahabang tool output ay pinuputol o inee-lide (unang/huling mga linya,
-  match-line filtering, JSON key compaction)
-- **Structural Integrity Guards** — tinitiyak na ang mga pares ng `tool_use` + `tool_result` ay nananatiling consistent
-- **Context Window Awareness** — iginagalang ang mga token limit ng bawat modelo
+- **Pagtanda ng Mensahe** — ang mga mas lumang mensahe ay unti-unting na-compress
+- **Compression ng Resulta ng Tool** — long tool na mga output ay pinutol o natanggal (first/last lines, match-line filtering, JSON key compaction)
+- **Mga Structural Integrity Guard** Tinitiyak — na mananatiling pare-pareho ang mga pares `tool_use` + `tool_result`
+- **Context Window Awareness** Nirerespeto — ang mga limitasyon ng token sa bawat modelo
 
-**Pinakamainam para sa:** Mga mahabang debugging session, malalaking codebase.
+**Pinakamahusay para sa:** Pinahabang mga sesyon ng pag-debug, malalaking codebase.
 
-### Ultra Mode (~75% na tipid)
+### Ultra Mode ( 75%~ matitipid)
 
-Pinakamataas na compression para sa mga senaryong kritikal sa token:
+Pinakamataas na compression para sa token-critical na mga sitwasyon:
 
-- **Heuristic Pruning** — score-based na pagtatanggal ng mga token sa prose
-- **Structure Preservation** — ang mga fenced code block, inline code, URL at identifier ay
-  tina-tombstone at muling pinagsasama nang verbatim, hindi kailanman tinatanggal
-- **Opsyonal na SLM tier** — isang maliit na lokal na modelo ang maaaring magpino ng prune kapag naka-configure
-- Independyente sa Aggressive mode: hindi nito pinapatakbo ang message aging, tool-result compression
-  o ang fallback summarizer (tanging ang pagkabigo ng SLM tier ang maaaring mag-route ng fallback pass
-  sa aggressive)
+- **Heuristic Pruning** — score-based token pruning ng prosa
+- **Pagpapanatili ng Istruktura** Ang mga bloke ng code na nabakuran ng —, inline na code, URLs at mga identifier ay nilagyan ng lapida at muling tinahi ng verbatim, hindi kailanman pinuputol
+- **Opsyonal na tier SLM** — isang maliit na lokal na modelo ay maaaring pinuhin ang prune kapag na-configure
+- Independent ng Aggressive mode: hindi ito nagpapatakbo ng message aging, tool-result compression o fallback summarizer (tanging ang SLM-tier failure lang ang makakapagruta ng fallback pass sa agresibo)
 
-**Pinakamainam para sa:** Kapag paulit-ulit ka nang tumatama sa mga limit ng context.
+**Pinakamahusay para sa:** Kapag paulit-ulit mong naaabot ang mga limitasyon sa konteksto.
 
-### RTK Mode (60-90% na saklaw ng upstream)
+### RTK Mode (60-90% upstream range)
 
-Ang RTK mode ay naka-optimize para sa mga verbose na tool output na lumilitaw sa mga sesyon ng coding agent:
+RTK mode ay na-optimize para sa mga verbose tool na output na lumalabas sa mga session ng coding-agent:
 
-- Nakakadetect ng mga klase ng command/output tulad ng `git status`, `git diff`, `git log`, mga test runner,
-  TypeScript/Vite/Webpack build, ESLint/Biome/Prettier, npm audit/install, Docker log, infra
-  output, at pangkalahatang shell output
-- Nag-aapply ng mga JSON filter pack mula sa `open-sse/services/compression/engines/rtk/filters/`
-- Nag-i-import ng mga RTK TOML schema v1 filter mula sa project o global na mga file na `filters.toml`, na may
-  inline-test validation at trust-gating para sa mga project file
-- May kasamang 56 built-in na filter na may inline verify sample
-- Nag-aalis ng mga ANSI control sequence, progress bar, paulit-ulit na linya, at di-actionable na ingay
-- Pinapanatili ang mga failure, error, warning, mga binagong file, buod, at ang dulo ng mahabang output
-- Sumusuporta sa mga trust-gated na project filter, global filter, at opsyonal na redacted raw-output recovery
+- Nakakakita ng command/output class gaya ng `git status`, `git diff`, `git log`, test runners, TypeScript/Vite/Webpack build, ESLint/Biome/Prettier, npm audit/installs, Docker logs, infra output, at generic na shell output
+- Naglalapat ng mga JSON filter pack mula sa `open-sse/services/compression/engines/rtk/filters/`
+- Nag-i-import ng mga filter ng RTK TOML schema v1 mula sa mga project o global `filters.toml` file, na may inline-test validation at trust-gating para sa mga project file
+- Nagpapadala ng 56 na built-in na filter na may mga inline na verify na sample
+- Inaalis ang mga ANSI control sequence, progress bar, paulit-ulit na linya, at ingay na hindi naaaksyunan
+- Pinapanatili ang mga pagkabigo, mga error, mga babala, mga binagong file, mga buod, at ang buntot ng mahabang output
+- Sinusuportahan ang mga filter ng proyekto na pinagkakatiwalaan, mga pandaigdigang filter, at opsyonal na na-redact na raw-output na pagbawi
 
-**Pinakamainam para sa:** Mga sesyon ng agent na may shell, build, test, git, grep, at mga transcript ng file output.
+**Pinakamahusay para sa:** Mga session ng ahente na may mga transcript ng shell, build, test, git, grep, at file-output.
 
-### Stacked Mode (78-95% na kwalipikadong saklaw)
+### Stacked Mode (78-95% kwalipikadong hanay)
 
-Ang Stacked mode ay nagpapatakbo ng maraming compression engine sa deterministic na pagkakasunud-sunod. Ang default na pipeline ay:
+Ang stacked mode ay nagpapatakbo ng maraming compression engine sa isang tiyak na pagkakasunud-sunod. Ang default na pipeline ay:
 
 ```txt
 RTK -> Caveman
 ```
 
-Ang pagkakasunud-sunod na iyon ay pinapanatili munang compact ang terminal/tool output, pagkatapos ay inilalapat
-ang Caveman semantic condensation sa natitirang natural-language na prompt. Ang mga stacked pipeline ay maaaring
-i-configure nang global o sa pamamagitan ng mga compression combo na nakatalaga sa mga routing combo.
+Pinapanatili ng order na iyon terminal/tool output compact muna, pagkatapos ay inilalapat ang Caveman semantic condensation sa natitirang natural-language prompt. Maaaring i-configure ang mga stacked pipeline sa buong mundo o sa pamamagitan ng compression combos na nakatalaga sa mga routing combo.
 
-**Pinakamainam para sa:** Pinagsamang context na may malalaking tool log kasama ang mga tagubilin ng tao o buod ng assistant.
+**Pinakamahusay para sa:** Pinaghalong konteksto na may malalaking log ng tool at mga tagubilin ng tao o mga buod ng katulong.
 
 ---
 
@@ -188,83 +179,69 @@ May Stacked:        10K-2.5K token ang ipinadala     (78-95% na saklaw para sa e
 
 ### Dashboard
 
-Pumunta sa `Dashboard → Context & Cache`:
+Mag-navigate sa `Dashboard → Context & Cache`:
 
-- **Caveman** — pagpili ng mode, mga language pack, preview, at mga pandaigdigang default
-- **RTK** — preview ng command filter, mga setting sa kaligtasan ng RTK, at catalog ng filter
-- **Compression Combos** — mga pinangalanang pipeline ng engine na nakatalaga sa mga routing combo
-- **Auto-Trigger Threshold** — awtomatikong paganahin ang compression kapag lumampas sa threshold ang bilang ng token
+- **taong maninira sa lungga** pagpili ng — mode, mga language pack, preview, at mga pandaigdigang default
+- **RTK** — command-filter preview, RTK safety settings, at filter catalog
+- **Combos ng Compression** — na pinangalanang mga pipeline ng engine na nakatalaga sa mga routing combo
+- **Auto-Trigger Threshold** Awtomatikong nakikipag-compression — kapag lumampas ang bilang ng token sa threshold
 
-### Override Bawat Combo
+### Per-Combo Override
 
-Sa `Dashboard → Context & Cache → Compression Combos`, magtalaga ng compression combo sa isang routing
-combo:
+Sa `Dashboard → Context & Cache → Compression Combos`, magtalaga ng compression combo sa isang routing combo:
 
 ```txt
 Combo: "free-tier-fallback"
   Compression Combo: "coding-agent-stack"
   Pipeline: RTK -> Caveman
-  Mga Target:
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Nagbibigay-daan ito sa iyong gumamit ng stacked compression sa mga libre/coding provider habang pinananatili ang lite mode sa mga bayad na
-subscription.
+Nagbibigay-daan ito sa iyong gumamit ng stacked compression sa mga free/coding provider habang pinapanatili ang lite mode sa mga bayad na subscription.
 
-Ang pagtatalagang ito ng "Override Bawat Combo" ay ibang control kaysa sa override ng **compression
-mode ng routing combo** (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — tinatanggap din ng schema
-ng field ang `rtk`, `stacked`, at `omniglyph`) — hindi pumipili ang override na iyon ng pinangalanang
-pipeline ng compression combo; itinatakda lamang nito ang field na `compressionMode` na kinokonsulta ng
-`resolveCompressionPlan`. Maaari itong itakda sa combo card (`Dashboard → Combos`) o, mula noong
-#6760, para sa bawat routing combo sa listahang "Assign to routing" sa
-`Dashboard → Context & Cache → Compression Combos`, katabi mismo ng checkbox para sa pagtatalaga ng pipeline
-na nakadokumento sa itaas. Ang parehong interface ay nagpapanatili ng data sa pamamagitan ng iisang endpoint na `PUT /api/combos/{id}`.
+Ang pagtatalagang "Per-Combo Override" na ito ay ibang kontrol sa** routing-combo compression mode** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — tinatanggap din ng schema ng field `rtk`, `stacked` at `omniglyph`) — na override ay hindi pumipili ng pinangalanang compression-combo pipeline; itinatakda lang nito ang field `compressionMode` na kinonsulta ni `resolveCompressionPlan`. Maaari itong itakda sa alinman sa combo card (`Dashboard → Combos`) o, mula noong #6760, bawat routing combo sa listahan ng "Italaga sa pagruruta" sa `Dashboard → Context & Cache → Compression Combos`, sa tabi mismo ng checkbox ng pipeline-assignment na nakadokumento sa itaas. Ang parehong mga ibabaw ay nagpapatuloy sa parehong `PUT /api/combos/{id}` endpoint.
 
-### Override Bawat Request
+### Pag-override sa bawat kahilingan
 
-Ipadala ang request header na `x-omniroute-compression` upang i-override ang compression plan para sa iisang
-request. Ito ang may pinakamataas na priyoridad — nangingibabaw ito sa override ng routing combo, aktibong profile,
-auto-trigger, at Default ng panel. Binabalewala ang mga hindi kilalang value (hindi kailanman tinatanggihan ang request) at
-kinokontrol pa rin ng pandaigdigang master switch ang lahat: kapag naka-off ang compression sa buong system, hindi ito maaaring
-i-on ng header. Mga value:
+Ipadala ang `x-omniroute-compression` request header para i-override ang compression plan para sa isang kahilingan. Ito ang may pinakamataas na precedence na — na tinatalo nito ang routing-combo override, ang aktibong profile, auto-trigger, at ang panel Default. Ang mga hindi kilalang value ay binabalewala (ang kahilingan ay hindi kailanman tatanggihan) at ang pandaigdigang master switch ay nag-ga-gate pa rin ng lahat: kapag ang compression ay naka-off sa buong mundo, hindi ito ma-on ng header. Mga halaga:
 
-| Value         | Epekto                                                                                                                   |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `off`         | Walang compression para sa request na ito.                                                                               |
-| `default`     | Ang Default profile na nagmula sa panel (binabalewala ang aktibong profile). Nananatiling naka-off ang mga lossy engine. |
-| `safe`        | Kapareho ng hindi pagsama sa header: dedup at whitespace folding lamang.                                                 |
-| `allow-lossy` | Panatilihin ang operator plan ng request na ito, kabilang ang mga buod, relevance filter, at style rewrite.              |
-| `engine:<id>` | Isang engine kapag naka-enable, hal. `engine:rtk`. Ito ang per-request na pag-opt in para sa engine na iyon.             |
-| `<combo>`     | Isang pinangalanang combo, na unang itinutugma ayon sa pangalan (case-insensitive), pagkatapos ay ayon sa id.            |
+| Halaga        | Epekto                                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Walang compression para sa kahilingang ito.                                                                                     |
+| `default`     | Ang panel-derived Default na profile (binalewala ang aktibong profile). Nawawala ang mga makina.                                |
+| `safe`        | Pareho sa pag-alis sa header.                                                                                                   |
+| `allow-lossy` | Panatilihin ang operator plan ng kahilingang ito, kabilang ang mga buod, mga filter ng kaugnayan, at muling pagsulat ng istilo. |
+| `engine:<id>` | Isang engine kapag pinagana, hal `engine:rtk`. Ito ang per-request na opt-in para sa engine na iyon.                            |
+| `<combo>`     | Isang pinangalanang combo, itinugma sa pangalan (case-insensitive) muna, pagkatapos ay sa pamamagitan ng id.                    |
 
-Kung walang `allow-lossy`, `engine:<id>`, o pinangalanang combo, hindi inilalapat ang mga lossy engine. Makakakuha
-pa rin ang request ng session dedup at whitespace folding kapag naka-on ang compression.
+Kung walang `allow-lossy`, `engine:<id>`, o isang pinangalanang combo, hindi inilalapat ang mga lossy engine. Kapag na-downgrade ang isang lossy Default, auto-trigger, o routing override, pinapanatili ng OmniRoute ang mga kinikilalang lossless na hakbang mula sa naka-configure na stacked pipeline sa naka-configure na pagkakasunud-sunod. Bumabalik lamang ito sa `session-dedup → lite` kapag walang naka-configure na lossless na hakbang ang nananatili.
 
-Ibinabalik ang inilapat na plan sa response header na `X-OmniRoute-Compression: <mode>; source=<source>`,
-kung saan ang `<source>` ay isa sa `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default`, o `off`.
+Ang panel ng Mga Setting** Epektibong pipeline** ipinapakita ng preview ang ordinaryong at-rest plan. Kapag maaaring tumakbo ang isang auto-trigger, ipinapakita rin ng parehong preview ang conditional effective na pipeline nito upang manatiling nakahanay ang panel at ang resolution ng runtime na walang header.
+
+Ang inilapat na plano ay ini-echo pabalik sa `X-OmniRoute-Compression: <mode>; source=<source>` response header, kung saan `<source>` ay isa sa `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default`, o `off`.
 
 ### API
 
 ```bash
-# Kunin ang mga setting ng compression
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# I-update ang mga setting ng compression
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# I-preview ang isang partikular na RTK/stacked payload
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Ilista ang mga RTK filter pack
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Direktang subukan ang RTK gamit ang opsyonal na command metadata
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

@@ -43,22 +43,23 @@
 
 ## 旗幟目錄
 
-6 個類別的 114 個標誌。**預設**是定義預設—當DB覆蓋和環境變數都不存在時使用的值。
+6 個類別的 115 個標誌。**預設**是定義預設—當DB覆蓋和環境變數都不存在時使用的值。
 
-### 安全 (10)
+### 安全 (11)
 
-| 鑰匙                                    | 類型   | 預設     | 描述                                                                                                                                                                                   |
-| --------------------------------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `REQUIRE_API_KEY`                       | 布林值 | `false`  | 所有傳入請求都需要API金鑰。                                                                                                                                                            |
-| `INPUT_SANITIZER_ENABLED`               | 布林值 | `true`   | 為所有請求啟用輸入清理。                                                                                                                                                               |
-| `INJECTION_GUARD_MODE`                  | 列舉   | `off`    | 提示注入保護模式。值： `off`、 `warn`、 `block`、 `redact`。                                                                                                                           |
-| `PII_REDACTION_ENABLED`                 | 布林值 | `false`  | 從請求中編輯PII （獨立於`INPUT_SANITIZER_MODE`）。                                                                                                                                     |
-| `PII_RESPONSE_SANITIZATION`             | 布林值 | `false`  | 清理PII中的提供者回應。                                                                                                                                                                |
-| `PII_RESPONSE_SANITIZATION_MODE`        | 列舉   | `redact` | PII回應清理模式。值： `redact`、 `warn`、 `block`、 `off`。                                                                                                                            |
-| `OUTBOUND_SSRF_GUARD_ENABLED`           | 布林值 | `true`   | 舊別名：在環境之前讀取此標誌的儀表板切換中儲存的值； `false`、 `0`、 `no`或`off`都可以像`OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`一樣關閉出站URL防護的主機檢查。                         |
-| `ALLOW_API_KEY_REVEAL`                  | 布林值 | `false`  | 允許經過驗證的儀表板使用者顯示儲存的API鑰，而不是只看到屏蔽值。                                                                                                                        |
-| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | 布林值 | `false`  | 在AUTH日誌行中包含帳戶前綴（例如「使用<provider>帳戶：abc12345...」）。預設情況下停用，以便從shared/multi-tenant進程日誌中編輯帳戶識別碼。獨立於調試模式；翻轉調試模式不會揭示這一點。 |
-| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | 布林值 | `false`  | 啟用OIDC後，停用密碼登錄，以便使用者只能透過OIDC單一登入進行身份驗證。停用時（預設），密碼登入和OIDC均可用。                                                                           |
+| 鑰匙                                    | 類型   | 預設     | 描述                                                                                                                                                                                                         |
+| --------------------------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `REQUIRE_API_KEY`                       | 布林值 | `false`  | 所有傳入請求都需要API金鑰。                                                                                                                                                                                  |
+| `INPUT_SANITIZER_ENABLED`               | 布林值 | `true`   | 為所有請求啟用輸入清理。                                                                                                                                                                                     |
+| `INJECTION_GUARD_MODE`                  | 列舉   | `off`    | 提示注入保護模式。值： `off`、 `warn`、 `block`、 `redact`。                                                                                                                                                 |
+| `PII_REDACTION_ENABLED`                 | 布林值 | `false`  | 從請求中編輯PII （獨立於`INPUT_SANITIZER_MODE`）。                                                                                                                                                           |
+| `PII_RESPONSE_SANITIZATION`             | 布林值 | `false`  | 清理PII中的提供者回應。                                                                                                                                                                                      |
+| `PII_RESPONSE_SANITIZATION_MODE`        | 列舉   | `redact` | PII回應清理模式。值： `redact`、 `warn`、 `block`、 `off`。                                                                                                                                                  |
+| `OUTBOUND_SSRF_GUARD_ENABLED`           | 布林值 | `true`   | 舊別名：在環境之前讀取此標誌的儀表板切換中儲存的值； `false`、 `0`、 `no`或`off`都可以像`OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`一樣關閉出站URL防護的主機檢查。                                               |
+| `ALLOW_API_KEY_REVEAL`                  | 布林值 | `false`  | 允許經過驗證的儀表板使用者顯示儲存的API鑰，而不是只看到屏蔽值。                                                                                                                                              |
+| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | 布林值 | `false`  | 在AUTH日誌行中包含帳戶前綴（例如「使用<provider>帳戶：abc12345...」）。預設情況下停用，以便從shared/multi-tenant進程日誌中編輯帳戶識別碼。獨立於調試模式；翻轉調試模式不會揭示這一點。                       |
+| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | 布林值 | `false`  | 啟用OIDC後，停用密碼登錄，以便使用者只能透過OIDC單一登入進行身份驗證。停用時（預設），密碼登入和OIDC均可用。                                                                                                 |
+| `API_KEY_AUDIT_CLIENT_DETAILS_ENABLED`  | 布林值 | `false`  | 在為成功的 API 金鑰元資料和發現讀取而寫入的`api_key.auth.touch`審核日誌行中記錄呼叫者的IP位址和使用者代理程式 (#17982)。預設為關閉：這些行仍然記錄使用哪個金鑰、何時以及在哪個路徑上使用，無需IP或用戶代理。 |
 
 ### 網路 (29)
 
@@ -239,10 +240,10 @@
       "requiresRestart": false,
       "warningLevel": "caution",
     },
-    // ... all 114 flags
+    // ... all 115 flags
   ],
   "summary": {
-    "total": 114,
+    "total": 115,
     "active": 0,
     "inactive": 0,
     "overriddenByDb": 0,

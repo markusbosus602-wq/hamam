@@ -30,93 +30,84 @@ Kliendi päring
 
 ---
 
-## Tihendusrežiimid
+## Kompressioonirežiimid
 
 ### Väljas
 
-Tihendust ei rakendata. Kõik sõnumid liiguvad läbi muutmata kujul.
+Kompressiooni ei rakendatud. Kõik sõnumid edastatakse muutmata kujul.
 
-### Lite-režiim (~15% kokkuhoid, <1 ms latentsus)
+### Lihtrežiim (~ 15% sääst, < 1 ms latentsus)
 
-Kõige ohutum režiim — semantika ei muutu üldse, puhastatakse ainult vormindust:
+Kõige turvalisem — vormingu puhastamise režiim. Selle tööriista ja tulemuste kärpimine on kadudega, nii et vaiketee (ilma `allow-lossy`, `engine:lite` või nimega kombineeritud valikuta) töötab lihtsalt koos `compressToolResults: false`: tööriista varasemad tulemused jõuavad pakkujani muutumatul kujul.
 
-| Tehnika                  | Kirjeldus                                         |
-| ------------------------ | ------------------------------------------------- |
-| `collapseWhitespace`     | Ühenda järjestikused tühjaread ja lõpptühikud     |
-| `dedupSystemPrompt`      | Eemalda dubleeritud süsteemisõnumid               |
-| `compressToolResults`    | Tihenda sõnalised tööriista-/funktsiooniväljundid |
-| `removeRedundantContent` | Eemalda korduvad juhised                          |
-| `replaceImageUrls`       | Lühenda base64-piltide andme-URI-sid              |
+| Tehnika                  | Kirjeldus                                                                           |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Ühendage järjestikused tühjad read ja tühikud                                       |
+| `dedupSystemPrompt`      | Eemaldage dubleerivad süsteemiteated                                                |
+| `compressToolResults`    | Kärbi varasemad tööriista tulemused lihtkorgiks (kahjud: ainult taotluse lubamisel) |
+| `removeRedundantContent` | Eemaldage korduvad juhised                                                          |
+| `replaceImageUrls`       | Lühendage base64 pildiandmeid URIs                                                  |
 
-**Sobib kõige paremini:** pidevaks kasutamiseks, ohutuskriitilisteks töövoogudeks.
+**Parim:** Alati kasutuses, ohutuskriitilised töövood.
 
-### Standardrežiim (~30% kokkuhoid)
+### Standardrežiim (~ 30% sääst)
 
-Inspireeritud projektist [Caveman](https://github.com/JuliusBrussee/caveman) — eemaldab täitesõnad ja liigselt sõnalised sõnastused, säilitades tähenduse:
+[Koopainimesest](https://github.com/JuliusBrussee/caveman) inspireeritud — eemaldab täitesõnad ja paljusõnalised fraasid, säilitades samas tähenduse:
 
-- Eemaldab täitesõnad ("please", "I think", "basically", "actually")
-- Tihendab sõnakõlksud fraase ("in order to" → "to", "as a result of" → "because")
-- Eemaldab viisakad leevendavad pöörded ("Would you mind...", "If you could possibly...")
-- 30+ kodeerimispromptide jaoks häälestatud regulaaravaldisreeglit
+- Eemaldab täitesõnad ("palun", "ma arvan", "põhimõtteliselt", "tegelikult")
+- Tihendab paljusõnalisi fraase ("selleks" → "kuni", "tulemusena" → "sest")
+- Ribab viisaka riskimaandamise ("Kas oleksite vastu...", "Kui sa võiksid...")
+- 30 + regex-reeglit, mis on häälestatud kodeerimisviipade jaoks
 
-**Sobib kõige paremini:** igapäevasteks kodeerimistöövoogudeks, kuluteadlikele meeskondadele.
+**Parim:** Igapäevased kodeerimise töövood, kuluteadlikud meeskonnad.
 
-### Agressiivne režiim (~50% kokkuhoid)
+### Agressiivne režiim (sääst 50%~)
 
 Nutikas ajaloohaldus pikkade seansside jaoks:
 
-- **Sõnumite vananemine** — vanemaid sõnumeid tihendatakse järjest rohkem
-- **Tööriistatulemuste tihendamine** — pikki tööriistaväljundeid kärbitakse või jäetakse osi välja
-  (esimesed/viimased read, vastetega ridade filtreerimine, JSON-võtmete tihendamine)
-- **Struktuurse terviklikkuse kaitse** — tagab, et `tool_use` + `tool_result` paarid jäävad kooskõlaliseks
-- **Kontekstiakna teadlikkus** — arvestab iga mudeli tokenipiiranguid
+- **Sõnum vananemine** — vanemad sõnumid tihendatakse järk-järgult
+- **Tööriista tulemuse tihendamine** — pikad tööriistaväljundid on kärbitud või eemaldatud (first/last read, vasterea filtreerimine, JSON klahvi tihendamine)
+- **Struktuuri terviklikkuse valvurid** — tagab `tool_use` + `tool_result` paaride järjepidevuse
+- **Kontekstiakna teadlikkus** — järgib mudelipõhiseid märgipiiranguid
 
-**Sobib kõige paremini:** pikendatud silumisseanssideks, suurteks koodibaasideks.
+**Parim:** Pikendatud silumiseansid, suured koodibaasid.
 
-### Ultra-režiim (~75% kokkuhoid)
+### Ultra Mode (~ 75% sääst)
 
-Maksimaalne tihendus tokenikriitilisteks olukordadeks:
+Maksimaalne tihendamine märgikriitiliste stsenaariumide jaoks:
 
-- **Heuristiline kärpimine** — skooripõhine proosateksti tokenite kärpimine
-- **Struktuuri säilitamine** — ```-koodiplokid, reasisese kood, URL-id ja identifikaatorid asendatakse
-  kohatäidetega ning õmmeldakse sõna-sõnalt tagasi; neid ei kärpita kunagi
-- **Valikuline SLM-kiht** — konfigureerimise korral saab väike kohalik mudel kärpimist täpsustada
-- Sõltumatu agressiivsest režiimist: ei käivita sõnumite vananemist, tööriistatulemuste tihendamist
-  ega tagavaralist kokkuvõtjat (ainult SLM-kihi tõrge võib suunata tagavaraläbimise
-  agressiivse režiimi kaudu)
+- **Heuristiline pügamine** — skooripõhine proosa märgiline kärpimine
+- **Struktuuri säilitamine** — tarastatud koodiplokid, tekstisisene kood, URLs ja identifikaatorid on hauakividele kantud ja ümber õmmeldud sõna-sõnalt, neid ei kärbita kunagi
+- **Valikuline SLM tasand** — väike kohalik mudel saab konfigureerimisel ploomi täpsustada
+- Sõltumatu agressiivsest režiimist: see ei käivita sõnumi vananemist, tööriista tulemuste tihendamist ega varukokkuvõtet (ainult SLM-taseme tõrge võib suunata varupääsu läbi agressiivse režiimi)
 
-**Sobib kõige paremini:** kui puudute korduvalt kontekstipiiranguid.
+**Parim:** Kui ületate korduvalt kontekstipiiranguid.
 
-### RTK-režiim (60-90% upstream-vahemik)
+### RTK režiim (60–90% ülesvoolu vahemik)
 
-RTK-režiim on optimeeritud sõnaliste tööriistaväljundite jaoks, mis tekivad kodeerimisagentide seanssides:
+RTK režiim on optimeeritud paljusõnaliste tööriistaväljundite jaoks, mis ilmuvad kodeerimisagendi seanssides:
 
-- Tuvastab käsu-/väljundiklasse nagu `git status`, `git diff`, `git log`, testijooksutajad,
-  TypeScripti/Vite'i/Webpacki ehitused, ESLint/Biome/Prettier, npm-i auditid ja paigaldused, Dockeri logid,
-  infrastruktuuriväljund ja üldine shelli väljund
-- Rakendab JSON-filtripakette kataloogist `open-sse/services/compression/engines/rtk/filters/`
-- Impordib RTK TOML-skeemi v1 filtreid projekti- või globaalsetest `filters.toml`-failidest, koos siseste
-  testide valideerimise ja projektifailide usalduskontrolliga
-- Kaasas 56 sisseehitatud filtrit koos siseste kontrollnäidistega
-- Eemaldab ANSI juhtjärjestused, edenemisribad, korduvad read ja tegevust mitte nõudva müra
-- Säilitab ebaõnnestumised, vead, hoiatused, muudetud failid, kokkuvõtted ja pikkade väljundite lõpu
-- Toetab usalduskontrolliga projektifiltreid, globaalseid filtreid ja valikulist varjatud toorväljundi taastamist
+- Tuvastab command/output klassid, nagu `git status`, `git diff`, `git log`, testjooksjad, TypeScript/Vite/Webpack järgud, ESLint/Biome/Prettier, npm audit/installs, Docker logid, infraväljund ja üldine shell väljund
+- `open-sse/services/compression/engines/rtk/filters/` JSON filtripakette
+- Impordib projekti- või globaalsetest `filters.toml` -failidest RTK TOML skeemi v1 filtrid koos projektifailide testisisese valideerimise ja usaldusväravaga
+- Tarnitakse 56 sisseehitatud filtrit koos sisekontrolliga näidistega
+- Eemaldab ANSI juhtjärjestused, edenemisribad, korduvad read ja mittetoimiva müra
+- Säilitab tõrked, vead, hoiatused, muudetud failid, kokkuvõtted ja pika väljundi saba
+- Toetab usaldusvärseid projektifiltreid, globaalseid filtreid ja valikulist redigeeritud toorväljundi taastamist
 
-**Sobib kõige paremini:** agentide seanssideks, kus on shelli-, ehitus-, testi-, git'i-, grep'i- ja failiväljundilogid.
+**Parim:** Agendiseansid shelli, järgu, testimise, giti, grepi ja failiväljundi transkriptsioonidega.
 
-### Virnastatud režiim (78-95% sobival sisul)
+### Virnastatud režiim (78–95% sobilik vahemik)
 
-Virnastatud režiim käivitab mitu tihendusmootorit deterministlikus järjekorras. Vaikimisi pipeline on:
+Virnastatud režiim käitab mitut tihendusmootorit deterministlikus järjekorras. Vaikimisi torujuhe on:
 
 ```txt
 RTK -> Caveman
 ```
 
-See järjekord hoiab kõigepealt terminali-/tööriistaväljundi kompaktsena ja rakendab seejärel
-ülejäänud loomulikkeelelisele promptile Cavemani semantilist tihendamist. Virnastatud pipeline'e saab
-konfigureerida globaalselt või marsruutimiskombinatsioonidele määratud tihenduskombinatsioonide kaudu.
+See järjekord hoiab terminal/tool väljundi esmalt kompaktsena ja seejärel rakendab ülejäänud loomuliku keele viiba puhul Cavemani semantilist kondensatsiooni. Virnastatud torujuhtmeid saab konfigureerida globaalselt või marsruutimiskombodele määratud tihenduskombode kaudu.
 
-**Sobib kõige paremini:** segakontekstideks, kus suurte tööriistalogidega on koos inimese juhised või assistendi kokkuvõtted.
+**Parim:** Segakontekst suurte tööriistalogide ja inimeste juhiste või abiliste kokkuvõtetega.
 
 ---
 
@@ -186,84 +177,71 @@ Stackediga:         10K-2.5K tokenit saadetud     (sobiva RTK+Caveman-sisu puhul
 
 ## Seadistamine
 
-### Töölaud
+### Armatuurlaud
 
-Liikuge jaotisse `Dashboard → Context & Cache`:
+Navigeerige `Dashboard → Context & Cache` juurde:
 
-- **Caveman** — režiimi valimine, keelepaketid, eelvaade ja globaalsed vaikeseaded
-- **RTK** — käsufiltri eelvaade, RTK turvaseaded ja filtrikataloog
-- **Compression Combos** — nimega mootorikonveierid, mis on määratud marsruutimiskombodele
-- **Auto-Trigger Threshold** — tihendamise automaatne aktiveerimine, kui tokenite arv ületab lävendi
+- **Koopamees** — režiimi valik, keelepaketid, eelvaade ja globaalsed vaikeseaded
+- **RTK** — käsufiltri eelvaade, RTK ohutusseaded ja filtrikataloog
+- **Kompressioonikombinatsioonid** — nimetas marsruutimiskombodele määratud mootori torujuhtmeid
+- **Automaatse käivitamise lävi** — aktiveerib tihendamise automaatselt, kui lubade arv ületab läve
 
-### Kombopõhine alistus
+### Kombinatsioonipõhine alistamine
 
-Jaotises `Dashboard → Context & Cache → Compression Combos` määrake tihendamiskombo marsruutimiskombole:
+Määrake `Dashboard → Context & Cache → Compression Combos` marsruutimise kombinatsioonile tihenduskombo:
 
 ```txt
-Kombo: "free-tier-fallback"
-  Tihendamiskombo: "coding-agent-stack"
-  Konveier: RTK -> Caveman
-  Sihtmärgid:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-See võimaldab kasutada tasuta/kodeerimisteenuse pakkujatel kihilist tihendamist, säilitades tasuliste
-tellimuste puhul lihtrežiimi.
+See võimaldab free/coding pakkujatel kasutada virnastatud pakkimist, säilitades samal ajal tasuliste tellimuste puhul lihtrežiimi.
 
-See „kombopõhise alistuse” määrang on erinev juhtelement **marsruutimiskombo tihendusrežiimi**
-alistusest (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — välja
-skeem aktsepteerib ka väärtusi `rtk`, `stacked` ja `omniglyph`) — see alistus ei vali nimega
-tihendamiskombo konveierit, vaid määrab üksnes välja `compressionMode`, mida kasutab
-`resolveCompressionPlan`. Selle saab määrata kas kombokaardil (`Dashboard → Combos`) või alates
-versioonist #6760 iga marsruutimiskombo kohta loendis „Assign to routing” lehel
-`Dashboard → Context & Cache → Compression Combos`, otse eespool kirjeldatud konveieri määramise
-märkeruudu kõrval. Mõlemal juhul salvestatakse muudatused sama `PUT /api/combos/{id}` lõpp-punkti kaudu.
+See määrang "Komboülesanne" erineb juhtelemendist** marsruutimise-kombinatsiooni tihendusrežiim** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex vastab — välja skeem aktsepteerib ka `rtk`, `stacked` ja `omniglyph`) — mis alistamine ei vali nimega tihenduskombinatsiooni konveieri; see lihtsalt määrab `compressionMode` välja, mida `resolveCompressionPlan` uurib. Selle saab määrata kas kombineeritud kaardil (`Dashboard → Combos`) või alates # 6760 marsruutimise kombinatsioonist `Dashboard → Context & Cache → Compression Combos` loendis "Määra marsruutimisele" otse ülal dokumenteeritud konveieri määramise märkeruudu kõrval. Mõlemad pinnad püsivad läbi sama `PUT /api/combos/{id}` lõpp-punkti.
 
-### Päringupõhine alistus
+### Päringupõhine alistamine
 
-Saatke päringu päis `x-omniroute-compression`, et alistada ühe päringu tihendusplaan.
-Sellel on kõrgeim prioriteet — see alistab marsruutimiskombo alistuse, aktiivse profiili,
-automaatse käivituse ja paneeli vaikesätte. Tundmatuid väärtusi eiratakse (päringut ei lükata kunagi
-tagasi) ning globaalne pealüliti kehtib endiselt kõigele: kui tihendamine on globaalselt välja
-lülitatud, ei saa päis seda sisse lülitada. Väärtused:
+Saatke `x-omniroute-compression` päringu päis, et alistada ühe päringu tihendusplaan. Sellel on kõrgeim prioriteet — mis ületab marsruutimise kombinatsiooni alistamise, aktiivse profiili, automaatse käivitamise ja paneeli vaikeväärtuse. Tundmatuid väärtusi ignoreeritakse (päringut ei lükata kunagi tagasi) ja globaalne pealüliti värab ikkagi kõik: kui tihendamine on globaalselt välja lülitatud, ei saa päis seda sisse lülitada. Väärtused:
 
-| Väärtus       | Mõju                                                                                                     |
-| ------------- | -------------------------------------------------------------------------------------------------------- |
-| `off`         | Selle päringu puhul tihendamist ei kasutata.                                                             |
-| `default`     | Paneelist tuletatud vaikeprofiil (aktiivset profiili eiratakse). Kadudega mootorid jäävad välja.         |
-| `safe`        | Sama mis päise ärajätmine: ainult duplikaatide eemaldamine ja tühimärkide koondamine.                    |
-| `allow-lossy` | Säilitab selle päringu operaatoriplaani, sealhulgas kokkuvõtted, asjakohasusfiltrid ja stiilimuudatused. |
-| `engine:<id>` | Üks mootor, kui see on lubatud, nt `engine:rtk`. See on selle mootori päringupõhine lubamine.            |
-| `<combo>`     | Nimega kombo, mis sobitatakse esmalt nime järgi (tõstutundetult) ja seejärel ID järgi.                   |
+| Väärtus       | Mõju                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------- |
+| `off`         | Selle päringu jaoks ei tihendata.                                                                             |
+| `default`     | Paneelil tuletatud Vaikeprofiil (eirab aktiivset profiili). Kaotatud mootorid jäetakse välja.                 |
+| `safe`        | Sama nagu päise väljajätmine.                                                                                 |
+| `allow-lossy` | Hoidke selle päringu operaatoriplaan, sealhulgas kokkuvõtted, asjakohasuse filtrid ja stiili ümberkirjutused. |
+| `engine:<id>` | Üks mootor, kui see on lubatud, nt `engine:rtk`. See on selle mootori jaoks päringupõhine luba.               |
+| `<combo>`     | Nimega kombinatsioon, mille vasteks on esmalt nimi (suur- ja suurtähtede tundlik), seejärel ID.               |
 
-Ilma väärtuseta `allow-lossy`, `engine:<id>` või nimega kombota kadudega mootoreid ei rakendata.
-Kui tihendamine on sisse lülitatud, rakendatakse päringule endiselt seansi duplikaatide eemaldamist ja tühimärkide koondamist.
+Ilma `allow-lossy`, `engine:<id>` või nimega kombinatsioonita kadudega mootoreid ei rakendata. Kui kadudega vaikeseade, automaatkäivitus või marsruutimise alistamine on alandatud, hoiab OmniRoute tuvastatud kadudeta samme konfigureeritud virnastatud konveierist konfigureeritud järjekorras. See langeb tagasi `session-dedup → lite` ainult siis, kui ükski konfigureeritud kadudeta samm ei jää püsima.
 
-Rakendatud plaan tagastatakse vastuse päises `X-OmniRoute-Compression: <mode>; source=<source>`,
-kus `<source>` on üks väärtustest `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default` või `off`.
+Seadete paneel** Tõhus torujuhe** eelvaade näitab tavalist puhkeplaani. Kui automaatne käivitaja saab käitada, kuvab sama eelvaade ka selle tingimusliku tõhusa konveieri, nii et paneel ja päiseta käitusaegne eraldusvõime jäävad joondatud.
+
+Rakendatud plaani kajatakse tagasi `X-OmniRoute-Compression: <mode>; source=<source>` vastuse päises, kus `<source>` on üks järgmistest: `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` või `off`.
 
 ### API
 
 ```bash
-# Tihendusseadete hankimine
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Tihendusseadete värskendamine
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Konkreetse RTK/stacked andmestiku eelvaade
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# RTK filtrikomplektide loetlemine
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# RTK vahetu testimine valikuliste käsu metaandmetega
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

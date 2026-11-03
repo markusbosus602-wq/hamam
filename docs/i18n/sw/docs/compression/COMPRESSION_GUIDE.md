@@ -30,84 +30,84 @@ Ombi la Mteja
 
 ---
 
-## Hali za Ukandamizaji
+## Njia za Kukandamiza
 
 ### Imezimwa
 
-Hakuna ukandamizaji unaotumika. Ujumbe wote hupitia bila mabadiliko.
+Hakuna mbano iliyotumika. Ujumbe wote hupita bila kubadilika.
 
-### Hali ya Lite (~15% akiba, ucheleweshaji <1ms)
+### Hali Nyepesi (~ 15% akiba, < 1ms latency)
 
-Hali salama zaidi — hakuna mabadiliko ya kimaana, ni usafishaji wa uumbizaji pekee:
+Usafishaji wa umbizo — hali salama zaidi. Upunguzaji wa matokeo ya zana yake ni wa kupotea, kwa hivyo njia chaguo-msingi (hakuna `allow-lossy`, `engine:lite` au jina-combo opt-in) huendesha lite na `compressToolResults: false`: matokeo ya zana ya awali humfikia mtoa huduma bila kubadilika.
 
-| Mbinu                    | Maelezo                                               |
-| ------------------------ | ----------------------------------------------------- |
-| `collapseWhitespace`     | Kunganisha mistari tupu mfululizo na nafasi za mwisho |
-| `dedupSystemPrompt`      | Kuondoa ujumbe wa mfumo uliorudiwa                    |
-| `compressToolResults`    | Kukandamiza matokeo marefu ya zana/kazi               |
-| `removeRedundantContent` | Kuondoa maagizo yaliyorudiwa                          |
-| `replaceImageUrls`       | Kufupisha URIs za data ya picha za base64             |
+| Mbinu                    | Maelezo                                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Unganisha mistari tupu mfululizo na nafasi zinazofuata                                    |
+| `dedupSystemPrompt`      | Ondoa barua pepe za mfumo                                                                 |
+| `compressToolResults`    | Punguza matokeo ya zana ya mapema kwa kofia lite (hasara: kwa ombi la kujijumuisha pekee) |
+| `removeRedundantContent` | Futa maagizo yanayorudiwa                                                                 |
+| `replaceImageUrls`       | Fupisha data ya picha ya base64 URIs                                                      |
 
-**Bora kwa:** Matumizi ya kila mara, mtiririko wa kazi muhimu kwa usalama.
+**Bora kwa:** Matumizi yanayowashwa kila wakati, mtiririko wa kazi muhimu kwa usalama.
 
-### Hali ya Standard (~30% akiba)
+### Hali ya Kawaida (~ 30% akiba)
 
-Iliochochewa na [Caveman](https://github.com/JuliusBrussee/caveman) — huondoa maneno ya kujaza na misamiati ndefu huku ikihifadhi maana:
+Imeongozwa na [Caveman](https://github.com/JuliusBrussee/caveman) — huondoa maneno ya kujaza na vitenzi vya kishazi huku ikihifadhi maana:
 
-- Huondoa maneno ya kujaza ("please", "I think", "basically", "actually")
-- Hufupisha misemo mirefu ("in order to" → "to", "as a result of" → "because")
-- Huondoa misemo ya heshima ya kuzunguka ("Would you mind...", "If you could possibly...")
-- Kanuni 30+ za regex zilizoboreshwa kwa ajili ya vidokezo (prompts) vya uprogramu
+- Huondoa maneno ya kujaza ("tafadhali", "nadhani", "kimsingi", "kweli")
+- Hufupisha vishazi vya vitenzi ("ili" → "kwa", "kama matokeo ya" → "kwa sababu")
+- Inaondoa ua wa heshima ("Je! unaweza…, "Ikiwa ungeweza...")
+- Sheria 30 + regex zilizopangwa kwa vidokezo vya usimbaji
 
-**Bora kwa:** Mtiririko wa kazi wa uprogramu wa kila siku, timu zinazojali gharama.
+**Bora kwa:** Mitiririko ya kazi ya usimbaji kila siku, timu zinazozingatia gharama.
 
-### Hali ya Aggressive (~50% akiba)
+### Hali ya Uchokozi (~ 50% ya kuokoa)
 
-Usimamizi mahiri wa historia kwa vikao virefu:
+Usimamizi mahiri wa historia kwa vipindi virefu:
 
-- **Kuzeeka kwa Ujumbe** — ujumbe wa zamani hukandamizwa hatua kwa hatua
-- **Ukandamizaji wa Matokeo ya Zana** — matokeo marefu ya zana hukatwa au kufupishwa (mistari ya kwanza/mwisho, uchujaji wa mistari inayolingana, ukandamizaji wa funguo za JSON)
-- **Ulinzi wa Uadilifu wa Muundo** — huhakikisha jozi za `tool_use` + `tool_result` zinabaki thabiti
-- **Ufahamu wa Dirisha la Muktadha** — huheshimu mipaka ya tokeni kwa kila modeli
+- **Ujumbe Kuzeeka** — jumbe za zamani hubanwa hatua kwa hatua
+- **Ukandamizaji wa Matokeo ya Zana** matokeo ya zana ndefu — yamepunguzwa au kurefushwa (mistari first/last, uchujaji wa mstari wa mechi, ubanaji wa vitufe JSON )
+- **Walinzi wa Uadilifu wa Miundo** — inahakikisha `tool_use` + `tool_result` jozi kukaa thabiti
+- **Uelewa wa Dirisha la Muktadha** — inaheshimu mipaka ya ishara kwa kila mfano
 
-**Bora kwa:** Vikao virefu vya utatuzi wa hitilafu, misingi mikubwa ya msimbo.
+**Bora kwa:** Vipindi vilivyopanuliwa vya utatuzi, misingi mikubwa ya msimbo.
 
-### Hali ya Ultra (~75% akiba)
+### Hali ya Juu (~ 75% ya akiba)
 
-Ukandamizaji wa juu kabisa kwa hali muhimu za tokeni:
+Ukandamizaji wa juu zaidi kwa hali muhimu za ishara:
 
-- **Upogaji wa Heuristic** — upogaji wa tokeni wa prose unaotegemea alama
-- **Uhifadhi wa Muundo** — vitalu vya msimbo vilivyozungukwa, msimbo wa inline, URLs na vitambulishi huwekewa alama (tombstoned) na kushonwa tena kama vilivyo, havipogwi kamwe
-- **Kiwango cha hiari cha SLM** — modeli ndogo ya ndani inaweza kuboresha upogaji inaposanidiwa
-- Hailitegemei hali ya Aggressive: haitekelezi kuzeeka kwa ujumbe, ukandamizaji wa matokeo ya zana wala muhtasari wa dharura (kushindwa kwa kiwango cha SLM pekee ndiyo kunaweza kuelekeza kipitio cha dharura kupitia aggressive)
+- **Kupogoa kwa Heuristic** — msingi wa alama kupogoa ishara ya nathari
+- **Uhifadhi wa Muundo** vizuizi vya msimbo wa —, msimbo wa ndani, URLs na vitambulisho hupigwa mawe ya kaburi na kushonwa tena kwa neno, kamwe havijakatwa.
+- **Kiwango cha SLM cha hiari** — kielelezo kidogo cha ndani kinaweza kuboresha kichaka kinaposanidiwa
+- Isiyo na hali ya Uchokozi: haiendeshi kuzeeka kwa ujumbe, mfinyazo wa matokeo ya zana au muhtasari wa nyuma (ni kutofaulu kwa kiwango cha SLM kunaweza kuelekeza njia mbadala kupitia fujo)
 
-**Bora kwa:** Unapokumbana na mipaka ya muktadha mara kwa mara.
+**Bora kwa:** Unapopiga mipaka ya muktadha mara kwa mara.
 
-### Hali ya RTK (safu ya 60-90% ya upstream)
+### Hali ya RTK (60-90% ya mkondo wa juu)
 
-Hali ya RTK imeboreshwa kwa matokeo marefu ya zana yanayoonekana katika vikao vya mawakala wa uprogramu:
+RTK mode imeboreshwa kwa matokeo ya zana ya kitenzi ambayo yanaonekana katika vipindi vya wakala wa usimbaji:
 
-- Hugundua aina za amri/matokeo kama vile `git status`, `git diff`, `git log`, watekelezaji wa majaribio, builds za TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, kumbukumbu za Docker, matokeo ya miundombinu, na matokeo ya kawaida ya shell
-- Hutumia vifurushi vya vichujio vya JSON kutoka `open-sse/services/compression/engines/rtk/filters/`
-- Huagiza vichujio vya RTK TOML schema v1 kutoka kwa faili za mradi au faili za kimataifa `filters.toml`, pamoja na uthibitishaji wa inline-test na trust-gating kwa faili za miradi
-- Huja na vichujio 56 vilivyojengwa ndani pamoja na sampuli za uthibitishaji wa inline
-- Huondoa mlolongo wa udhibiti wa ANSI, vikwazo vya maendeleo, mistari iliyorudiwa, na kelele zisizo za kutekelezeka
-- Huhifadhi vishindwi, makosa, onyo, faili zilizobadilishwa, muhtasari, na mwisho wa matokeo marefu
-- Huunga mkono vichujio vya miradi vilivyowekewa kizingiti cha uaminifu, vichujio vya kimataifa, na urejeshwaji wa hiari wa matokeo ghafi yaliyofichwa
+- Hugundua aina za command/output kama vile `git status`, `git diff`, `git log`, wakimbiaji wa majaribio, miundo ya TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, kumbukumbu za Docker, pato la infra na pato la jumla la ganda
+- Inaweka vifurushi vya JSON kutoka `open-sse/services/compression/engines/rtk/filters/`
+- Inaleta vichungi vya RTK TOML schema v1 kutoka kwa mradi au faili za kimataifa `filters.toml`, na uthibitisho wa jaribio la ndani na uwekaji uaminifu wa faili za mradi.
+- Husafirisha vichungi 56 vilivyojengewa ndani na sampuli za uthibitishaji wa ndani
+- Huondoa mfuatano wa udhibiti wa ANSI, pau za maendeleo, mistari inayorudiwa, na kelele isiyoweza kutekelezeka
+- Huhifadhi hitilafu, hitilafu, maonyo, faili zilizobadilishwa, muhtasari, na mkia wa matokeo ya muda mrefu
+- Inaauni vichujio vya mradi vilivyo na milango ya uaminifu, vichujio vya kimataifa, na urejeshaji wa matokeo ghafi kwa hiari
 
-**Bora kwa:** Vikao vya wakala vyenye nakala za shell, build, test, git, grep, na matokeo ya faili.
+**Bora kwa:** Vikao vya wakala vilivyo na shell, build, test, git, grep, na nakala za matokeo ya faili.
 
-### Hali ya Stacked (safu inayostahiki ya 78-95%)
+### Hali Iliyopangwa kwa Randa (78-95% inayostahiki)
 
-Hali ya Stacked huendesha injini nyingi za ukandamizaji kwa mpangilio thabiti. Mfereji chaguo-msingi ni:
+Hali iliyopangwa kwa rafu huendesha injini za mgandamizo nyingi kwa mpangilio maalum. Bomba chaguo-msingi ni:
 
 ```txt
 RTK -> Caveman
 ```
 
-Mpangilio huo hufanya matokeo ya terminali/zana yawe makonda kwanza, kisha hutumia ukandamizaji wa kimaana wa Caveman kwa kidokezo cha lugha asilia kilichobaki. Mifereji ya Stacked inaweza kusanidiwa kimataifa au kupitia mchanganyiko wa ukandamizaji uliokabidhiwa kwa mchanganyiko wa uelekezaji.
+Agizo hilo huweka pato la terminal/tool kushikana kwanza, kisha hutumika ufupisho wa kisemantiki wa Caveman kwa kidokezo kilichosalia cha lugha ya asili. Mabomba yaliyopangwa kwa rafu yanaweza kusanidiwa kimataifa au kupitia michanganyiko ya kubana iliyogawiwa michanganyiko ya kuelekeza.
 
-**Bora kwa:** Muktadha mchanganyiko wenye kumbukumbu kubwa za zana pamoja na maagizo ya binadamu au muhtasari wa msaidizi.
+**Bora kwa:** Muktadha uliochanganywa na kumbukumbu kubwa za zana pamoja na maagizo ya kibinadamu au muhtasari wa usaidizi.
 
 ---
 
@@ -179,83 +179,69 @@ Kwa Stacked:              tokeni 10K-2.5K zimetumwa     (kiwango cha RTK+Caveman
 
 ### Dashibodi
 
-Nenda kwenye `Dashibodi → Muktadha na Akiba`:
+Nenda kwa `Dashboard → Context & Cache`:
 
-- **Caveman** — uteuzi wa modi, vifurushi vya lugha, onyesho la kukagua, na chaguo-msingi za jumla
-- **RTK** — onyesho la kukagua kichujio cha amri, mipangilio ya usalama ya RTK, na katalogi ya vichujio
-- **Michanganyiko ya Mfinyazo** — mifuatano ya injini iliyopewa majina na kukabidhiwa michanganyiko ya uelekezaji
-- **Kiwango cha Uanzishaji Kiotomatiki** — anzisha mfinyazo kiotomatiki idadi ya tokeni inapozidi kiwango kilichowekwa
+- **Caveman** uteuzi wa hali ya —, vifurushi vya lugha, onyesho la kukagua na chaguomsingi za kimataifa
+- **RTK** — onyesho la kukagua kichujio cha amri, mipangilio ya usalama RTK na katalogi ya vichungi
+- **Compression Combos** — ilitaja mabomba ya injini yaliyopewa michanganyiko ya kuelekeza
+- **Kizingiti cha Kuanzisha Kiotomatiki** — hushirikisha mgandamizo kiotomatiki wakati hesabu ya tokeni inapozidi kiwango
 
-### Ubatilishaji kwa Kila Mchanganyiko
+### Ubatilishaji kwa Mseto
 
-Katika `Dashibodi → Muktadha na Akiba → Michanganyiko ya Mfinyazo`, kabidhi mchanganyiko wa mfinyazo kwa mchanganyiko wa
-uelekezaji:
+Katika `Dashboard → Context & Cache → Compression Combos`, toa mseto wa kushinikiza kwa mseto wa kuelekeza:
 
 ```txt
-Mchanganyiko: "free-tier-fallback"
-  Mchanganyiko wa Mfinyazo: "coding-agent-stack"
-  Mfuatano: RTK -> Caveman
-  Malengo:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Hii hukuruhusu kutumia mfinyazo uliopangwa kwa safu kwa watoa huduma wa bila malipo/uwekaji msimbo huku ukidumisha modi nyepesi kwenye
-usajili unaolipiwa.
+Hii hukuruhusu kutumia mbano zilizopangwa kwa watoa huduma free/coding huku ukitumia hali nyepesi kwenye usajili unaolipishwa.
 
-Ukabidhi huu wa "Ubatilishaji kwa Kila Mchanganyiko" ni kidhibiti tofauti na ubatilishaji wa **modi ya mfinyazo ya mchanganyiko wa uelekezaji**
-(Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — skima ya sehemu hiyo
-pia inakubali `rtk`, `stacked` na `omniglyph`) — ubatilishaji huo hauchagui mfuatano wa mchanganyiko wa mfinyazo
-uliopewa jina; unaweka tu sehemu ya `compressionMode` inayotumiwa na
-`resolveCompressionPlan`. Inaweza kuwekwa ama kwenye kadi ya mchanganyiko (`Dashibodi → Michanganyiko`) au, tangu
-#6760, kwa kila mchanganyiko wa uelekezaji katika orodha ya "Kabidhi kwa uelekezaji" kwenye
-`Dashibodi → Muktadha na Akiba → Michanganyiko ya Mfinyazo`, karibu kabisa na kisanduku tiki cha ukabidhi wa mfuatano
-kilichoelezwa hapo juu. Sehemu zote mbili huhifadhi kupitia endpoint ileile ya `PUT /api/combos/{id}`.
+Mgawo huu wa "Per-Combo Override" ni udhibiti tofauti na** modi ya mgandamizo wa upangaji** kubatilisha (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — schema ya uga pia inakubali `rtk`, `stacked` na `omniglyph`) — ubatilishaji huo hauchagui bomba la kukandamiza-combo yenye jina; inaweka tu uwanja wa `compressionMode` ulioshauriwa na `resolveCompressionPlan`. Inaweza kuwekwa ama kwenye kadi ya mseto (`Dashboard → Combos`) au, tangu #6760, kwa mseto wa uelekezaji katika orodha ya "Agiza kuelekeza" kwenye `Dashboard → Context & Cache → Compression Combos`, karibu kabisa na kisanduku cha kuteua cha mgao wa bomba kilichoandikwa hapo juu. Nyuso zote mbili zinaendelea kupitia ncha moja `PUT /api/combos/{id}`.
 
-### Ubatilishaji kwa kila ombi
+### Kubatilisha kwa ombi
 
-Tuma kichwa cha ombi cha `x-omniroute-compression` ili kubatilisha mpango wa mfinyazo kwa ombi moja.
-Kina kipaumbele cha juu zaidi — kinashinda ubatilishaji wa mchanganyiko wa uelekezaji, wasifu unaotumika,
-uanzishaji kiotomatiki, na chaguo-msingi la paneli. Thamani zisizojulikana hupuuzwa (ombi halikataliwi kamwe), na
-swichi kuu ya jumla bado hudhibiti kila kitu: mfinyazo unapozimwa kwa ujumla, kichwa hakiwezi
-kuuwasha. Thamani:
+Tuma kichwa cha ombi la `x-omniroute-compression` ili kubatilisha mpango wa mbano kwa ombi moja. Ina — ya juu zaidi ambayo inashinda ubatilishaji wa upangaji-unganisho, wasifu amilifu, kichochezi kiotomatiki, na chaguo-msingi la paneli. Thamani zisizojulikana zimepuuzwa (ombi halijakataliwa kamwe) na swichi kuu ya kimataifa bado inalango kila kitu: wakati mfinyazo umezimwa duniani kote, kichwa hakiwezi kuiwasha. Maadili:
 
-| Thamani       | Athari                                                                                                           |
-| ------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `off`         | Hakuna mfinyazo kwa ombi hili.                                                                                   |
-| `default`     | Wasifu Chaguo-msingi unaotokana na paneli (hupuuza wasifu unaotumika). Injini zenye upotevu huachwa zimezimwa.   |
-| `safe`        | Sawa na kutotuma kichwa: kuondoa nakala rudufu na kukunja nafasi tupu pekee.                                     |
-| `allow-lossy` | Dumisha mpango wa opereta wa ombi hili, ikijumuisha muhtasari, vichujio vya umuhimu, na uandishi upya wa mtindo. |
-| `engine:<id>` | Injini moja inapowezeshwa, k.m. `engine:rtk`. Hili ndilo chaguo la kujiunga la kila ombi kwa injini hiyo.        |
-| `<combo>`     | Mchanganyiko uliopewa jina, unaolinganishwa kwanza kwa jina (bila kujali herufi kubwa au ndogo), kisha kwa id.   |
+| Thamani       | Athari                                                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Hakuna mbano kwa ombi hili.                                                                                          |
+| `default`     | Wasifu Chaguo-msingi unaotokana na paneli (hupuuza wasifu unaotumika). Injini zilizoharibika zimeachwa.              |
+| `safe`        | Sawa na kuacha kichwa.                                                                                               |
+| `allow-lossy` | Weka mpango wa opereta wa ombi hili, ikijumuisha muhtasari, vichujio vya umuhimu na maandishi ya mtindo upya.        |
+| `engine:<id>` | Injini moja inapowashwa, kwa mfano `engine:rtk`. Hili ndilo chaguo la kila ombi la kuchagua kuingia kwa injini hiyo. |
+| `<combo>`     | Mchanganyiko unaoitwa, unaolingana na jina (haijalishi) kwanza, kisha kwa kitambulisho.                              |
 
-Bila `allow-lossy`, `engine:<id>`, au mchanganyiko uliopewa jina, injini zenye upotevu hazitumiki.
-Ombi bado hupata uondoaji wa nakala rudufu wa kipindi na ukunja wa nafasi tupu wakati mfinyazo umewashwa.
+Bila `allow-lossy`, `engine:<id>`, au mchanganyiko uliopewa jina, injini za upotevu hazitumiki. Wakati Chaguo-msingi cha hasara, kichochezi kiotomatiki, au ubatilishaji wa uelekezaji umeshushwa, OmniRoute huhifadhi hatua zinazotambulika zisizo na hasara kutoka kwa bomba lililopangwa kwa rafu kwa mpangilio uliowekwa. Inarudi kwa `session-dedup → lite` tu wakati hakuna hatua iliyosanidiwa isiyo na hasara inayosalia.
 
-Mpango uliotumika hurejeshwa katika kichwa cha jibu cha `X-OmniRoute-Compression: <mode>; source=<source>`,
-ambapo `<source>` ni mojawapo ya `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default`, au `off`.
+Paneli za Mipangilio** Bomba lenye ufanisi** onyesho la kukagua linaonyesha mpango wa kawaida wa kupumzika. Wakati kichochezi kiotomatiki kinaweza kufanya kazi, onyesho la kuchungulia lile lile pia linaonyesha bomba lake linalofaa kwa masharti ili kidirisha na azimio la muda wa uendeshaji lisilo na kichwa lisalie sawa.
+
+Mpango uliotumika umewekwa mwangwi katika kichwa cha majibu `X-OmniRoute-Compression: <mode>; source=<source>`, ambapo `<source>` ni mojawapo ya `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default`, au `off`.
 
 ### API
 
 ```bash
-# Pata mipangilio ya mfinyazo
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Sasisha mipangilio ya mfinyazo
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Kagua payload mahususi ya RTK/stacked
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Orodhesha vifurushi vya vichujio vya RTK
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Jaribu RTK moja kwa moja kwa metadata ya hiari ya amri
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

@@ -32,91 +32,82 @@ Zahteva odjemalca
 
 ## Načini stiskanja
 
-### Off
+### Izključeno
 
-Stiskanje ni uporabljeno. Vsa sporočila gredo skozi nespremenjena.
+Brez kompresije. Vsa sporočila gredo skozi nespremenjena.
 
-### Lite Mode (~15 % prihrankov, <1 ms zakasnitve)
+### Osnovni način (~ 15 % prihranka, < 1 ms zakasnitve)
 
-Najvarnejši način — brez semantičnih sprememb, le čiščenje oblikovanja:
+Najvarnejši način čiščenja oblikovanja —. Njegovo obrezovanje rezultatov orodja je izguba, zato privzeta pot (brez izbire `allow-lossy`, `engine:lite` ali named-combo) deluje z `compressToolResults: false` z lahkoto: prejšnji rezultati orodja dosežejo ponudnika nespremenjeni.
 
-| Tehnika                  | Opis                                                |
-| ------------------------ | --------------------------------------------------- |
-| `collapseWhitespace`     | Združi zaporedne prazne vrstice in končne presledke |
-| `dedupSystemPrompt`      | Odstrani podvojena sistemska sporočila              |
-| `compressToolResults`    | Stisni obširne izpise orodij/funkcij                |
-| `removeRedundantContent` | Odstrani ponovljena navodila                        |
-| `replaceImageUrls`       | Skrajšaj podatkovne URI-je slik base64              |
+| Tehnika                  | Opis                                                                                                        |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Spoji zaporedne prazne vrstice in končne presledke                                                          |
+| `dedupSystemPrompt`      | Odstranite podvojena sistemska sporočila                                                                    |
+| `compressToolResults`    | Skrajšanje prejšnjih rezultatov orodja na zgornjo mejo lite (izguba: samo z možnostjo privolitve v zahtevo) |
+| `removeRedundantContent` | Odstranite ponavljajoča se navodila                                                                         |
+| `replaceImageUrls`       | Skrajšajte slikovne podatke base64 URIs                                                                     |
 
-**Najbolj primerno za:** stalno vklopljeno uporabo in varnostno kritične delovne tokove.
+**Najboljše za:** Delovni tokovi, ki so vedno v uporabi, kritični za varnost.
 
-### Standard Mode (~30 % prihrankov)
+### Standardni način (~ 30 % prihranka)
 
-Navdihnjen po [Caveman](https://github.com/JuliusBrussee/caveman) — odstranja polnilne besede in obširne formulacije ob ohranjanju pomena:
+Inspired by [Caveman](https://github.com/JuliusBrussee/caveman) — odstrani dodatne besede in besedne izraze, hkrati pa ohrani pomen:
 
-- Odstranja polnilne besede ("please", "I think", "basically", "actually")
-- Zgoščuje obširne fraze ("in order to" → "to", "as a result of" → "because")
-- Odstranja vljudnostna blaženja ("Would you mind...", "If you could possibly...")
-- 30+ pravil regularnih izrazov, prilagojenih programskim pozivom
+- Odstrani dodatne besede ("prosim", "mislim", "v bistvu", "pravzaprav")
+- Zgosti besedne fraze ("da bi" → "za", "kot rezultat" → "ker")
+- Odstrani vljudno varovanje pred tveganjem ("Bi imeli kaj proti ...", "Če bi lahko ...")
+- 30 pravil regularnih izrazov + prilagojenih pozivom za kodiranje
 
-**Najbolj primerno za:** vsakdanje programske delovne tokove in ekipe, pozorne na stroške.
+**Najboljše za:** Dnevni delovni tokovi kodiranja, stroškovno ozaveščene ekipe.
 
-### Aggressive Mode (~50 % prihrankov)
+### Agresivni način (~ 50 % prihranka)
 
 Pametno upravljanje zgodovine za dolge seje:
 
-- **Staranje sporočil** — starejša sporočila se postopoma vedno bolj stiskajo
-- **Stiskanje rezultatov orodij** — dolgi izpisi orodij se prirežejo ali krajšajo z izpusti (prve/zadnje vrstice,
-  filtriranje vrstic z zadetki, zgoščevanje ključev JSON)
-- **Zaščite strukturne celovitosti** — zagotavljajo, da pari `tool_use` + `tool_result` ostanejo skladni
-- **Zavedanje kontekstnega okna** — upošteva omejitve tokenov posameznih modelov
+- **Staranje sporočil** — starejša sporočila se postopno stisnejo
+- **Stiskanje rezultatov orodja** dolgi izpisi orodja — so okrnjeni ali izbrisani (črte first/last, filtriranje ujemajočih se vrstic, zgoščevanje ključa JSON )
+- **Varovala strukturne celovitosti** — zagotavlja, da pari `tool_use` + `tool_result` ostanejo dosledni
+- **Zavedanje kontekstnega okna** — upošteva omejitve žetonov glede na model
 
-**Najbolj primerno za:** daljše seje razhroščevanja in obsežne kodne baze.
+**Najboljše za:** Razširjene seje odpravljanja napak, velike kodne baze.
 
-### Ultra Mode (~75 % prihrankov)
+### Način Ultra (~ 75 % prihranka)
 
-Največje stiskanje za scenarije, kjer so tokeni kritični:
+Največja kompresija za scenarije, ki so kritični za žeton:
 
-- **Hevristično obrezovanje** — obrezovanje tokenov v prozi na podlagi ocen
-- **Ohranjanje strukture** — ograjeni bloki kode, vdelana koda, naslovi URL in identifikatorji se
-  nadomestijo z oznakami tombstone in se nato dobesedno ponovno sestavijo, nikoli pa se ne obrežejo
-- **Izbirna raven SLM** — majhen lokalni model lahko po nastavitvi izpopolni obrezovanje
-- Neodvisen od načina Aggressive: ne izvaja staranja sporočil, stiskanja rezultatov orodij
-  ali rezervnega povzemanja (samo napaka ravni SLM lahko rezervni prehod usmeri skozi
-  način aggressive)
+- **Hevristično obrezovanje** — rezultatsko obrezovanje žetonov proze
+- **Ohranjanje strukture** — ograjeni kodni bloki, vstavljena koda, URLs in identifikatorji so dobesedno nagrobni in ponovno sešiti, nikoli obrezani
+- **Izbirna stopnja SLM** — majhen lokalni model lahko izboljša obrezovanje, ko je konfiguriran
+- Neodvisno od agresivnega načina: ne izvaja staranja sporočila, stiskanja rezultatov orodja ali nadomestnega povzemalnika (samo napaka ravni SLM lahko preusmeri nadomestni prehod skozi agresiven)
 
-**Najbolj primerno za:** ko večkrat naletite na omejitve konteksta.
+**Najboljše za:** Ko večkrat dosežete omejitve konteksta.
 
-### RTK Mode (60–90-odstotni razpon na predhodni stopnji)
+### način RTK (60–90 % obseg navzgor)
 
-Način RTK je optimiziran za obširne izpise orodij, ki se pojavljajo v sejah programskih agentov:
+način RTK je optimiziran za podrobne izhode orodij, ki se pojavijo v sejah agenta za kodiranje:
 
-- Zaznava razrede ukazov in izpisov, kot so `git status`, `git diff`, `git log`, izvajalci testov,
-  graditve TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/inštalacije, dnevniki Docker,
-  infrastrukturni izpisi in splošni izpisi lupine
+- Zazna razrede command/output, kot so `git status`, `git diff`, `git log`, preskusni tekači, zgradbe TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, dnevniki Docker, infra izhod in generični izhod lupine
 - Uporablja pakete filtrov JSON iz `open-sse/services/compression/engines/rtk/filters/`
-- Uvaža filtre sheme RTK TOML v1 iz projektnih ali globalnih datotek `filters.toml`, s preverjanjem
-  z vdelanimi testi in nadzorom zaupanja projektnih datotek
-- Vključuje 56 vgrajenih filtrov z vdelanimi vzorci za preverjanje
-- Odstranjuje nadzorne sekvence ANSI, vrstice napredka, ponovljene vrstice in neuporaben šum
-- Ohranja neuspehe, napake, opozorila, spremenjene datoteke, povzetke in konec dolgih izpisov
-- Podpira projektne filtre z nadzorom zaupanja, globalne filtre in izbirno obnovo surovih izpisov z zakritimi deli
+- Uvozi filtre sheme RTK TOML v1 iz projektnih ali globalnih datotek `filters.toml` s preverjanjem vgrajenega testa in preverjanjem zaupanja za projektne datoteke
+- Priloženih je 56 vgrajenih filtrov z vgrajenimi vzorci za preverjanje
+- Odstrani zaporedja nadzora ANSI, vrstice napredka, ponavljajoče se vrstice in neaktiven šum
+- Ohranja napake, napake, opozorila, spremenjene datoteke, povzetke in rep dolgega izpisa
+- Podpira projektne filtre, ki so odvisni od zaupanja, globalne filtre in izbirno obnovitev redigiranih neobdelanih izhodov
 
-**Najbolj primerno za:** seje agentov s prepisi lupine, graditev, testov, git, grep in izpisov datotek.
+**Najboljše za:** Agentske seje s prepisi lupine, gradnje, testiranja, git, grep in izhodnih datotek.
 
-### Stacked Mode (78–95-odstotni razpon za primerne vsebine)
+### Zloženi način (78–95 % primeren obseg)
 
-Način Stacked poganja več pogonov stiskanja v determinističnem vrstnem redu. Privzeti cevovod je:
+Zloženi način poganja več motorjev za stiskanje v determinističnem vrstnem redu. Privzeti cevovod je:
 
 ```txt
 RTK -> Caveman
 ```
 
-Ta vrstni red najprej poskrbi za kompaktne izpise terminala in orodij, nato pa na preostali poziv
-v naravnem jeziku uporabi semantično zgoščevanje Caveman. Cevovode Stacked lahko nastavite globalno
-ali prek kombinacij stiskanja, dodeljenih usmerjevalnim kombinacijam.
+Ta vrstni red najprej ohrani izpis terminal/tool kompakten, nato pa uporabi semantično kondenzacijo Caveman za preostali poziv v naravnem jeziku. Zložene cevovode je mogoče konfigurirati globalno ali prek kombinacij stiskanja, dodeljenih kombinacijam usmerjanja.
 
-**Najbolj primerno za:** mešan kontekst z obsežnimi dnevniki orodij ter človeškimi navodili ali povzetki asistenta.
+**Najboljše za:** Mešani kontekst z velikimi dnevniki orodij in človeškimi navodili ali povzetki pomočnikov.
 
 ---
 
@@ -188,84 +179,69 @@ S Stacked:            10K-2.5K žetonov poslanih     (78-95% razpon RTK+Caveman 
 
 ### Nadzorna plošča
 
-Pomaknite se do `Dashboard → Context & Cache`:
+Pojdite na `Dashboard → Context & Cache`:
 
-- **Caveman** — izbira načina, jezikovni paketi, predogled in globalne privzete nastavitve
-- **RTK** — predogled filtra ukazov, varnostne nastavitve RTK in katalog filtrov
-- **Kombinacije stiskanja** — poimenovani cevovodi mehanizmov, dodeljeni kombinacijam usmerjanja
-- **Prag samodejnega sproženja** — samodejno vključi stiskanje, ko število žetonov preseže prag
+- **Jamski človek** izbira načina —, jezikovni paketi, predogled in globalne privzete nastavitve
+- **RTK** predogled ukaznega filtra —, varnostne nastavitve RTK in katalog filtrov
+- **Kompresijske kombinacije** — imenovani cevovod motorja, dodeljen usmerjevalnim kombinacijam
+- **Samodejni sprožilni prag** — samodejno vključi stiskanje, ko število žetonov preseže prag
 
-### Preglasitev za posamezno kombinacijo
+### Preglasitev posamezne kombinacije
 
-V `Dashboard → Context & Cache → Compression Combos` dodelite kombinacijo stiskanja kombinaciji
-usmerjanja:
+V `Dashboard → Context & Cache → Compression Combos` dodelite kompresijsko kombinacijo usmerjevalni kombinaciji:
 
 ```txt
-Kombinacija: "free-tier-fallback"
-  Kombinacija stiskanja: "coding-agent-stack"
-  Cevovod: RTK -> Caveman
-  Cilji:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-To omogoča uporabo zloženega stiskanja pri brezplačnih ponudnikih oziroma ponudnikih za programiranje,
-pri plačljivih naročninah pa lahko ohranite lahki način.
+To vam omogoča uporabo zloženega stiskanja pri ponudnikih free/coding, hkrati pa ohranite lahki način pri plačljivih naročninah.
 
-Ta dodelitev »preglasitve za posamezno kombinacijo« je ločen nadzorni element od preglasitve
-**načina stiskanja kombinacije usmerjanja** (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses
-— shema polja sprejema tudi `rtk`, `stacked` in `omniglyph`) — ta preglasitev ne izbere poimenovanega
-cevovoda kombinacije stiskanja, temveč samo nastavi polje `compressionMode`, ki ga upošteva
-`resolveCompressionPlan`. Nastavite jo lahko na kartici kombinacije (`Dashboard → Combos`) ali pa od
-#6760 naprej za posamezno kombinacijo usmerjanja na seznamu »Assign to routing« v
-`Dashboard → Context & Cache → Compression Combos`, tik ob potrditvenem polju za dodelitev cevovoda,
-opisanem zgoraj. Obe možnosti se shranjujeta prek iste končne točke `PUT /api/combos/{id}`.
+Ta dodelitev »Per-Combo Override« je drugačen nadzor od** usmerjevalni kombinirani način stiskanja** preglasitev (Default/Off/Lite/Standard/Aggressive/Ultra/Codex odzivi — shema polja sprejema tudi `rtk`, `stacked` in `omniglyph`) — ta preglasitev ne izbere imenovanega cevovoda kompresijske kombinacije; samo nastavi polje `compressionMode`, ki ga pregleda `resolveCompressionPlan`. Nastavite ga lahko na kombinirani kartici (`Dashboard → Combos`) ali, od št. 6760, na kombinacijo usmerjanja na seznamu »Dodeli usmerjanju« na `Dashboard → Context & Cache → Compression Combos`, tik poleg zgoraj dokumentiranega potrditvenega polja za dodelitev cevovoda. Obe površini vztrajata skozi isto končno točko `PUT /api/combos/{id}`.
 
-### Preglasitev za posamezno zahtevo
+### Preglasitev na zahtevo
 
-Pošljite glavo zahteve `x-omniroute-compression`, da preglasite načrt stiskanja za posamezno
-zahtevo. Ima najvišjo prednost — preglasi nastavitev kombinacije usmerjanja, aktivni profil,
-samodejno sprožanje in privzeto nastavitev plošče. Neznane vrednosti so prezrte (zahteva ni nikoli
-zavrnjena), globalno glavno stikalo pa še vedno nadzoruje vse: ko je stiskanje globalno izklopljeno,
-ga glava ne more vklopiti. Vrednosti:
+Pošljite glavo zahteve `x-omniroute-compression`, da preglasite načrt stiskanja za posamezno zahtevo. Ima najvišjo prednost — premaga preglasitev kombinacije usmerjanja, aktivni profil, samodejni sprožilec in privzeto ploščo. Neznane vrednosti so prezrte (zahteva ni nikoli zavrnjena) in globalno glavno stikalo še vedno zapre vse: ko je stiskanje globalno izklopljeno, ga glava ne more vklopiti. Vrednosti:
 
-| Vrednost      | Učinek                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `off`         | Brez stiskanja za to zahtevo.                                                                                      |
-| `default`     | Privzeti profil, izpeljan iz plošče (aktivni profil je prezrt). Mehanizmi z izgubami ostanejo izklopljeni.         |
-| `safe`        | Enako kot brez glave: samo odstranjevanje podvojitev in združevanje presledkov.                                    |
-| `allow-lossy` | Ohrani operaterjev načrt za to zahtevo, vključno s povzetki, filtri ustreznosti in slogovnimi preoblikovanji.      |
-| `engine:<id>` | Posamezen omogočen mehanizem, npr. `engine:rtk`. To je izrecna vključitev tega mehanizma za posamezno zahtevo.     |
-| `<combo>`     | Poimenovana kombinacija, najprej usklajena po imenu (brez razlikovanja med velikimi in malimi črkami), nato po ID. |
+| Vrednost      | Učinek                                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------------------------- |
+| `off`         | Za to zahtevo ni stiskanja.                                                                                 |
+| `default`     | Privzeti profil, ki izhaja iz plošče (ne upošteva aktivnega profila). Motorji z izgubo so izključeni.       |
+| `safe`        | Enako kot izpustitev glave.                                                                                 |
+| `allow-lossy` | Ohranite načrt operaterja te zahteve, vključno s povzetki, filtri ustreznosti in prepisi sloga.             |
+| `engine:<id>` | En motor, ko je omogočen, npr. `engine:rtk`. To je privolitev na zahtevo za ta motor.                       |
+| `<combo>`     | Poimenovana kombinacija, ki se najprej ujema z imenom (neobčutljivo za velike in male črke), nato z ID-jem. |
 
-Brez `allow-lossy`, `engine:<id>` ali poimenovane kombinacije se mehanizmi z izgubami ne uporabijo.
-Če je stiskanje vklopljeno, se za zahtevo še vedno izvedeta odstranjevanje podvojitev v seji in
-združevanje presledkov.
+Brez `allow-lossy`, `engine:<id>` ali imenovane kombinacije motorji z izgubo niso uporabljeni. Ko je privzeta vrednost z izgubo, samodejni sprožilec ali preglasitev usmerjanja znižana, OmniRoute ohrani prepoznane korake brez izgube iz konfiguriranega zloženega cevovoda v konfiguriranem vrstnem redu. Vrne se na `session-dedup → lite` le, če noben konfiguriran korak brez izgube ne preživi.
 
-Uporabljeni načrt je vrnjen v glavi odgovora `X-OmniRoute-Compression: <mode>; source=<source>`,
-pri čemer je `<source>` ena od vrednosti `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default` ali `off`.
+Plošča z nastavitvami** Učinkovit cevovod** predogled prikazuje običajni načrt mirovanja. Ko se samodejni sprožilec lahko zažene, isti predogled prikaže tudi njegov pogojni učinkoviti cevovod, tako da plošča in ločljivost med izvajanjem brez glave ostaneta poravnani.
+
+Uporabljeni načrt se odmeva nazaj v glavi odgovora `X-OmniRoute-Compression: <mode>; source=<source>`, kjer je `<source>` eden izmed `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` ali `off`.
 
 ### API
 
 ```bash
-# Pridobi nastavitve stiskanja
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Posodobi nastavitve stiskanja
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Predogled določene vsebine RTK/stacked
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Prikaži seznam paketov filtrov RTK
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Neposredno preskusi RTK z neobveznimi metapodatki ukaza
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

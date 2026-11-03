@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — שער ה-AI החינמי
+# 🚀 OmniRoute — AI החינמי
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**נוצר על ידי [דייגו סוזה](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — אף פעם אל תפסיק לקודד. כל כלי AI → 380 ספקים — 150+ חינמיים — דרך נקודת קצה אחת. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity ל- Claude / GPT / Gemini חינמיים עם מעבר אוטומטי במקרה של כשל. דחיסה משולבת RTK + Caveman חוסכת 15–95% טוקנים (~89% בממוצע) — לעולם לא תגיעו למגבלות. 380 ספקי AI · 150+ מסלולים חינמיים · ~1.62B טוקנים חינמיים בחודש · 20 אסטרטגיות ניתוב · $0 להתחלה."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1282,29 +1282,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # גם CI=1 מדלג ע�
 <br/>
 <div align="center">
 
-## 🛠️ מחסנית טכנולוגית
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
-  <tr><th align="left">שכבה</th><th align="left">טכנולוגיה</th></tr>
-  <tr><td nowrap><b>סביבת ריצה</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>שפה</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> בכל רחבי <code>src/</code> ו־<code>open-sse/</code> (אפס <code>any</code> בליבה מאז v2.0)</td></tr>
-  <tr><td nowrap><b>מסגרת</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>מסד נתונים</b></td><td>better-sqlite3 (SQLite, יומן WAL) + LowDB (JSON מדור קודם) — 147 מודולי תחום, 221 מיגרציות</td></tr>
-  <tr><td nowrap><b>זיכרון</b></td><td>חיפוש טקסט מלא באמצעות SQLite FTS5 + הטמעות וקטוריות מכוּמתות int8, דעיכה עם טיפוסים</td></tr>
-  <tr><td nowrap><b>סכמות</b></td><td>Zod 4 — אימות קלט/פלט של כלי MCP + חוזי API</td></tr>
+  <tr><th align="left">שִׁכבָה</th><th align="left">טֶכנוֹלוֹגִיָה</th></tr>
+  <tr><td nowrap><b>זמן ריצה</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>שָׂפָה</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> על פני <code>src/</code> ו- <code>open-sse/</code> (אפס <code>any</code> בליבה מאז v2.0)</td></tr>
+  <tr><td nowrap><b>מִסגֶרֶת</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>מסד נתונים</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 מודולי דומיין, 221 העברות</td></tr>
+  <tr><td nowrap><b>זֵכֶר</b></td><td>SQLite FTS5 טקסט מלא + int8-quantized הטבעות וקטוריות, דעיכה מודפסת</td></tr>
+  <tr><td nowrap><b>סכימות</b></td><td>Zod 4 — MCP tool I/O אימות + API חוזים</td></tr>
   <tr><td nowrap><b>פרוטוקולים</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>הזרמה</b></td><td>אירועים שנשלחים מהשרת (SSE) + גשר WebSocket (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>דחיסה</b></td><td>צינור בעל 12 מנועים — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>אימות ואבטחה</b></td><td>OAuth 2.0 (PKCE) + JWT + מפתחות API + אימות MCP מוגבל להיקף · AES-256-GCM במנוחה · DOMPurify</td></tr>
-  <tr><td nowrap><b>הסוואה</b></td><td>wreq-js — התחזות לטביעת אצבע TLS מסוג JA3 / JA4, פרוקסי בעל 3 רמות</td></tr>
-  <tr><td nowrap><b>עמידות</b></td><td>מפסק מעגל, נסיגה מעריכית, מניעת הסתערות בו־זמנית, ריפוי עצמי אוטומטי משולב</td></tr>
-  <tr><td nowrap><b>רישום</b></td><td>pino — יומני JSON מובְנים עם הקשר של הבקשה</td></tr>
-  <tr><td nowrap><b>בדיקות</b></td><td>מריץ הבדיקות של Node.js + Vitest — <b>יותר מ־60,000 הצהרות בדיקה סטטיות</b> ביותר מ־8,400 קובצי בדיקה במעקב (יחידה, אינטגרציה, E2E, אבטחה, אקוסיסטם)</td></tr>
-  <tr><td nowrap><b>פלטפורמות</b></td><td>מחשב שולחני (Electron) · Android (Termux) · PWA (כל דפדפן)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — פרסום npm אוטומטי + Docker Hub בעת שחרור</td></tr>
-  <tr><td nowrap><b>קישורים</b></td><td><a href="https://omniroute.online">אתר</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>נְהִירָה</b></td><td>אירועים שנשלחו על ידי שרת (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>דְחִיסָה</b></td><td>צינור 12 מנועים — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>אבטחת &amp;</b></td><td>OAuth 2.0 (PKCE) + JWT + API מפתחות + MCP scoped auth · AES-256-GCM במנוחה · DOMPurify</td></tr>
+  <tr><td nowrap><b>הִתגַנְבוּת</b></td><td>wreq-js — JA3 / JA4 TLS התחזות בטביעת אצבע, פרוקסי בשלוש רמות</td></tr>
+  <tr><td nowrap><b>כּוֹשֵׁר הִתאוֹשְׁשׁוּת</b></td><td>מפסק מעגלים, גיבוי אקספוננציאלי, עדר נגד רעמים, ריפוי עצמי משולבת אוטומטית</td></tr>
+  <tr><td nowrap><b>רישום</b></td><td>יומני JSON מובנים של pino — עם הקשר הבקשה</td></tr>
+  <tr><td nowrap><b>בּוֹחֵן</b></td><td>Node.js test runner + Vitest — <b>60,000 הצהרות בדיקה סטטית +</b> על פני 8,400 קבצי בדיקה במעקב של + (יחידה, אינטגרציה, E2E, אבטחה, מערכת אקולוגית)</td></tr>
+  <tr><td nowrap><b>פלטפורמות</b></td><td>שולחן עבודה (Electron) · Android (Termux) · PWA (כל דפדפן)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm פרסם + Docker Hub בשחרור</td></tr>
+  <tr><td nowrap><b>קישורים</b></td><td><a href="https://omniroute.online">אֲתַר אִינטֶרנֶט</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1794,17 +1794,17 @@ OmniRoute עומד על כתפי ענקים. הוא התחיל כ-fork של **[9
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>זיהה את משטח המכסה של Grok Build; OmniRoute אימת לאחר מכן את פורמט התקשורת החי ותיקן אותו באופן עצמאי.</td></tr>
 </table>
 
-## 📄 רישיון
+## רישיון 📄
 
-רישיון MIT - ראו [LICENSE](LICENSE) לפרטים.
+רישיון MIT - ראה [LICENSE](LICENSE) לפרטים.
 
 ---
 
 <div align="center">
 
-**[⬆ חזרה למעלה](#-omniroute)** · נבנה עם ❤️ עבור קהילת ה-AI בקוד פתוח.
+**[⬆ חזרה למעלה](#-omniroute)** · נבנה עם ❤️ עבור קהילת AI בקוד פתוח.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · רישיון MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>נוצר על ידי <a href="https://github.com/diegosouzapw">דייגו סוזה</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · רישיון MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions מופעל לשאלות ותשובות של הקהילה -->
+<!-- GitHub Discussions enabled for community Q&A -->

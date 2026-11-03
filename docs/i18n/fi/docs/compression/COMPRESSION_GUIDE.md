@@ -32,91 +32,82 @@ Asiakaspyyntö
 
 ## Pakkaustilat
 
-### Off
+### Pois
 
-Pakkausta ei käytetä. Kaikki viestit menevät läpi muuttumattomina.
+Ei käytetty pakkausta. Kaikki viestit kulkevat läpi ennallaan.
 
-### Lite-tila (~15 % säästö, <1 ms viive)
+### Yksinkertaistettu tila (~ 15 % säästö, < 1 ms latenssi)
 
-Turvallisin tila — ei lainkaan semanttisia muutoksia, vain muotoilun siistimistä:
+Turvallisin tila — -muotoilun puhdistus. Sen työkalu-tuloksen katkaisu on häviöllinen, joten oletuspolku (ei `allow-lossy`, `engine:lite` tai named-combo opt-in) toimii yksinkertaisena `compressToolResults: false` kanssa: aiemmat työkalutulokset saapuvat toimittajalle ennallaan.
 
-| Tekniikka                | Kuvaus                                                |
-| ------------------------ | ----------------------------------------------------- |
-| `collapseWhitespace`     | Yhdistää peräkkäiset tyhjät rivit ja loppuvälilyönnit |
-| `dedupSystemPrompt`      | Poistaa päällekkäiset järjestelmäviestit              |
-| `compressToolResults`    | Pakkaa monisanaiset työkalu-/funktiotulosteet         |
-| `removeRedundantContent` | Poistaa toistuvat ohjeet                              |
-| `replaceImageUrls`       | Lyhentää base64-kuvien data-URI:t                     |
+| Tekniikka                | Kuvaus                                                                                                  |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Yhdistä peräkkäiset tyhjät rivit ja välilyönnit                                                         |
+| `dedupSystemPrompt`      | Poista päällekkäiset järjestelmäviestit                                                                 |
+| `compressToolResults`    | Lyhennä työkalun aikaisemmat tulokset yksinkertaistettuun ylärajaan (tappiollinen: vain pyynnön mukaan) |
+| `removeRedundantContent` | Poista toistetut ohjeet                                                                                 |
+| `replaceImageUrls`       | Lyhennä base64-kuvadataa URIs                                                                           |
 
-**Sopii parhaiten:** Jatkuvaan käyttöön ja turvallisuuskriittisiin työnkulkuihin.
+**Paras:** Aina käytössä, turvallisuuden kannalta kriittisiä työnkulkuja.
 
-### Standard-tila (~30 % säästö)
+### ~(30 % säästö)
 
-[Caveman](https://github.com/JuliusBrussee/caveman)-projektin innoittama — poistaa täytesanat ja monisanaiset ilmaisut merkitystä säilyttäen:
+[Cavemanin](https://github.com/JuliusBrussee/caveman) inspiroima — poistaa täytesanat ja monisanaiset lausekkeet säilyttäen samalla merkityksen:
 
-- Poistaa täytesanat ("please", "I think", "basically", "actually")
-- Tiivistää monisanaisia ilmauksia ("in order to" → "to", "as a result of" → "because")
-- Poistaa kohteliaat varoittelevat muotoilut ("Would you mind...", "If you could possibly...")
-- Yli 30 regex-sääntöä, jotka on viritetty koodauskehotteisiin
+- Poistaa täytesanat ("ole hyvä", "mielestäni", "periaatteessa", "todella")
+- Tiivistää monisanaiset lauseet ("jotta" → "to", "seurauksena" → "koska")
+- Poistaa kohteliasta suojausta ("Haluaisitko...", "Jos voisit...")
+- 30 + regex-sääntöä, jotka on viritetty koodauskehotteita varten
 
-**Sopii parhaiten:** Päivittäisiin koodaustyönkulkuihin ja kustannustietoisille tiimeille.
+**Paras:** Päivittäiset koodaustyönkulut, kustannustietoiset tiimit.
 
-### Aggressiivinen tila (~50 % säästö)
+### Aggressiivinen ~(50 % säästö)
 
-Älykäs historianhallinta pitkiin istuntoihin:
+Älykäs historianhallinta pitkille istunnoille:
 
-- **Viestien ikääntyminen** — vanhempia viestejä pakataan asteittain enemmän
-- **Työkalutulosten pakkaus** — pitkät työkalutulosteet katkaistaan tai karsitaan (ensimmäiset/viimeiset rivit,
-  osumarivien suodatus, JSON-avainten tiivistys)
-- **Rakenteellisen eheyden suojaukset** — varmistaa, että `tool_use` + `tool_result` -parit pysyvät yhtenäisinä
-- **Konteksti-ikkunan tietoisuus** — kunnioittaa mallikohtaisia token-rajoja
+- **Viesti ikääntyminen** — vanhemmat viestit pakataan asteittain
+- **Työkalu Tuloksen pakkaus** — pitkät työkalun ulostulot katkaistuina tai eliminoituina (first/last viivat, täsmäytysviivan suodatus, JSON näppäintiivistys)
+- **Rakenteelliset eheyssuojat** — varmistaa, että `tool_use` + `tool_result` -parit pysyvät johdonmukaisina
+- **Kontekstiikkunan tietoisuus** — noudattaa mallikohtaisia tunnusrajoja
 
-**Sopii parhaiten:** Pitkittyneisiin virheenkorjausistuntoihin ja suuriin koodikantoihin.
+**Paras:** Laajennetut virheenkorjausistunnot, suuret koodikannat.
 
-### Ultra-tila (~75 % säästö)
+### Ultra Mode (~ 75% säästö)
 
-Maksimaalinen pakkaus token-kriittisiin tilanteisiin:
+Suurin pakkaus tokenkriittisissä skenaarioissa:
 
-- **Heuristinen karsinta** — pisteytykseen perustuva proosan token-karsinta
-- **Rakenteen säilyttäminen** — aidatut koodilohkot, rivinsisäinen koodi, URL-osoitteet ja tunnisteet
-  suojataan paikkamerkeillä ja ommellaan takaisin sanatarkasti; niitä ei koskaan karsita
-- **Valinnainen SLM-taso** — pieni paikallinen malli voi hienosäätää karsintaa, kun se on määritetty
-- Riippumaton aggressiivisesta tilasta: se ei suorita viestien ikääntymistä, työkalutulosten pakkausta
-  tai varayhteenvetajaa (vain SLM-tason virhe voi ohjata varakierroksen
-  aggressiivisen tilan kautta)
+- **Heuristinen karsiminen** — -pisteisiin perustuva proosan leikkaaminen
+- **Rakenteen säilyttäminen** — aidatut koodilohkot, rivikoodi, URLs ja tunnisteet on haudattu ja ommeltu uudelleen sanatarkasti, ei koskaan leikattu
+- **Valinnainen SLM -taso** — pieni paikallinen malli voi tarkentaa luumua, kun se on määritetty
+- Aggressiivisesta tilasta riippumaton: se ei suorita viestien vanhentamista, työkalun tulosten pakkausta tai varayhteenvetoa (vain SLM-tason vika voi reitittää varakierron aggressiivisen läpi)
 
-**Sopii parhaiten:** Kun törmäät kontekstirajoihin toistuvasti.
+**Paras:** Kun törmäät kontekstin rajoihin toistuvasti.
 
-### RTK-tila (60–90 % upstream-alueella)
+### RTK -tila (60-90 % ylävirtaan)
 
-RTK-tila on optimoitu monisanaisille työkalutulosteille, joita esiintyy koodausagentti-istunnoissa:
+RTK -tila on optimoitu monisanaisille työkalutuloille, jotka näkyvät koodausagentin istunnoissa:
 
-- Tunnistaa komento-/tulosteluokkia kuten `git status`, `git diff`, `git log`, testiajurit,
-  TypeScript/Vite/Webpack-buildit, ESLint/Biome/Prettier, npm audit/install -komennot, Docker-lokit, infra-
-  tulosteet ja yleiset komentotulosteet
-- Käyttää JSON-suodatinpaketteja hakemistosta `open-sse/services/compression/engines/rtk/filters/`
-- Tuo RTK TOML schema v1 -suodattimia projektin tai globaaleista `filters.toml`-tiedostoista, sisäänrakennetulla
-  testivarmennuksella ja luottamusporttauksella projektitiedostoille
-- Sisältää 56 sisäänrakennettua suodatinta varmennusesimerkeillä
-- Poistaa ANSI-ohjaussekvenssit, edistymispalkit, toistuvat rivit ja kohinan, joka ei vaadi toimia
-- Säilyttää virheet, varoitukset, muutetut tiedostot, yhteenvedot ja pitkien tulosteiden loppuosat
-- Tukee luottamusportattuja projektisuodattimia, globaaleja suodattimia ja valinnaista sensuroidun raakatulosteen palautusta
+- Tunnistaa command/output -luokat, kuten `git status`, `git diff`, `git log`, testiajot, TypeScript/Vite/Webpack -koontit, ESLint/Biome/Prettier, npm audit/installs, Docker -lokit, infra-ulostulot ja yleiset komentotulokset
+- Käyttää JSON suodatinpaketteja `open-sse/services/compression/engines/rtk/filters/` ltä
+- Tuo RTK TOML -skeema v1 -suodattimet projektitiedostoista tai maailmanlaajuisista `filters.toml` tiedostoista sekä projektitiedostojen sisäisen testitarkistuksen ja luottamuksen portin avulla
+- Toimitetaan 56 sisäänrakennettua suodatinta, joissa on sisäänrakennetut tarkistusnäytteet
+- Poistaa ANSI -ohjausjaksot, etenemispalkit, toistuvat viivat ja ei-toimivia kohinoita
+- Säilyttää epäonnistumiset, virheet, varoitukset, muuttuneet tiedostot, yhteenvedot ja pitkän tulosteen lopputuloksen
+- Tukee luotettavia projektisuodattimia, yleisiä suodattimia ja valinnaista redigoitua raakatulosteen palautusta
 
-**Sopii parhaiten:** Agentti-istuntoihin, joissa on komentotulkki-, build-, testi-, git-, grep- ja tiedostotulostelokeja.
+**Paras:** Agenttiistunnot shell-, build-, testi-, git-, grep- ja tiedostojen ulostulotranskripteillä.
 
-### Stacked-tila (78–95 % soveltuvalla alueella)
+### Pinottu tila (78–95 % kelvollinen alue)
 
-Stacked-tila ajaa useita pakkausmoottoreita deterministisessä järjestyksessä. Oletusputki on:
+Pinottu tila käyttää useita pakkausmoottoreita deterministisessä järjestyksessä. Oletusputki on:
 
 ```txt
 RTK -> Caveman
 ```
 
-Tämä järjestys pitää pääte-/työkalutulosteet ensin kompakteina, minkä jälkeen Cavemanin semanttinen
-tiivistys kohdistetaan jäljelle jäävään luonnollisen kielen kehotteeseen. Pinotut putket voidaan
-määrittää globaalisti tai reititysyhdistelmiin liitettyjen pakkausyhdistelmien kautta.
+Tämä järjestys pitää terminal/tool ulostulon ensin kompaktina ja käyttää sitten Caveman-semanttista kondensaatiota jäljellä olevaan luonnollisen kielen kehotteeseen. Pinotut liukuhihnat voidaan määrittää maailmanlaajuisesti tai reitityskomboihin määritettyjen pakkausyhdistelmien avulla.
 
-**Sopii parhaiten:** Sekalaiseen kontekstiin, jossa on suuria työkalulokeja sekä ihmisten ohjeita tai avustajan yhteenvetoja.
+**Paras:** Sekakonteksti, jossa on suuria työkalulokeja sekä ihmisten ohjeita tai avustajan yhteenvetoja.
 
 ---
 
@@ -184,88 +175,73 @@ Stacked-tilassa:       Lähetetään 10K-2.5K tokenia     (RTK+Caveman-yhdistelm
 
 ---
 
-## Määritykset
+## Kokoonpano
 
-### Hallintapaneeli
+### Kojelauta
 
-Siirry kohtaan `Hallintapaneeli → Konteksti ja välimuisti`:
+Navigoi `Dashboard → Context & Cache`:
 
-- **Caveman** — tilan valinta, kielipaketit, esikatselu ja yleiset oletusasetukset
-- **RTK** — komentosuodattimen esikatselu, RTK:n turvallisuusasetukset ja suodatinluettelo
-- **Pakkausyhdistelmät** — nimetyt moottoriputket, jotka on liitetty reititysyhdistelmiin
-- **Automaattisen aktivoinnin kynnys** — aktivoi pakkauksen automaattisesti, kun tunnisteiden määrä ylittää kynnysarvon
+- **Luolaihminen** — -tilan valinta, kielipaketit, esikatselu ja yleiset oletusasetukset
+- **RTK** — -komentosuodattimen esikatselu, RTK turvaasetukset ja suodatinluettelo
+- **Kompressioyhdistelmät** — nimesi moottorin putkilinjat, jotka on määritetty reitityskomboihin
+- **Auto-Trigger Threshold** — ottaa automaattisesti käyttöön pakkauksen, kun merkkien määrä ylittää kynnyksen
 
 ### Yhdistelmäkohtainen ohitus
 
-Liitä kohdassa `Hallintapaneeli → Konteksti ja välimuisti → Pakkausyhdistelmät` pakkausyhdistelmä
-reititysyhdistelmään:
+Määritä `Dashboard → Context & Cache → Compression Combos`:ssa pakkausyhdistelmä reititysyhdistelmälle:
 
 ```txt
-Yhdistelmä: "free-tier-fallback"
-  Pakkausyhdistelmä: "coding-agent-stack"
-  Putki: RTK -> Caveman
-  Kohteet:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Näin voit käyttää pinottua pakkausta ilmaisilla tai ohjelmointiin tarkoitetuilla palveluntarjoajilla
-ja säilyttää samalla kevyen tilan maksullisissa tilauksissa.
+Tämän avulla voit käyttää pinottua pakkausta free/coding palveluntarjoajilla samalla, kun säilytät yksinkertaistetun tilan maksullisissa tilauksissa.
 
-Tämä yhdistelmäkohtainen ohitusmääritys on eri ohjaus kuin **reititysyhdistelmän pakkaustilan**
-ohitus (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — kentän skeema hyväksyy myös
-arvot `rtk`, `stacked` ja `omniglyph`) — kyseinen ohitus ei valitse nimettyä pakkausyhdistelmäputkea,
-vaan ainoastaan asettaa `resolveCompressionPlan`-toiminnon käyttämän `compressionMode`-kentän.
-Sen voi asettaa joko yhdistelmäkortissa (`Hallintapaneeli → Yhdistelmät`) tai versiosta
-#6760 lähtien reititysyhdistelmäkohtaisesti `Hallintapaneeli → Konteksti ja välimuisti → Pakkausyhdistelmät`
--näkymän ”Liitä reititykseen” -luettelossa aivan edellä kuvatun putken liittämisen valintaruudun vieressä.
-Molempien näkymien muutokset tallennetaan saman `PUT /api/combos/{id}`-päätepisteen kautta.
+Tämä "Yhdistelmäkohtainen ohitus" on eri ohjausobjekti kuin** reititys-yhdistelmäpakkaustila** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — kentän skeema hyväksyy myös `rtk`, `stacked` ja `omniglyph`) — että ohitus ei valitse nimettyä pakkausyhdistelmäliukuhihnaa; se vain asettaa `compressionMode` kentän, jonka `resolveCompressionPlan` kuulee. Se voidaan asettaa joko yhdistelmäkortille (`Dashboard → Combos`) tai, koska #6760, reititysyhdistelmää kohden `Dashboard → Context & Cache → Compression Combos`:n "Assign to routing" -luettelossa, aivan yllä dokumentoidun liukuhihnan määrityksen valintaruudun vieressä. Molemmat pinnat jatkuvat saman `PUT /api/combos/{id}` päätepisteen läpi.
 
 ### Pyyntökohtainen ohitus
 
-Lähetä `x-omniroute-compression`-pyyntöotsake ohittaaksesi yksittäisen pyynnön pakkaussuunnitelman.
-Sillä on korkein prioriteetti — se ohittaa reititysyhdistelmän ohituksen, aktiivisen profiilin,
-automaattisen aktivoinnin ja paneelin oletusasetuksen. Tuntemattomat arvot ohitetaan (pyyntöä ei
-koskaan hylätä), ja yleinen pääkytkin hallitsee edelleen kaikkea: kun pakkaus on poistettu käytöstä
-yleisesti, otsake ei voi ottaa sitä käyttöön. Arvot:
+Lähetä `x-omniroute-compression` -pyynnön otsikko ohittaaksesi yhden pyynnön pakkaussuunnitelman. Sillä on korkein prioriteetti — joka voittaa reititysyhdistelmän ohituksen, aktiivisen profiilin, automaattisen liipaisun ja paneelin oletusarvot. Tuntemattomat arvot jätetään huomiotta (pyyntöä ei koskaan hylätä) ja globaali pääkytkin portti silti kaiken: kun pakkaus on pois päältä maailmanlaajuisesti, otsikko ei voi ottaa sitä käyttöön. Arvot:
 
-| Arvo          | Vaikutus                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `off`         | Tätä pyyntöä ei pakata.                                                                                                              |
-| `default`     | Paneelista johdettu oletusprofiili (ohittaa aktiivisen profiilin). Häviölliset moottorit eivät ole käytössä.                         |
-| `safe`        | Sama kuin otsakkeen pois jättäminen: vain duplikaattien poisto ja välilyöntien tiivistäminen.                                        |
-| `allow-lossy` | Säilyttää tämän pyynnön operaattorin suunnitelman, mukaan lukien yhteenvedot, relevanssisuodattimet ja tyylin uudelleenkirjoitukset. |
-| `engine:<id>` | Yksi moottori, jos se on käytössä, esimerkiksi `engine:rtk`. Tämä ottaa kyseisen moottorin käyttöön pyyntökohtaisesti.               |
-| `<combo>`     | Nimetty yhdistelmä, joka täsmäytetään ensin nimen perusteella kirjainkoosta riippumatta ja sitten tunnisteen perusteella.            |
+| Arvo          | Vaikutus                                                                                                                     |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Ei pakkausta tälle pyynnölle.                                                                                                |
+| `default`     | Paneelista johdettu oletusprofiili (ohita aktiivisen profiilin). Häviölliset moottorit jätetään pois.                        |
+| `safe`        | Sama kuin otsikon jättäminen pois.                                                                                           |
+| `allow-lossy` | Säilytä tämän pyynnön operaattorisuunnitelma, mukaan lukien yhteenvedot, osuvuussuodattimet ja tyylin uudelleenkirjoitukset. |
+| `engine:<id>` | Yksi moottori, kun se on käytössä, esim. `engine:rtk`. Tämä on kyseisen moottorin pyyntökohtainen valinta.                   |
+| `<combo>`     | Nimetty yhdistelmä, joka yhdistetään ensin nimellä (kirjainkoolla ei ole merkitystä) ja sitten tunnuksella.                  |
 
-Ilman arvoa `allow-lossy`, `engine:<id>` tai nimettyä yhdistelmää häviöllisiä moottoreita ei käytetä.
-Pyyntöön sovelletaan silti istuntokohtaista duplikaattien poistoa ja välilyöntien tiivistämistä, kun
-pakkaus on käytössä.
+Ilman `allow-lossy`, `engine:<id>` tai nimettyä yhdistelmää häviöllisiä moottoreita ei käytetä. Kun häviöllinen oletus, automaattinen laukaisu tai reitityksen ohitus alennetaan, OmniRoute pitää määritetyn pinotun liukuhihnan tunnistetut häviöttömät vaiheet määritetyssä järjestyksessä. Se palaa takaisin `session-dedup → lite` vain, kun yhtään määritettyä häviötöntä vaihetta ei säily.
 
-Käytetty suunnitelma palautetaan vastauksen `X-OmniRoute-Compression: <mode>; source=<source>`
--otsakkeessa, jossa `<source>` on jokin arvoista `request-header`, `routing-override`,
-`active-profile`, `auto-trigger`, `default` tai `off`.
+Asetukset-paneeli** Tehokas putkisto** esikatselu näyttää tavallisen leposuunnitelman. Kun automaattinen laukaisu voidaan suorittaa, sama esikatselu näyttää myös sen ehdollisen tehokkaan liukuhihnan, joten paneeli ja otsikot ilman ajonaikaista resoluutiota pysyvät kohdakkain.
+
+Käytetty suunnitelma toistetaan takaisin `X-OmniRoute-Compression: <mode>; source=<source>` -vastauksen otsikossa, jossa `<source>` on jokin seuraavista: `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` tai `off`.
 
 ### API
 
 ```bash
-# Hae pakkausasetukset
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Päivitä pakkausasetukset
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Esikatsele tietty RTK-/stacked-hyötykuorma
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Luettele RTK-suodatinpaketit
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Testaa RTK:ta suoraan valinnaisilla komentometatiedoilla
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

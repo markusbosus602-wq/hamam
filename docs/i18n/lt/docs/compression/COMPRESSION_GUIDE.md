@@ -30,84 +30,84 @@ Kliento užklausa
 
 ---
 
-## Glaudinimo režimai
+## Suspaudimo režimai
 
 ### Išjungta
 
-Glaudinimas netaikomas. Visi pranešimai perduodami nepakeisti.
+Suspaudimas netaikomas. Visi pranešimai perduodami nepakeisti.
 
-### Lite režimas (~15 % sutaupoma, <1 ms delsa)
+### Supaprastintas režimas (~ 15 % taupymas, < 1 ms delsa)
 
-Saugiausias režimas — jokio semantinio pakeitimo, tik formatavimo sutvarkymas:
+Saugiausias — formatavimo valymo režimas. Jo įrankio ir rezultato sutrumpinimas yra nuostolingas, todėl numatytasis kelias (be `allow-lossy`, `engine:lite` arba named-combo pasirinkimo) veikia supaprastintai su `compressToolResults: false`: ankstesni įrankio rezultatai tiekėją pasiekia nepakitę.
 
-| Technika                 | Aprašymas                                                      |
-| ------------------------ | -------------------------------------------------------------- |
-| `collapseWhitespace`     | Sujungia iš eilės einančias tuščias eilutes ir galinius tarpus |
-| `dedupSystemPrompt`      | Pašalina pasikartojančius sistemos pranešimus                  |
-| `compressToolResults`    | Glaudina išsamias įrankių/funkcijų išvestis                    |
-| `removeRedundantContent` | Šalina pasikartojančias instrukcijas                           |
-| `replaceImageUrls`       | Sutrumpina base64 paveikslėlių duomenų URI                     |
+| Technika                 | Aprašymas                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Sujunkite tuščias eilutes iš eilės ir tarpus                                                            |
+| `dedupSystemPrompt`      | Pašalinkite pasikartojančius sistemos pranešimus                                                        |
+| `compressToolResults`    | Sutrumpinti ankstesnius įrankio rezultatus iki supaprastintos ribos (prarasta: tik pasirinkus užklausą) |
+| `removeRedundantContent` | Nuimkite pakartotines instrukcijas                                                                      |
+| `replaceImageUrls`       | Sutrumpinkite base64 vaizdo duomenis URIs                                                               |
 
-**Tinka:** Nuolatiniam naudojimui, saugumui jautrioms darbo eigoms.
+**Geriausiai tinka:** Visada naudojamas, saugai svarbios darbo eigos.
 
-### Standartinis režimas (~30 % sutaupoma)
+### Standartinis režimas (~ 30 proc.)
 
-Įkvėptas [Caveman](https://github.com/JuliusBrussee/caveman) — pašalina pildomuosius žodžius ir pernešamai ilgas frazes, išsaugodamas prasmę:
+Įkvėptas [urvinio žmogaus](https://github.com/JuliusBrussee/caveman) — pašalina papildomus žodžius ir žodines frazes, išsaugant prasmę:
 
-- Pašalina pildomuosius žodžius („please", „I think", „basically", „actually")
-- Sutrumpina ilgas frazes („in order to" → „to", „as a result of" → „because")
-- Šalina mandagius suvelninimus („Would you mind...", „If you could possibly...")
-- Daugiau nei 30 reguliariųjų išraiškų taisyklių, pritaikytų programavimo užklausoms
+- Pašalina papildomus žodžius („prašau“, „manau“, „iš esmės“, „iš tikrųjų“)
+- Sutrumpina žodines frazes ("siekiant" → "iki", "dėl" → "nes")
+- Mandagus apsidraudimas ("Ar neprieštarautumėte...", "Jei galėtumėte...")
+- 30 + reguliariųjų reiškinių taisyklių, pritaikytų kodavimo raginimams
 
-**Tinka:** Kasdienėms programavimo darbo eigoms, išlaidas taupančioms komandoms.
+**Geriausiai tinka:** Kasdieninės kodavimo darbo eigos, sąnaudas suprantančios komandos.
 
-### Agresyvus režimas (~50 % sutaupoma)
+### Agresyvus režimas (~ 50 proc.)
 
-Išmanus istorijos valdymas ilgiems seansams:
+Išmanusis istorijos valdymas ilgoms sesijoms:
 
-- **Pranešimų senėjimas** — senesni pranešimai palaipsniui glaudinami
-- **Įrankių rezultatų glaudinimas** — ilgos įrankių išvestys apkertamos arba sutrumpinamos (pirmos/paskutinės eilutės, atitikties eilučių filtravimas, JSON raktų glaudinimas)
-- **Struktūros vientisumo apsaugos** — užtikrina, kad `tool_use` + `tool_result` poros išliktų nuoseklios
-- **Konteksto lango suvokimas** — atsižvelgia į konkretaus modelio žetonų limitus
+- **Žinutės senėjimas** — senesni pranešimai palaipsniui suglaudinami
+- **Įrankio rezultato suspaudimas** — ilgi įrankio išėjimai sutrumpinti arba panaikinti (first/last linijos, atitikties linijos filtravimas, JSON klavišų tankinimas)
+- **Konstrukcijų vientisumo apsauga** — užtikrina, kad `tool_use` + `tool_result` poros išliktų nuoseklios
+- **Konteksto lango suvokimas** — laikosi vieno modelio prieigos rakto apribojimų
 
-**Tinka:** Ilgoms derinimo sesijoms, didelėms kodo bazėms.
+**Geriausiai tinka:** Išplėstos derinimo sesijos, didelės kodų bazės.
 
-### Ultra režimas (~75 % sutaupoma)
+### „Ultra Mode“ (~ 75 proc.)
 
-Maksimalus glaudinimas situacijoms, kai kritiškai svarbūs žetonai:
+Didžiausias suspaudimas kritiniams scenarijuose:
 
-- **Euristinis retinimas** — prozos žetonų retinimas pagal balus
-- **Struktūros išsaugojimas** — apsiremti kodo blokai, įterptasis kodas, URL ir identifikatoriai pažymimi „tombstone" žymėmis ir vėl sujungiami pažodžiui, niekada neišretinami
-- **Neprivalomas SLM lygmuo** — sukonfigūravus, nedidelis vietinis modelis gali patobulinti retinimą
-- Nepriklausomas nuo Agresyvaus režimo: nevykdo pranešimų senėjimo, įrankių rezultatų glaudinimo ar atsarginio santraukos sudarytojo (tik SLM lygmens gedimas gali nukreipti atsarginį praejimą per agresyvų režimą)
+- **Euristinis genėjimas** — balais pagrįstas prozos žetonų genėjimas
+- **Struktūros išsaugojimas** — aptverti kodų blokai, eilutinis kodas, URLs ir identifikatoriai yra antkapiniai ir iš naujo susiuvami pažodžiui, niekada nekarpomi
+- **Pasirenkama SLM pakopa** — mažas vietinis modelis gali patobulinti slyvas, kai sukonfigūruotas
+- Nepriklausomai nuo agresyvaus režimo: nevykdo pranešimo senėjimo, įrankio rezultatų glaudinimo ar atsarginio suvestinės (tik SLM pakopos gedimas gali nukreipti atsarginį perdavimą per agresyvų)
 
-**Tinka:** Kai nuolat susiduriate su konteksto limitais.
+**Geriausiai tinka:** Kai pakartotinai pasiekiate konteksto ribas.
 
-### RTK režimas (60–90 % pirminiame apdorojime)
+### RTK režimas (60–90 % diapazonas prieš srovę)
 
-RTK režimas optimizuotas išsamioms įrankių išvestims, pasitaikančioms kodavimo agentų seansuose:
+RTK režimas yra optimizuotas išsamioms įrankių išvestims, rodomoms kodavimo agento seansuose:
 
-- Atpažįsta komandų/išvesčių klases, tokias kaip `git status`, `git diff`, `git log`, testų paleidimo įrankiai, TypeScript/Vite/Webpack kūrimai, ESLint/Biome/Prettier, npm audit/installs, Docker žurnalai, infrastruktūros išvestis ir bendroji apvalkalo išvestis
+- Aptinka command/output klases, tokias kaip `git status`, `git diff`, `git log`, bandomieji bėgikai, TypeScript/Vite/Webpack versijos, ESLint/Biome/Prettier, npm audit/installs, Docker žurnalai, infrastruktūros išvestis ir bendroji apvalkalo išvestis
 - Taiko JSON filtrų paketus iš `open-sse/services/compression/engines/rtk/filters/`
-- Importuoja RTK TOML schemos v1 filtrus iš projekto arba globalių `filters.toml` failų, su tikrinimu integruotais testais ir pasitikėjimo patvirtinimu projekto failams
-- Pateikiamas su 56 įtaisytaisiais filtrais su integruotais tikrinimo pavyzdžiais
-- Pašalina ANSI valdymo sekas, eigos juostas, pasikartojančias eilutes ir neinformatyvų triukšmą
-- Išsaugo gedimus, klaidas, įspėjimus, pakeistus failus, santraukas ir ilgų išvesčių pabaigas
-- Palaiko projekto filtrus su pasitikėjimo patvirtinimu, globalius filtrus ir neprivalomą redaguotos žalios išvesties atkūrimą
+- Importuoja RTK TOML schemos v1 filtrus iš projekto arba visuotinių `filters.toml` failų su tiesioginiu testavimo patvirtinimu ir projekto failų pasitikėjimo nustatymu
+- Siunčiami 56 įmontuoti filtrai su tiesioginio patikrinimo pavyzdžiais
+- Pašalina ANSI valdymo sekas, eigos juostas, pasikartojančias linijas ir neveikiantį triukšmą
+- Išsaugo gedimus, klaidas, įspėjimus, pakeistus failus, santraukas ir ilgos išvesties uodegą
+- Palaiko patikimus projektų filtrus, visuotinius filtrus ir pasirenkamą redaguotą neapdorotos išvesties atkūrimą
 
-**Tinka:** Agentų seansams su apvalkalo, kūrimo, testavimo, git, grep ir failų išvesčių transkripcijomis.
+**Geriausiai tinka:** Agento seansai su apvalkalu, kūrimo, testavimo, git, grep ir failų išvesties nuorašais.
 
-### Sluoksniuotas režimas (78–95 % tinkamų duomenų diapazonas)
+### Sudėtinis režimas (78–95 % tinkamas diapazonas)
 
-Sluoksniuotas režimas paleidžia kelis glaudinimo variklius deterministine tvarka. Numatytoji vamzdyno seka:
+Stacked režimas paleidžia kelis suspaudimo variklius deterministine tvarka. Numatytasis dujotiekis yra:
 
 ```txt
 RTK -> Caveman
 ```
 
-Ši tvarka pirmiausia sutvarko terminalo/įrankių išvestį, o tada likusiai natūralios kalbos užklausai pritaiko Caveman semantinį glaudinimą. Sluoksniuotus vamzdynus galima konfigūruoti globaliai arba per glaudinimo kombinacijas, priskirtas maršrutizavimo kombinacijoms.
+Ši tvarka pirmiausia išlaiko kompaktišką terminal/tool išvestį, o tada taiko Caveman semantinį kondensavimą likusiai natūralios kalbos raginimui. Sukrautus dujotiekius galima konfigūruoti visame pasaulyje arba naudojant suspaudimo derinius, priskirtus maršruto deriniams.
 
-**Tinka:** Mišriam kontekstui su dideliais įrankių žurnalais ir žmogaus instrukcijomis ar asistento santraukomis.
+**Geriausiai tinka:** Mišrus kontekstas su dideliais įrankių žurnalais ir žmogaus instrukcijomis arba asistento santraukomis.
 
 ---
 
@@ -177,85 +177,71 @@ Su Stacked:           siunčiama 10K-2.5K tokenų     (78-95% tinkamos RTK+Cavem
 
 ## Konfigūracija
 
-### Valdymo skydelis
+### Prietaisų skydelis
 
 Eikite į `Dashboard → Context & Cache`:
 
-- **Caveman** — režimo pasirinkimas, kalbų paketai, peržiūra ir visuotinės numatytosios nuostatos
-- **RTK** — komandų filtro peržiūra, RTK saugos nuostatos ir filtrų katalogas
-- **Compression Combos** — įvardyti variklių konvejeriai, priskirti maršruto parinkimo deriniams
-- **Auto-Trigger Threshold** — automatiškai įjungia glaudinimą, kai žetonų skaičius viršija slenkstį
+- **Urvinis žmogus** — režimo pasirinkimas, kalbų paketai, peržiūra ir visuotiniai numatytieji nustatymai
+- **RTK** — komandų filtro peržiūra, RTK saugos nustatymai ir filtrų katalogas
+- **Suspaudimo deriniai** — pavadino variklio vamzdynus, priskirtus maršruto deriniams
+- **Automatinio paleidimo slenkstis** — automatiškai įjungia suspaudimą, kai prieigos raktų skaičius viršija slenkstį
 
-### Atskiro derinio perrašymas
+### Per-Combo nepaisymas
 
-Skiltyje `Dashboard → Context & Cache → Compression Combos` priskirkite glaudinimo derinį maršruto
-parinkimo deriniui:
+`Dashboard → Context & Cache → Compression Combos` priskirkite glaudinimo derinį maršruto parinkimo deriniui:
 
 ```txt
-Derinys: "free-tier-fallback"
-  Glaudinimo derinys: "coding-agent-stack"
-  Konvejeris: RTK -> Caveman
-  Paskirties vietos:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Taip galite naudoti pakopinį glaudinimą su nemokamais / programavimui skirtais teikėjais, o mokamose
-prenumeratose palikti „Lite“ režimą.
+Tai leidžia free/coding teikėjams naudoti sukrautą glaudinimą, o mokamose prenumeratose išlaikyti supaprastintą režimą.
 
-Šis „atskiro derinio perrašymo“ priskyrimas yra atskiras valdiklis nuo **maršruto parinkimo derinio
-glaudinimo režimo** perrašymo (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — lauko
-schema taip pat priima `rtk`, `stacked` ir `omniglyph`) — šis perrašymas nepasirenka įvardyto
-glaudinimo derinio konvejerio; jis tik nustato lauką `compressionMode`, kurį tikrina
-`resolveCompressionPlan`. Jį galima nustatyti derinio kortelėje (`Dashboard → Combos`) arba, nuo
-#6760, kiekvienam maršruto parinkimo deriniui atskirai sąraše „Assign to routing“, esančiame
-`Dashboard → Context & Cache → Compression Combos`, šalia anksčiau aprašyto konvejerio priskyrimo
-žymimojo langelio. Abiejų sąsajų pakeitimai išsaugomi per tą patį `PUT /api/combos/{id}` galinį tašką.
+Ši „Per-Combo Override“ priskyrimas skiriasi nuo valdiklio** maršruto parinkimo kombinuotas glaudinimo režimas** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex atsako — lauko schema taip pat priima `rtk`, `stacked` ir `omniglyph`) — kad nepaisymas nepasirenka pavadinto suspaudimo kombinuoto konvejerio; jis tiesiog nustato `compressionMode` lauką, kurį peržiūrėjo `resolveCompressionPlan`. Jį galima nustatyti kombinuotoje kortelėje (`Dashboard → Combos`) arba, nuo #6760, kiekvienam maršruto parinkimo deriniui `Dashboard → Context & Cache → Compression Combos` sąraše „Priskyrimas maršrutui“, šalia anksčiau dokumentuoto konvejerio priskyrimo žymės langelio. Abu paviršiai išlieka per tą patį `PUT /api/combos/{id}` galinį tašką.
 
-### Atskiros užklausos perrašymas
+### Nepaisymas pagal užklausą
 
-Siųskite užklausos antraštę `x-omniroute-compression`, kad perrašytumėte vienos užklausos glaudinimo
-planą. Jai teikiama aukščiausia pirmenybė — ji yra viršesnė už maršruto parinkimo derinio perrašymą,
-aktyvų profilį, automatinį suaktyvinimą ir skydelio nuostatą „Default“. Nežinomos reikšmės ignoruojamos
-(užklausa niekada neatmetama), o visuotinis pagrindinis jungiklis vis tiek viską valdo: kai glaudinimas
-visuotinai išjungtas, antraštė negali jo įjungti. Reikšmės:
+Siųskite `x-omniroute-compression` užklausos antraštę, kad nepaisytumėte vienos užklausos glaudinimo plano. Jis turi didžiausią pirmenybę — jis lenkia maršruto parinkimo derinio nepaisymą, aktyvų profilį, automatinį paleidiklį ir skydelio numatytąjį nustatymą. Nežinomos reikšmės yra nepaisomos (užklausa niekada neatmetama), o visuotinis pagrindinis jungiklis vis tiek perjungia viską: kai glaudinimas išjungtas visuotinai, antraštė negali jo įjungti. Vertybės:
 
-| Reikšmė       | Poveikis                                                                                                      |
-| ------------- | ------------------------------------------------------------------------------------------------------------- |
-| `off`         | Šiai užklausai glaudinimas netaikomas.                                                                        |
-| `default`     | Iš skydelio nustatytas „Default“ profilis (aktyvus profilis ignoruojamas). Nuostolingi varikliai neįjungiami. |
-| `safe`        | Tas pats, kaip nenurodyti antraštės: tik dublikatų šalinimas ir tarpų sujungimas.                             |
-| `allow-lossy` | Išlaikomas šios užklausos operatoriaus planas, įskaitant santraukas, aktualumo filtrus ir stiliaus keitimus.  |
-| `engine:<id>` | Vienas variklis, jei įjungtas, pvz., `engine:rtk`. Taip šis variklis įjungiamas konkrečiai užklausai.         |
-| `<combo>`     | Įvardytas derinys, pirmiausia ieškomas pagal pavadinimą (nepaisant raidžių dydžio), tada pagal ID.            |
+| Vertė         | Efektas                                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `off`         | Nėra suspaudimo šiai užklausai.                                                                                   |
+| `default`     | Iš skydelio sukurtas numatytasis profilis (nepaiso aktyvaus profilio). Sugedę varikliai paliekami.                |
+| `safe`        | Tas pats, kaip praleisti antraštę.                                                                                |
+| `allow-lossy` | Išsaugokite šios užklausos operatoriaus planą, įskaitant santraukas, tinkamumo filtrus ir stiliaus perrašymus.    |
+| `engine:<id>` | Vienas variklis, kai įjungtas, pvz., `engine:rtk`. Tai yra to variklio pasirinkimas pagal užklausą.               |
+| `<combo>`     | Vardinis derinys, pirmiausia suderinamas pagal pavadinimą (neskiriant didžiųjų ir mažųjų raidžių), tada pagal ID. |
 
-Nenurodžius `allow-lossy`, `engine:<id>` arba įvardyto derinio, nuostolingi varikliai netaikomi.
-Kai glaudinimas įjungtas, užklausai vis tiek taikomas seanso dublikatų šalinimas ir tarpų sujungimas.
+Be `allow-lossy`, `engine:<id>` arba pavadinto derinio nuostolingi varikliai netaikomi. Kai nuleidžiamas nuostolingas numatytasis, automatinis aktyviklis arba maršruto nepaisymas, OmniRoute sukonfigūruota tvarka išlaiko atpažintus be nuostolių veiksmus iš sukonfigūruoto sudėtinio dujotiekio. Jis grįžta į `session-dedup → lite` tik tada, kai neišgyvena nė vienas sukonfigūruotas be nuostolių žingsnis.
 
-Pritaikytas planas grąžinamas atsakymo antraštėje `X-OmniRoute-Compression: <mode>; source=<source>`,
-kur `<source>` yra viena iš šių reikšmių: `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default` arba `off`.
+Nustatymų skydelis** Efektyvus vamzdynas** peržiūra rodo įprastą poilsio planą. Kai galima paleisti automatinį aktyviklį, ta pati peržiūra taip pat rodo sąlyginį efektyvų konvejerį, todėl skydelis ir vykdymo laiko skiriamoji geba be antraštės išliks suderinta.
+
+Taikytas planas kartojamas `X-OmniRoute-Compression: <mode>; source=<source>` atsakymo antraštėje, kur `<source>` yra vienas iš `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` arba `off`.
 
 ### API
 
 ```bash
-# Gauti glaudinimo nuostatas
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Atnaujinti glaudinimo nuostatas
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Peržiūrėti konkretų RTK / pakopinį naudingąjį turinį
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Išvardyti RTK filtrų paketus
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Tiesiogiai išbandyti RTK su pasirenkamais komandos metaduomenimis
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

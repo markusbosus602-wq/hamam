@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute 대시보드" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
 # 🚀 OmniRoute — 무료 AI 게이트웨이
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**만든 사람 [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — 코딩을 멈추지 마세요. 모든 AI 도구 → 380개 제공업체 — 150개 이상 무료 — 하나의 엔드포인트로. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity를 무료 Claude / GPT / Gemini로 자동 폴백. RTK + Caveman 스택 압축으로 토큰 15–95% 절감(~89% 평균) — 한도에 도달하지 마세요. 380개 AI 제공업체 · 150개 이상 무료 티어 · 월 약 16억 2천만 무료 토큰 · 20가지 라우팅 전략 · 시작 비용 $0."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1288,24 +1288,24 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1도 이를 건너�
 </div>
 
 <table>
-  <tr><th align="left">계층</th><th align="left">기술</th></tr>
-  <tr><td nowrap><b>런타임</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>언어</b></td><td>TypeScript 6.0 — <code>src/</code> 및 <code>open-sse/</code> 전반에서 <b>100% TypeScript</b> 사용 (v2.0 이후 코어에 <code>any</code> 없음)</td></tr>
-  <tr><td nowrap><b>프레임워크</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>데이터베이스</b></td><td>better-sqlite3 (SQLite, WAL 저널링) + LowDB (레거시 JSON) — 147개 도메인 모듈, 221개 마이그레이션</td></tr>
-  <tr><td nowrap><b>메모리</b></td><td>SQLite FTS5 전문 검색 + int8 양자화 벡터 임베딩, 타입 기반 감쇠</td></tr>
+  <tr><th align="left">층</th><th align="left">기술</th></tr>
+  <tr><td nowrap><b>실행 시간</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>언어</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> <code>src/</code> 및 <code>open-sse/</code> 전체(v2.0 이후 코어에서는 <code>any</code> 가 0임)</td></tr>
+  <tr><td nowrap><b>뼈대</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>데이터 베이스</b></td><td>better-sqlite3 (SQLite, WAL 저널링) + LowDB (JSON 레거시) — 147 도메인 모듈, 221 마이그레이션</td></tr>
+  <tr><td nowrap><b>메모리</b></td><td>SQLite FTS5 전체 텍스트 + int8-quantized 벡터 임베딩, 유형화된 붕괴</td></tr>
   <tr><td nowrap><b>스키마</b></td><td>Zod 4 — MCP 도구 I/O 검증 + API 계약</td></tr>
   <tr><td nowrap><b>프로토콜</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>스트리밍</b></td><td>서버 전송 이벤트 (SSE) + WebSocket 브리지 (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>스트리밍</b></td><td>서버에서 보낸 이벤트(SSE) + WebSocket 브리지(<code>/v1/ws</code>)</td></tr>
   <tr><td nowrap><b>압축</b></td><td>12개 엔진 파이프라인 — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>인증 &amp; 보안</b></td><td>OAuth 2.0 (PKCE) + JWT + API 키 + MCP 범위 지정 인증 · 저장 데이터 AES-256-GCM 암호화 · DOMPurify</td></tr>
-  <tr><td nowrap><b>스텔스</b></td><td>wreq-js — JA3 / JA4 TLS 핑거프린트 위장, 3단계 프록시</td></tr>
-  <tr><td nowrap><b>복원력</b></td><td>서킷 브레이커, 지수 백오프, 동시 폭주 방지, 자동 조합 자가 복구</td></tr>
-  <tr><td nowrap><b>로깅</b></td><td>pino — 요청 컨텍스트가 포함된 구조화된 JSON 로그</td></tr>
-  <tr><td nowrap><b>테스트</b></td><td>Node.js 테스트 러너 + Vitest — 8,400개 이상의 추적 테스트 파일(단위, 통합, E2E, 보안, 생태계)에 걸쳐 <b>60,000개 이상의 정적 테스트 선언</b></td></tr>
-  <tr><td nowrap><b>플랫폼</b></td><td>데스크톱 (Electron) · Android (Termux) · PWA (모든 브라우저)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — 릴리스 시 npm 자동 게시 + Docker Hub 배포</td></tr>
-  <tr><td nowrap><b>링크</b></td><td><a href="https://omniroute.online">웹사이트</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>인증 &amp; 보안</b></td><td>OAuth 2.0 (PKCE) + JWT + API 키 + MCP 인증 · AES-256-GCM · DOMPurify</td></tr>
+  <tr><td nowrap><b>몰래 하기</b></td><td>wreq-js — JA3 / JA4 TLS 지문 가장, 3레벨 프록시</td></tr>
+  <tr><td nowrap><b>회복력</b></td><td>회로 차단기, 지수 백오프, 천둥 방지, 자동 콤보 자가 치유</td></tr>
+  <tr><td nowrap><b>벌채 반출</b></td><td>요청 컨텍스트가 포함된 pino — 구조적 JSON 로그</td></tr>
+  <tr><td nowrap><b>테스트</b></td><td>Node.js 테스트 러너 + Vitest — <b>60,000개의 + 정적 테스트 선언</b> 8,400개의 + 추적 테스트 파일(유닛, 통합, E2E, 보안, 생태계)에 걸쳐</td></tr>
+  <tr><td nowrap><b>플랫폼</b></td><td>데스크톱(Electron) · Android(Termux) · PWA (모든 브라우저)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm 출시 시 + Docker Hub 게시</td></tr>
+  <tr><td nowrap><b>모래밭</b></td><td><a href="https://omniroute.online">웹사이트</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker 허브</a></td></tr>
 </table>
 
 <div align="center">
@@ -1795,17 +1795,17 @@ OmniRoute는 거인들의 어깨 위에 서 있습니다. **[9router](https://gi
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Grok Build 할당량 표면을 식별했으며, 이후 OmniRoute가 라이브 와이어 형식을 독립적으로 검증하고 수정했습니다.</td></tr>
 </table>
 
-## 📄 라이선스
+## 📄 라이센스
 
-MIT 라이선스 - 자세한 내용은 [LICENSE](LICENSE)를 참조하세요.
+MIT 라이센스 - 자세한 내용은 [LICENSE](LICENSE) 참조하세요.
 
 ---
 
 <div align="center">
 
-**[⬆ 맨 위로 돌아가기](#-omniroute)** · 오픈소스 AI 커뮤니티를 위해 ❤️를 담아 제작했습니다.
+**[맨 위로 돌아 ⬆](#-omniroute)** · 오픈 소스 AI 커뮤니티를 위해 ❤️ 로 구축되었습니다.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT 라이선스 · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>작성자: <a href="https://github.com/diegosouzapw">디에고 소우자</a> · OmniRoute v3.8.53 · 노드 ≥ 22.22.2 · MIT 라이센스 · <a href="https://omniroute.online">옴니루트.온라인</a></sub>
 
 </div>
-<!-- 커뮤니티 Q&A를 위해 GitHub Discussions가 활성화되어 있습니다 -->
+<!-- GitHub Discussions enabled for community Q&A -->

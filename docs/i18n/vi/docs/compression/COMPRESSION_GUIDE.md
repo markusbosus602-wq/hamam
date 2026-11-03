@@ -30,93 +30,84 @@ Yêu cầu từ máy khách
 
 ---
 
-## Các Chế độ Nén
+## Chế độ nén
 
-### Tắt (Off)
+### Tắt
 
-Không áp dụng nén. Tất cả tin nhắn được truyền qua nguyên bản.
+Không áp dụng nén. Tất cả các tin nhắn đi qua không thay đổi.
 
-### Chế độ Lite (tiết kiệm ~15%, độ trễ <1ms)
+### Chế độ Lite (tiết kiệm ~ 15%, độ trễ < 1ms)
 
-Chế độ an toàn nhất — không thay đổi ngữ nghĩa, chỉ dọn dẹp định dạng:
+Chế độ dọn dẹp định dạng — an toàn nhất. Việc cắt bớt kết quả công cụ của nó bị mất, do đó, đường dẫn mặc định (không có tùy chọn tham gia `allow-lossy`, `engine:lite` hoặc tổ hợp có tên) chạy nhẹ với `compressToolResults: false`: kết quả công cụ trước đó đến tay nhà cung cấp không thay đổi.
 
-| Kỹ thuật                 | Mô tả                                                  |
-| ------------------------ | ------------------------------------------------------ |
-| `collapseWhitespace`     | Gộp các dòng trống liên tiếp và khoảng trắng cuối dòng |
-| `dedupSystemPrompt`      | Loại bỏ các system message trùng lặp                   |
-| `compressToolResults`    | Nén các đầu ra tool/function dài dòng                  |
-| `removeRedundantContent` | Loại bỏ các chỉ dẫn lặp lại                            |
-| `replaceImageUrls`       | Rút gọn các data URI ảnh base64                        |
+| Kỹ thuật                 | Sự miêu tả                                                                                         |
+| ------------------------ | -------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Hợp nhất các dòng trống liên tiếp và dấu cách                                                      |
+| `dedupSystemPrompt`      | Xóa tin nhắn hệ thống trùng lặp                                                                    |
+| `compressToolResults`    | Cắt bớt các kết quả của công cụ trước đó về mức tối đa (mất mát: chỉ khi có yêu cầu chọn tham gia) |
+| `removeRedundantContent` | Loại bỏ các hướng dẫn lặp đi lặp lại                                                               |
+| `replaceImageUrls`       | Rút gọn dữ liệu hình ảnh base64 URIs                                                               |
 
-**Phù hợp nhất cho:** Sử dụng luôn bật, các quy trình công việc yêu cầu an toàn cao.
+**Tốt nhất cho:** Luôn sử dụng, quy trình làm việc quan trọng về an toàn.
 
-### Chế độ Standard (tiết kiệm ~30%)
+### Chế độ tiêu chuẩn (tiết kiệm ~ 30%)
 
-Lấy cảm hứng từ [Caveman](https://github.com/JuliusBrussee/caveman) — loại bỏ các từ đệm và cách diễn đạt dài dòng trong khi vẫn giữ nguyên ý nghĩa:
+Lấy cảm hứng từ [Caveman](https://github.com/JuliusBrussee/caveman) — loại bỏ các từ đệm và cách diễn đạt dài dòng trong khi vẫn giữ được ý nghĩa:
 
-- Loại bỏ các từ đệm ("please", "I think", "basically", "actually")
-- Cô đọng các cụm từ dài dòng ("in order to" → "to", "as a result of" → "because")
-- Loại bỏ các câu hỏi lịch sự khách sáo ("Would you mind...", "If you could possibly...")
-- Hơn 30 quy tắc regex được tinh chỉnh cho các prompt lập trình
+- Loại bỏ các từ đệm ("làm ơn", "tôi nghĩ", "về cơ bản", "thực sự")
+- Rút gọn các cụm từ dài dòng ("để" → "to", "là kết quả của" → "bởi vì")
+- Loại bỏ những rào cản lịch sự ("Bạn có phiền không...", "Nếu bạn có thể...")
+- 30 quy tắc biểu thức chính quy + được điều chỉnh cho các lời nhắc viết mã
 
-**Phù hợp nhất cho:** Quy trình lập trình hằng ngày, các nhóm quan tâm đến chi phí.
+**Tốt nhất cho:** Quy trình viết mã hàng ngày, các nhóm có ý thức về chi phí.
 
-### Chế độ Aggressive (tiết kiệm ~50%)
+### Chế độ tích cực (tiết kiệm ~ 50%)
 
 Quản lý lịch sử thông minh cho các phiên dài:
 
-- **Message Aging** — các tin nhắn cũ được nén dần theo thời gian
-- **Tool Result Compression** — các đầu ra tool dài được cắt bớt hoặc lược bỏ (lấy dòng đầu/cuối,
-  lọc theo dòng khớp, nén JSON key)
-- **Structural Integrity Guards** — đảm bảo các cặp `tool_use` + `tool_result` luôn nhất quán
-- **Context Window Awareness** — tôn trọng giới hạn token của từng mô hình
+- **Lão hóa tin nhắn** tin nhắn cũ — được nén dần dần
+- **Công cụ nén kết quả** đầu ra công cụ dài — bị cắt ngắn hoặc bỏ bớt (dòng first/last, lọc dòng khớp, nén khóa JSON )
+- **Bảo vệ toàn vẹn cấu trúc** — đảm bảo các cặp `tool_use` + `tool_result` luôn nhất quán
+- **Nhận thức về cửa sổ ngữ cảnh** — tôn trọng giới hạn mã thông báo trên mỗi mô hình
 
-**Phù hợp nhất cho:** Các phiên debug kéo dài, codebase lớn.
+**Tốt nhất cho:** Phiên gỡ lỗi mở rộng, cơ sở mã lớn.
 
-### Chế độ Ultra (tiết kiệm ~75%)
+### Chế độ siêu (tiết kiệm ~ 75%)
 
-Nén tối đa cho các tình huống khắt khe về token:
+Nén tối đa cho các tình huống quan trọng về mã thông báo:
 
-- **Heuristic Pruning** — cắt tỉa token văn xuôi dựa trên chấm điểm
-- **Structure Preservation** — các khối code fenced, inline code, URL và định danh được
-  đánh dấu thay thế (tombstone) và ghép lại nguyên văn, không bao giờ bị cắt tỉa
-- **Tầng SLM tùy chọn** — một mô hình cục bộ nhỏ có thể tinh chỉnh bước cắt tỉa khi được cấu hình
-- Độc lập với chế độ Aggressive: không chạy message aging, nén tool-result
-  hay bộ tóm tắt dự phòng (chỉ khi tầng SLM thất bại mới có thể chuyển một lượt dự phòng
-  sang aggressive)
+- **Cắt tỉa heuristic** cắt tỉa mã thông báo dựa trên điểm — của văn xuôi
+- **Bảo tồn cấu trúc** Các khối mã có rào chắn —, mã nội tuyến, URLs và số nhận dạng được khắc nguyên văn và khâu lại, không bao giờ bị cắt bớt
+- **Cấp SLM tùy chọn** — một mô hình cục bộ nhỏ có thể tinh chỉnh việc cắt tỉa khi được định cấu hình
+- Độc lập với chế độ Linh hoạt: chế độ này không chạy quá trình lão hóa thông báo, nén kết quả công cụ hoặc trình tóm tắt dự phòng (chỉ lỗi cấp SLM mới có thể định tuyến chuyển dự phòng sang chế độ linh hoạt)
 
-**Phù hợp nhất cho:** Khi bạn liên tục chạm giới hạn ngữ cảnh.
+**Tốt nhất cho:** Khi bạn liên tục đạt đến giới hạn ngữ cảnh.
 
-### Chế độ RTK (phạm vi upstream 60-90%)
+### Chế độ RTK (phạm vi ngược dòng 60-90%)
 
-Chế độ RTK được tối ưu cho các đầu ra tool dài dòng xuất hiện trong các phiên coding-agent:
+chế độ RTK được tối ưu hóa cho các đầu ra công cụ dài dòng xuất hiện trong các phiên tác nhân mã hóa:
 
-- Nhận diện các loại lệnh/đầu ra như `git status`, `git diff`, `git log`, test runner,
-  build TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/install, log Docker, đầu ra
-  hạ tầng, và đầu ra shell chung
-- Áp dụng các gói bộ lọc JSON từ `open-sse/services/compression/engines/rtk/filters/`
-- Nhập các bộ lọc RTK TOML schema v1 từ các file `filters.toml` của dự án hoặc toàn cục, với xác thực
-  inline-test và kiểm soát tin cậy (trust-gating) cho các file của dự án
-- Đi kèm 56 bộ lọc tích hợp sẵn với các mẫu kiểm chứng inline
-- Loại bỏ các chuỗi điều khiển ANSI, thanh tiến trình, các dòng lặp lại, và nhiễu không cần hành động
-- Giữ lại các lỗi thất bại, lỗi, cảnh báo, file đã thay đổi, phần tóm tắt, và đoạn cuối của đầu ra dài
-- Hỗ trợ bộ lọc dự án có kiểm soát tin cậy, bộ lọc toàn cục, và khôi phục đầu ra thô đã che giấu (tùy chọn)
+- Phát hiện các lớp command/output như `git status`, `git diff`, `git log`, người chạy thử, bản dựng TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, nhật ký Docker, đầu ra hồng ngoại và đầu ra shell chung
+- Áp dụng gói bộ lọc JSON từ `open-sse/services/compression/engines/rtk/filters/`
+- Nhập các bộ lọc lược đồ RTK TOML v1 từ các tệp `filters.toml` dự án hoặc toàn cầu, với xác thực kiểm tra nội tuyến và kiểm soát độ tin cậy cho các tệp dự án
+- Vận chuyển 56 bộ lọc tích hợp với các mẫu xác minh nội tuyến
+- Loại bỏ các chuỗi điều khiển ANSI, thanh tiến trình, các dòng lặp lại và tiếng ồn không thể thực hiện được
+- Giữ nguyên các lỗi, cảnh báo, tệp đã thay đổi, tóm tắt và phần đuôi của đầu ra dài
+- Hỗ trợ các bộ lọc dự án được kiểm soát tin cậy, bộ lọc toàn cầu và phục hồi đầu ra thô được xử lý lại tùy chọn
 
-**Phù hợp nhất cho:** Các phiên agent có bản ghi shell, build, test, git, grep và đầu ra file.
+**Tốt nhất cho:** Phiên tác nhân với các bản ghi shell, build, test, git, grep và đầu ra tệp.
 
-### Chế độ Stacked (phạm vi đủ điều kiện 78-95%)
+### Chế độ xếp chồng (phạm vi đủ điều kiện 78-95%)
 
-Chế độ Stacked chạy nhiều engine nén theo một thứ tự xác định. Pipeline mặc định là:
+Chế độ xếp chồng chạy nhiều công cụ nén theo thứ tự xác định. Đường ống mặc định là:
 
 ```txt
 RTK -> Caveman
 ```
 
-Thứ tự đó giúp nén gọn đầu ra terminal/tool trước, sau đó áp dụng bước cô đọng ngữ nghĩa của Caveman
-cho phần prompt ngôn ngữ tự nhiên còn lại. Các pipeline Stacked có thể được cấu hình toàn cục hoặc thông qua
-các combo nén được gán cho các combo định tuyến.
+Thứ tự đó giữ cho đầu ra terminal/tool nhỏ gọn trước tiên, sau đó áp dụng cách rút gọn ngữ nghĩa Caveman cho dấu nhắc ngôn ngữ tự nhiên còn lại. Các đường ống xếp chồng có thể được cấu hình trên toàn cầu hoặc thông qua các tổ hợp nén được gán cho các tổ hợp định tuyến.
 
-**Phù hợp nhất cho:** Ngữ cảnh hỗn hợp gồm log tool lớn cùng chỉ dẫn của con người hoặc bản tóm tắt của assistant.
+**Tốt nhất cho:** Bối cảnh hỗn hợp với nhật ký công cụ lớn cùng với hướng dẫn của con người hoặc bản tóm tắt của trợ lý.
 
 ---
 
@@ -186,18 +177,18 @@ Với Stacked:            10K-2.5K token được gửi     (phạm vi RTK+Cavem
 
 ## Cấu hình
 
-### Bảng điều khiển
+### Trang tổng quan
 
-Đi tới `Dashboard → Context & Cache`:
+Điều hướng đến `Dashboard → Context & Cache`:
 
-- **Caveman** — lựa chọn chế độ, gói ngôn ngữ, xem trước và các giá trị mặc định toàn cục
-- **RTK** — xem trước bộ lọc lệnh, cài đặt an toàn RTK và danh mục bộ lọc
-- **Compression Combos** — các pipeline engine có tên được gán cho các combo định tuyến
-- **Auto-Trigger Threshold** — tự động kích hoạt tính năng nén khi số lượng token vượt quá ngưỡng
+- **người thượng cổ** lựa chọn chế độ —, gói ngôn ngữ, xem trước và mặc định chung
+- **RTK** xem trước bộ lọc lệnh —, cài đặt an toàn RTK và danh mục bộ lọc
+- **Combo nén** — có tên đường ống động cơ được gán cho các tổ hợp định tuyến
+- **Ngưỡng kích hoạt tự động** — tự động nén khi số lượng mã thông báo vượt quá ngưỡng
 
-### Ghi đè theo từng combo
+### Ghi đè mỗi combo
 
-Trong `Dashboard → Context & Cache → Compression Combos`, hãy gán một combo nén cho một combo định tuyến:
+Trong `Dashboard → Context & Cache → Compression Combos`, chỉ định tổ hợp nén cho tổ hợp định tuyến:
 
 ```txt
 Combo: "free-tier-fallback"
@@ -208,47 +199,49 @@ Combo: "free-tier-fallback"
     2. if/qwen3.8-max-preview
 ```
 
-Điều này cho phép bạn sử dụng cơ chế nén xếp chồng trên các nhà cung cấp miễn phí/lập trình, trong khi vẫn duy trì chế độ lite trên các gói đăng ký trả phí.
+Điều này cho phép bạn sử dụng tính năng nén xếp chồng trên các nhà cung cấp free/coding trong khi vẫn duy trì chế độ thu gọn đối với các đăng ký trả phí.
 
-Việc gán "Ghi đè theo từng combo" này là một tùy chọn điều khiển khác với tùy chọn ghi đè **chế độ nén của combo định tuyến** (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — schema của trường này cũng chấp nhận `rtk`, `stacked` và `omniglyph`) — tùy chọn ghi đè đó không chọn một pipeline combo nén có tên; nó chỉ thiết lập trường `compressionMode` được `resolveCompressionPlan` sử dụng. Có thể thiết lập tùy chọn này trên thẻ combo (`Dashboard → Combos`) hoặc, kể từ #6760, cho từng combo định tuyến trong danh sách "Assign to routing" tại `Dashboard → Context & Cache → Compression Combos`, ngay bên cạnh hộp kiểm gán pipeline được mô tả ở trên. Cả hai giao diện đều lưu thông qua cùng một endpoint `PUT /api/combos/{id}`.
+Nhiệm vụ "Ghi đè theo tổ hợp" này là một điều khiển khác với nhiệm vụ** chế độ nén kết hợp định tuyến** ghi đè (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Phản hồi — lược đồ của trường cũng chấp nhận `rtk`, `stacked` và `omniglyph`) — ghi đè đó không chọn đường ống kết hợp nén có tên; nó chỉ đặt trường `compressionMode` được tham khảo bởi `resolveCompressionPlan`. Nó có thể được đặt trên thẻ kết hợp (`Dashboard → Combos`) hoặc, kể từ #6760, cho mỗi kết hợp định tuyến trong danh sách "Gán cho định tuyến" trên `Dashboard → Context & Cache → Compression Combos`, ngay bên cạnh hộp kiểm gán đường dẫn được ghi lại ở trên. Cả hai bề mặt đều tồn tại thông qua cùng một điểm cuối `PUT /api/combos/{id}`.
 
-### Ghi đè theo từng yêu cầu
+### Ghi đè theo yêu cầu
 
-Gửi header yêu cầu `x-omniroute-compression` để ghi đè kế hoạch nén cho một yêu cầu riêng lẻ. Header này có mức ưu tiên cao nhất — nó được ưu tiên hơn tùy chọn ghi đè của combo định tuyến, hồ sơ đang hoạt động, cơ chế tự động kích hoạt và giá trị Default trên bảng điều khiển. Các giá trị không xác định sẽ bị bỏ qua (yêu cầu không bao giờ bị từ chối), và công tắc chính toàn cục vẫn kiểm soát mọi thứ: khi tính năng nén bị tắt trên toàn cục, header không thể bật tính năng này. Các giá trị:
+Gửi tiêu đề yêu cầu `x-omniroute-compression` để ghi đè gói nén cho một yêu cầu. Nó có mức ưu tiên cao nhất — nó vượt qua ghi đè tổ hợp định tuyến, cấu hình hoạt động, trình kích hoạt tự động và bảng Mặc định. Các giá trị không xác định sẽ bị bỏ qua (yêu cầu không bao giờ bị từ chối) và công tắc chính toàn cầu vẫn kiểm soát mọi thứ: khi tính năng nén bị tắt trên toàn cầu, tiêu đề không thể bật nó lên. Giá trị:
 
-| Giá trị       | Hiệu ứng                                                                                                                            |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `off`         | Không nén yêu cầu này.                                                                                                              |
-| `default`     | Hồ sơ Default được xác định từ bảng điều khiển (bỏ qua hồ sơ đang hoạt động). Các engine gây mất dữ liệu sẽ bị tắt.                 |
-| `safe`        | Tương tự như khi bỏ qua header: chỉ khử trùng lặp và thu gọn khoảng trắng.                                                          |
-| `allow-lossy` | Giữ nguyên kế hoạch của người vận hành cho yêu cầu này, bao gồm bản tóm tắt, bộ lọc mức độ liên quan và các thao tác viết lại kiểu. |
-| `engine:<id>` | Một engine duy nhất khi được bật, ví dụ: `engine:rtk`. Đây là tùy chọn bật riêng engine đó cho từng yêu cầu.                        |
-| `<combo>`     | Một combo có tên, trước tiên được đối chiếu theo tên (không phân biệt chữ hoa chữ thường), sau đó theo id.                          |
+| Giá trị       | Tác dụng                                                                                                               |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Không nén cho yêu cầu này.                                                                                             |
+| `default`     | Cấu hình mặc định bắt nguồn từ bảng điều khiển (bỏ qua cấu hình đang hoạt động). Động cơ tổn thất bị bỏ đi.            |
+| `safe`        | Tương tự như bỏ tiêu đề.                                                                                               |
+| `allow-lossy` | Giữ nguyên sơ đồ điều hành của yêu cầu này, bao gồm các bản tóm tắt, bộ lọc mức độ liên quan và các bản viết lại kiểu. |
+| `engine:<id>` | Một công cụ duy nhất khi được bật, ví dụ `engine:rtk`. Đây là tùy chọn tham gia theo yêu cầu cho công cụ đó.           |
+| `<combo>`     | Một tổ hợp được đặt tên, trước tiên khớp theo tên (không phân biệt chữ hoa chữ thường), sau đó theo id.                |
 
-Nếu không có `allow-lossy`, `engine:<id>` hoặc một combo có tên, các engine gây mất dữ liệu sẽ không được áp dụng. Yêu cầu vẫn được khử trùng lặp theo phiên và thu gọn khoảng trắng khi tính năng nén được bật.
+Nếu không có `allow-lossy`, `engine:<id>` hoặc tổ hợp có tên, động cơ tổn thất sẽ không được áp dụng. Khi ghi đè Mặc định, tự động kích hoạt hoặc định tuyến bị hạ cấp, OmniRoute sẽ giữ các bước không mất dữ liệu được nhận dạng từ đường ống xếp chồng đã định cấu hình theo thứ tự đã định cấu hình. Nó chỉ quay trở lại `session-dedup → lite` khi không còn bước lossless được cấu hình nào tồn tại.
 
-Kế hoạch đã áp dụng được phản hồi lại trong header phản hồi `X-OmniRoute-Compression: <mode>; source=<source>`, trong đó `<source>` là một trong các giá trị `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` hoặc `off`.
+Bảng điều khiển Cài đặt** Đường ống hiệu quả** bản xem trước hiển thị kế hoạch nghỉ ngơi thông thường. Khi trình kích hoạt tự động có thể chạy, bản xem trước tương tự cũng hiển thị đường dẫn hiệu quả có điều kiện của nó để độ phân giải thời gian chạy không có tiêu đề và bảng điều khiển luôn được căn chỉnh.
+
+Kế hoạch đã áp dụng được lặp lại trong tiêu đề phản hồi `X-OmniRoute-Compression: <mode>; source=<source>`, trong đó `<source>` là một trong các `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` hoặc `off`.
 
 ### API
 
 ```bash
-# Lấy cài đặt nén
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Cập nhật cài đặt nén
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Xem trước một payload RTK/stacked cụ thể
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Liệt kê các gói bộ lọc RTK
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Kiểm thử RTK trực tiếp với metadata lệnh tùy chọn
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'
@@ -275,7 +268,7 @@ mật khẩu, token và thông tin bí mật trước khi bất kỳ thứ gì �
 
 ## Thống kê nén
 
-Mọi yêu cầu được nén đều bao gồm số liệu thống kê trong nhật ký máy chủ:
+Mọi yêu cầu nén đều bao gồm số liệu thống kê trong nhật ký máy chủ:
 
 ```json
 {

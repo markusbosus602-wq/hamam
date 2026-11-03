@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — O Gateway de IA Gratuito
+# 🚀 OmniRoute — O gateway AI gratuito
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Criado por [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Nunca pares de programar. Todas as ferramentas de IA → 380 fornecedores — 150+ gratuitos — através de um único endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity em CLAUDE / GPT / Gemini GRATUITOS com fallback automático. Compressão empilhada RTK + Caveman poupa 15–95% de tokens (~89% em média) — nunca atinges limites. 380 fornecedores de IA · 150+ níveis gratuitos · ~1,62B tokens gratuitos/mês · 20 estratégias de routing · €0 para começar."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1285,29 +1285,29 @@ Métricas canónicas em 2026-10-18: **1.976 vídeos únicos** · **20.220.289 vi
 <br/>
 <div align="center">
 
-## 🛠️ Pilha tecnológica
+## Pilha de tecnologia 🛠️
 
 </div>
 
 <table>
   <tr><th align="left">Camada</th><th align="left">Tecnologia</th></tr>
-  <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Linguagem</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> em <code>src/</code> e <code>open-sse/</code> (<code>any</code> inexistente no núcleo desde a v2.0)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Base de dados</b></td><td>better-sqlite3 (SQLite, journaling WAL) + LowDB (JSON legado) — 147 módulos de domínio, 221 migrações</td></tr>
-  <tr><td nowrap><b>Memória</b></td><td>Pesquisa de texto completo SQLite FTS5 + embeddings vetoriais quantizados em int8, decaimento tipado</td></tr>
-  <tr><td nowrap><b>Esquemas</b></td><td>Zod 4 — validação de E/S das ferramentas MCP + contratos de API</td></tr>
+  <tr><td nowrap><b>Tempo de execução</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>Idioma</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> entre <code>src/</code> e <code>open-sse/</code> (zero <code>any</code> no núcleo desde a v2.0)</td></tr>
+  <tr><td nowrap><b>Enquadramento</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Banco de dados</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 módulos de domínio, 221 migrações</td></tr>
+  <tr><td nowrap><b>Memória</b></td><td>SQLite FTS5 texto completo + int8-quantized embeddings de vetor, decaimento digitado</td></tr>
+  <tr><td nowrap><b>Esquemas</b></td><td>Zod 4 — ferramenta MCP validação I/O contratos + API</td></tr>
   <tr><td nowrap><b>Protocolos</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Streaming</b></td><td>Eventos enviados pelo servidor (SSE) + ponte WebSocket (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Transmissão</b></td><td>Eventos enviados pelo servidor (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
   <tr><td nowrap><b>Compressão</b></td><td>Pipeline de 12 motores — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Autenticação e segurança</b></td><td>OAuth 2.0 (PKCE) + JWT + chaves de API + autenticação MCP com escopo · AES-256-GCM em repouso · DOMPurify</td></tr>
-  <tr><td nowrap><b>Discrição</b></td><td>wreq-js — personificação de impressões digitais TLS JA3 / JA4, proxy de 3 níveis</td></tr>
-  <tr><td nowrap><b>Resiliência</b></td><td>Disjuntor, recuo exponencial, prevenção do efeito manada, autorrecuperação automática de combinações</td></tr>
-  <tr><td nowrap><b>Registo</b></td><td>pino — registos JSON estruturados com contexto do pedido</td></tr>
-  <tr><td nowrap><b>Testes</b></td><td>Executor de testes do Node.js + Vitest — <b>mais de 60 000 declarações de testes estáticos</b> em mais de 8 400 ficheiros de teste monitorizados (unitários, de integração, E2E, de segurança, do ecossistema)</td></tr>
-  <tr><td nowrap><b>Plataformas</b></td><td>Computador (Electron) · Android (Termux) · PWA (qualquer navegador)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — publicação automática no npm + Docker Hub aquando de um lançamento</td></tr>
-  <tr><td nowrap><b>Ligações</b></td><td><a href="https://omniroute.online">Site</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>Segurança de autenticação &amp;</b></td><td>OAuth 2.0 (PKCE) + JWT + API Chaves + MCP autenticação com escopo · AES-256-GCM em repouso · DOMPurify</td></tr>
+  <tr><td nowrap><b>Furtivo</b></td><td>wreq-js — JA3 / JA4 TLS representação de impressão digital, proxy de 3 níveis</td></tr>
+  <tr><td nowrap><b>Resiliência</b></td><td>Disjuntor, backoff exponencial, anti-rebanho de trovões, auto-cura com combinação automática</td></tr>
+  <tr><td nowrap><b>Registo</b></td><td>pino — registos JSON estruturados com contexto de pedido</td></tr>
+  <tr><td nowrap><b>Teste</b></td><td>executor de testes Node.js + Vitest — <b>60.000 declarações de teste estático +</b> em 8.400 ficheiros de teste rastreados pelo + (unidade, integração, E2E, segurança, ecossistema)</td></tr>
+  <tr><td nowrap><b>Plataformas</b></td><td>Ambiente de trabalho (Electron) · Android (Termux) · PWA (qualquer browser)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>Ações GitHub — auto npm publicar + Docker Hub no lançamento</td></tr>
+  <tr><td nowrap><b>Ligações</b></td><td><a href="https://omniroute.online">Site</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Centro Docker</a></td></tr>
 </table>
 
 <div align="center">
@@ -1797,17 +1797,17 @@ O OmniRoute assenta nos ombros de gigantes. Começou como um fork do **[9router]
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Identificou a superfície de quotas do Grok Build; o OmniRoute verificou e corrigiu posteriormente o formato wire ativo de forma independente.</td></tr>
 </table>
 
-## 📄 Licença
+## Licença 📄
 
-Licença MIT - consulte o ficheiro [LICENSE](LICENSE) para mais detalhes.
+Licença MIT - consulte [LICENSE](LICENSE) para obter detalhes.
 
 ---
 
 <div align="center">
 
-**[⬆ Voltar ao topo](#-omniroute)** · Criado com ❤️ para a comunidade de IA de código aberto.
+**[⬆ Voltar ao início](#-omniroute)** · Construído com ❤️ para a comunidade AI de código aberto.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · Licença MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Criado por <a href="https://github.com/diegosouzapw">Diogo Souza</a> · OmniRoute v3.8.53 · Nó ≥ 22.22.2 · Licença MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- Discussões do GitHub ativadas para perguntas e respostas da comunidade -->
+<!-- GitHub Discussions enabled for community Q&A -->

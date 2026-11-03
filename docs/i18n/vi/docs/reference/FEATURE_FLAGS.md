@@ -39,22 +39,23 @@ Một cờ boolean được coi là **đã bật** khi giá trị hiệu quả c
 
 ## Danh mục cờ
 
-114 lá cờ trên 6 loại.** Mặc định** là mặc định của định nghĩa — giá trị được sử dụng khi không có ghi đè DB cũng như biến môi trường.
+115 lá cờ trên 6 loại.** Mặc định** là mặc định của định nghĩa — giá trị được sử dụng khi không có ghi đè DB cũng như biến môi trường.
 
-### An ninh (10)
+### An ninh (11)
 
-| Chìa khóa                               | Kiểu    | Mặc định | Sự miêu tả                                                                                                                                                                                                                                                                                |
-| --------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `REQUIRE_API_KEY`                       | boolean | `false`  | Yêu cầu khóa API cho tất cả các yêu cầu gửi đến.                                                                                                                                                                                                                                          |
-| `INPUT_SANITIZER_ENABLED`               | boolean | `true`   | Bật tính năng vệ sinh đầu vào cho tất cả các yêu cầu.                                                                                                                                                                                                                                     |
-| `INJECTION_GUARD_MODE`                  | liệt kê | `off`    | Chế độ bảo vệ tiêm nhắc nhở. Các giá trị: `off`, `warn`, `block`, `redact`.                                                                                                                                                                                                               |
-| `PII_REDACTION_ENABLED`                 | boolean | `false`  | Xử lý lại PII khỏi các yêu cầu (độc lập với `INPUT_SANITIZER_MODE`).                                                                                                                                                                                                                      |
-| `PII_RESPONSE_SANITIZATION`             | boolean | `false`  | Khử trùng PII khỏi các phản hồi của nhà cung cấp.                                                                                                                                                                                                                                         |
-| `PII_RESPONSE_SANITIZATION_MODE`        | liệt kê | `redact` | Chế độ vệ sinh phản ứng PII. Các giá trị: `redact`, `warn`, `block`, `off`.                                                                                                                                                                                                               |
-| `OUTBOUND_SSRF_GUARD_ENABLED`           | boolean | `true`   | Bí danh kế thừa: một giá trị được lưu trên nút chuyển đổi trang tổng quan của cờ này được đọc trước môi trường; `false`, `0`, `no` hoặc `off` lần lượt máy chủ của người bảo vệ URL đi kiểm tra như `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`.                                              |
-| `ALLOW_API_KEY_REVEAL`                  | boolean | `false`  | Cho phép người dùng trang tổng quan đã được xác thực tiết lộ các khóa API được lưu trữ thay vì chỉ nhìn thấy các giá trị bị che giấu.                                                                                                                                                     |
-| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | boolean | `false`  | Bao gồm tiền tố tài khoản trong các dòng nhật ký AUTH (ví dụ: "Sử dụng tài khoản <provider> : abc12345..."). Bị tắt theo mặc định để số nhận dạng tài khoản được loại bỏ khỏi nhật ký quy trình shared/multi-tenant. Độc lập với Chế độ gỡ lỗi; lật Chế độ gỡ lỗi không tiết lộ điều này. |
-| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | boolean | `false`  | Khi OIDC được bật, hãy tắt đăng nhập bằng mật khẩu để người dùng chỉ có thể xác thực thông qua Đăng nhập một lần OIDC. Khi bị tắt (mặc định), cả đăng nhập bằng mật khẩu và OIDC đều khả dụng.                                                                                            |
+| Chìa khóa                               | Kiểu    | Mặc định | Sự miêu tả                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------------- | ------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REQUIRE_API_KEY`                       | boolean | `false`  | Yêu cầu khóa API cho tất cả các yêu cầu gửi đến.                                                                                                                                                                                                                                                                             |
+| `INPUT_SANITIZER_ENABLED`               | boolean | `true`   | Bật tính năng vệ sinh đầu vào cho tất cả các yêu cầu.                                                                                                                                                                                                                                                                        |
+| `INJECTION_GUARD_MODE`                  | liệt kê | `off`    | Chế độ bảo vệ tiêm nhắc nhở. Các giá trị: `off`, `warn`, `block`, `redact`.                                                                                                                                                                                                                                                  |
+| `PII_REDACTION_ENABLED`                 | boolean | `false`  | Xử lý lại PII khỏi các yêu cầu (độc lập với `INPUT_SANITIZER_MODE`).                                                                                                                                                                                                                                                         |
+| `PII_RESPONSE_SANITIZATION`             | boolean | `false`  | Khử trùng PII khỏi các phản hồi của nhà cung cấp.                                                                                                                                                                                                                                                                            |
+| `PII_RESPONSE_SANITIZATION_MODE`        | liệt kê | `redact` | Chế độ vệ sinh phản ứng PII. Các giá trị: `redact`, `warn`, `block`, `off`.                                                                                                                                                                                                                                                  |
+| `OUTBOUND_SSRF_GUARD_ENABLED`           | boolean | `true`   | Bí danh kế thừa: một giá trị được lưu trên nút chuyển đổi trang tổng quan của cờ này được đọc trước môi trường; `false`, `0`, `no` hoặc `off` lần lượt máy chủ của người bảo vệ URL đi kiểm tra như `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`.                                                                                 |
+| `ALLOW_API_KEY_REVEAL`                  | boolean | `false`  | Cho phép người dùng trang tổng quan đã được xác thực tiết lộ các khóa API được lưu trữ thay vì chỉ nhìn thấy các giá trị bị che giấu.                                                                                                                                                                                        |
+| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | boolean | `false`  | Bao gồm tiền tố tài khoản trong các dòng nhật ký AUTH (ví dụ: "Sử dụng tài khoản <provider> : abc12345..."). Bị tắt theo mặc định để số nhận dạng tài khoản được loại bỏ khỏi nhật ký quy trình shared/multi-tenant. Độc lập với Chế độ gỡ lỗi; lật Chế độ gỡ lỗi không tiết lộ điều này.                                    |
+| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | boolean | `false`  | Khi OIDC được bật, hãy tắt đăng nhập bằng mật khẩu để người dùng chỉ có thể xác thực thông qua Đăng nhập một lần OIDC. Khi bị tắt (mặc định), cả đăng nhập bằng mật khẩu và OIDC đều khả dụng.                                                                                                                               |
+| `API_KEY_AUDIT_CLIENT_DETAILS_ENABLED`  | boolean | `false`  | Ghi lại địa chỉ IP và tác nhân người dùng của người gọi trên các hàng nhật ký kiểm tra `api_key.auth.touch` được viết để đọc khám phá và siêu dữ liệu khóa API thành công (#17982). Tắt theo mặc định: các hàng đó vẫn ghi lại khóa nào được sử dụng, khi nào và trên đường dẫn nào mà không có IP hoặc tác nhân người dùng. |
 
 ### Mạng (29)
 
@@ -235,10 +236,10 @@ Trả về mọi cờ với giá trị hiệu dụng, nguồn và bản tóm t�
       "requiresRestart": false,
       "warningLevel": "caution",
     },
-    // ... all 114 flags
+    // ... all 115 flags
   ],
   "summary": {
-    "total": 114,
+    "total": 115,
     "active": 0,
     "inactive": 0,
     "overriddenByDb": 0,

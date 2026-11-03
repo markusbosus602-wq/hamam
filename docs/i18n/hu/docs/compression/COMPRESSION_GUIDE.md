@@ -32,82 +32,82 @@ Az OmniRoute moduláris prompttömörítési folyamatot valósít meg, amely **p
 
 ## Tömörítési módok
 
-### Off
+### Le
 
-Nincs alkalmazott tömörítés. Minden üzenet változatlanul halad át.
+Nincs alkalmazva tömörítés. Az összes üzenet változatlan formában halad át.
 
-### Lite mód (~15% megtakarítás, <1ms késleltetés)
+### Egyszerűsített mód (~ 15% megtakarítás, < 1 ms késleltetés)
 
-A legbiztonságosabb mód – nulla szemantikai változás, kizárólag formázási tisztítás:
+A legbiztonságosabb módú — formázási tisztítás. Az eszköz-eredmény csonkítása veszteséges, így az alapértelmezett elérési út (nincs `allow-lossy`, `engine:lite` vagy named-combo opt-in) egyszerűen fut `compressToolResults: false`-vel: a korábbi eszközeredmények változatlan formában jutnak el a szolgáltatóhoz.
 
-| Technika                 | Leírás                                                    |
-| ------------------------ | --------------------------------------------------------- |
-| `collapseWhitespace`     | Egymást követő üres sorok és sorvégi szóközök összevonása |
-| `dedupSystemPrompt`      | Ismétlődő rendszerüzenetek eltávolítása                   |
-| `compressToolResults`    | Terjengős eszköz-/függvénykimenetek tömörítése            |
-| `removeRedundantContent` | Ismétlődő utasítások eltávolítása                         |
-| `replaceImageUrls`       | Base64-es kép-adat-URI-k lerövidítése                     |
+| Technika                 | Leírás                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Egyesítse az egymást követő üres sorokat és a záró szóközöket                                                       |
+| `dedupSystemPrompt`      | Távolítsa el az ismétlődő rendszerüzeneteket                                                                        |
+| `compressToolResults`    | Az eszköz korábbi eredményeinek csonkítása az egyszerűsített sapkára (veszteséges: csak kérés engedélyezése esetén) |
+| `removeRedundantContent` | Távolítsa el az ismételt utasításokat                                                                               |
+| `replaceImageUrls`       | Base64 képadatok URIs rövidítése                                                                                    |
 
-**Ajánlott:** Folyamatosan aktív használathoz, biztonságkritikus munkafolyamatokhoz.
+**A legjobb:** Mindig bekapcsolt használat, biztonságkritikus munkafolyamatok.
 
-### Standard mód (~30% megtakarítás)
+### Normál mód (~ 30% megtakarítás)
 
-A [Caveman](https://github.com/JuliusBrussee/caveman) által inspirálva – eltávolítja a töltelékszavakat és a terjengős megfogalmazásokat a jelentés megőrzése mellett:
+[A Caveman](https://github.com/JuliusBrussee/caveman) ihlette — eltávolítja a töltelékszavakat és a bőbeszédű kifejezéseket, miközben megőrzi a jelentést:
 
-- Eltávolítja a töltelékszavakat ("please", "I think", "basically", "actually")
-- Tömörebbre fogalmazza a terjengős kifejezéseket ("in order to" → "to", "as a result of" → "because")
-- Levágja az udvarias határozatlansági formulákat ("Would you mind...", "If you could possibly...")
-- 30+ kódolási promptokra hangolt regex-szabály
+- Eltávolítja a töltelékszavakat ("kérem", "szerintem", "alapvetően", "valójában")
+- Sűríti a bőbeszédű kifejezéseket ("azért" → "hoz", "a" → "mert" eredményeként)
+- Udvarias fedezeti csíkok ("Bármilyen...", "Ha esetleg...")
+- 30 + regex szabály kódolási promptokhoz hangolva
 
-**Ajánlott:** Napi kódolási munkafolyamatokhoz, költségtudatos csapatoknak.
+**A legjobb:** Napi kódolási munkafolyamatok, költségtudatos csapatok.
 
-### Aggressive mód (~50% megtakarítás)
+### Agresszív mód (~ 50% megtakarítás)
 
 Intelligens előzménykezelés hosszú munkamenetekhez:
 
-- **Üzenetek öregedése** – a régebbi üzenetek fokozatosan egyre erősebben tömörítődnek
-- **Eszközeredmény-tömörítés** – a hosszú eszközkimenetek csonkolása vagy kihagyásos rövidítése (első/utolsó sorok, találatsor-szűrés, JSON-kulcsok tömörítése)
-- **Strukturális integritási védelmek** – biztosítják, hogy a `tool_use` + `tool_result` párok konzisztensek maradjanak
-- **Kontextusablak-érzékelés** – tiszteletben tartja a modellenkénti tokenkorlátokat
+- **Üzenet öregedés** — a régebbi üzenetek fokozatosan tömörülnek
+- **Eszköz Eredmény tömörítés** — hosszú szerszámkimenetek csonkolva vagy kihagyva (first/last vonalak, match-line szűrés, JSON kulcstömörítés)
+- **Szerkezeti integritás őrök** — biztosítja, hogy `tool_use` + `tool_result` párok konzisztensek maradjanak
+- **Kontextusablak tudatosság** — betartja a modellenkénti token-korlátokat
 
-**Ajánlott:** Hosszas hibakeresési munkamenetekhez, nagy kódbázisokhoz.
+**A legjobb:** Meghosszabbított hibakeresési munkamenetek, nagy kódbázisok.
 
-### Ultra mód (~75% megtakarítás)
+### Ultra mód (~ 75% megtakarítás)
 
-Maximális tömörítés tokenkritikus helyzetekre:
+Maximális tömörítés token-kritikus forgatókönyvekhez:
 
-- **Heurisztikus metszés** – a prózai szöveg pontszámalapú tokenmetszése
-- **Struktúramegőrzés** – a fenced kódblokkok, a soron belüli kód, az URL-ek és az azonosítók tombstone-jelölést kapnak, majd szó szerint visszaillesztésre kerülnek, és soha nem esnek áldozatul a metszésnek
-- **Opcionális SLM-szint** – beállítás esetén egy kis helyi modell finomíthatja a metszést
-- Független az Aggressive módtól: nem futtat üzenetöregedést, eszközeredmény-tömörítést vagy a tartalék-összefoglalót (csak az SLM-szint meghibásodása irányíthat egy tartalék menetet az aggressive felé)
+- **Heurisztikus metszés** — pontszám alapú próza jelzőmetszése
+- **Szerkezetmegőrzés** — elkerített kódblokkokat, a soron belüli kódot, URLs és az azonosítókat szó szerint sírkövekkel látják el, és szó szerint újravarrják, soha nem metszik
+- **Opcionális SLM szint** — egy kis helyi modell finomítani tudja az aszalt szilvát, ha be van állítva
+- Függetlenül az Agresszív módtól: nem futtatja az üzenetöregedést, az eszközeredmény-tömörítést vagy a tartalék összegzőt (csak SLM-szintű hiba vezethet vissza agresszíven)
 
-**Ajánlott:** Ha ismétlődően beleütközik a kontextuskorlátokba.
+**A legjobb:** Amikor ismételten eléri a kontextus korlátait.
 
-### RTK mód (60–90%-os upstream-tartomány)
+### RTK mód (60-90% upstream tartomány)
 
-Az RTK mód a kódolóügynök-munkamenetekben felbukkanó terjengős eszközkimenetekre van optimalizálva:
+RTK mód a kódoló ügynök munkamenetekben megjelenő, bőbeszédű eszközkimenetekre van optimalizálva:
 
-- Parancs-/kimenetosztályokat ismer fel, például: `git status`, `git diff`, `git log`, tesztfuttatók, TypeScript/Vite/Webpack buildek, ESLint/Biome/Prettier, npm audit/telepítések, Docker-naplók, infrastruktúra-kimenet és általános shell-kimenet
-- JSON-szűrőcsomagokat alkalmaz az `open-sse/services/compression/engines/rtk/filters/` útvonalról
-- RTK TOML schema v1 szűrőket importál projekt- vagy globális `filters.toml` fájlokból, inline-tesztvalidációval és a projektfájlok trust-gatingjével
-- 56 beépített szűrőt tartalmaz inline ellenőrzőmintákkal
-- Eltávolítja az ANSI-vezérlősorozatokat, a folyamatjelzőket, az ismétlődő sorokat és a cselekvés szempontjából lényegtelen zajt
-- Megőrzi a meghiúsulásokat, hibákat, figyelmeztetéseket, a módosult fájlokat, az összefoglalókat és a hosszú kimenetek végét
-- Támogatja a trust-gatingelt projektszűrőket, a globális szűrőket és az opcionális, kitakart nyerskimenet-visszaállítást
+- Érzékeli command/output osztályokat, például `git status`, `git diff`, `git log`, tesztfutókat, TypeScript/Vite/Webpack buildeket, ESLint/Biome/Prettier, npm audit/installs, Docker naplókat, infra kimenetet és általános shell kimenetet
+- `open-sse/services/compression/engines/rtk/filters/` JSON szűrőcsomagjait alkalmazza
+- Importálja RTK TOML séma v1 szűrőit projekt- vagy globális `filters.toml` fájlokból, beépített tesztellenőrzéssel és projektfájlok megbízható kapuzásával
+- 56 beépített szűrőt szállít, beépített ellenőrzési mintákkal
+- Eltávolítja ANSI vezérlőszekvenciákat, a folyamatjelző sávokat, az ismétlődő vonalakat és a nem használható zajokat
+- Megőrzi a hibákat, hibákat, figyelmeztetéseket, megváltozott fájlokat, összefoglalókat és a hosszú kimenetek végét
+- Támogatja a bizalmi projektszűrőket, a globális szűrőket és az opcionális redaktált nyers kimenet helyreállítását
 
-**Ajánlott:** Shell-, build-, teszt-, git-, grep- és fájlkimenet-átiratokkal dolgozó ügynökmunkamenetekhez.
+**A legjobb:** Ügynöki munkamenetek shell, build, teszt, git, grep és fájlkimeneti átiratokkal.
 
-### Stacked mód (78–95% az alkalmazható tartományban)
+### Halmozott mód (78–95%-os jogosultság)
 
-A Stacked mód több tömörítési motort futtat determinisztikus sorrendben. Az alapértelmezett pipeline:
+A halmozott mód több tömörítési motort futtat determinisztikus sorrendben. Az alapértelmezett csővezeték:
 
 ```txt
 RTK -> Caveman
 ```
 
-Ez a sorrend először a terminál-/eszközkimenetet tömöríti, majd a fennmaradó természetes nyelvű promptra alkalmazza a Caveman szemantikai sűrítését. A stacked pipeline-ok globálisan vagy a routing-kombókhoz rendelt tömörítési kombókon keresztül konfigurálhatók.
+Ez a sorrend először terminal/tool kimenetet tartja kompaktnak, majd a Caveman szemantikai kondenzációját alkalmazza a fennmaradó természetes nyelvű promptra. A halmozott folyamatok globálisan vagy az útválasztási kombókhoz rendelt tömörítési kombinációkkal konfigurálhatók.
 
-**Ajánlott:** Nagy eszköznaplókat valamint emberi utasításokat vagy asszisztens-összefoglalókat egyaránt tartalmazó vegyes kontextushoz.
+**A legjobb:** Vegyes kontextus nagy szerszámnaplókkal, valamint emberi utasításokkal vagy segédösszefoglalókkal.
 
 ---
 
@@ -162,69 +162,71 @@ Stacked móddal:   10K-2.5K token elküldve       (78-95%-os tartomány az arra 
 
 ## Konfiguráció
 
-### Irányítópult
+### Műszerfal
 
-Lépjen az `Irányítópult → Kontextus és gyorsítótár` menüpontra:
+Navigáljon a `Dashboard → Context & Cache` hoz:
 
-- **Caveman** — módválasztás, nyelvi csomagok, előnézet és globális alapértelmezések
-- **RTK** — parancsszűrők előnézete, RTK biztonsági beállítások és szűrőkatalógus
-- **Tömörítési kombinációk** — útválasztási kombinációkhoz rendelt, névvel ellátott motorfolyamatok
-- **Automatikus aktiválási küszöbérték** — automatikusan bekapcsolja a tömörítést, amikor a tokenek száma meghaladja a küszöbértéket
+- **Barlanglakó ősember** — mód kiválasztása, nyelvi csomagok, előnézet és globális alapértelmezett beállítások
+- **RTK** — parancsszűrő előnézet, RTK biztonsági beállítások és szűrőkatalógus
+- **Tömörítési kombók** — az útválasztási kombókhoz rendelt motorcsővezetékeket nevezte el
+- **Automatikus indítási küszöb** — automatikusan bekapcsolja a tömörítést, ha a tokenek száma meghaladja a küszöbértéket
 
-### Kombinációnkénti felülbírálás
+### Kombinált felülbírálás
 
-Az `Irányítópult → Kontextus és gyorsítótár → Tömörítési kombinációk` menüpontban rendeljen hozzá egy tömörítési kombinációt egy útválasztási kombinációhoz:
+`Dashboard → Context & Cache → Compression Combos` ban rendeljen hozzá egy tömörítési kombinációt egy útválasztási kombóhoz:
 
 ```txt
-Kombináció: "free-tier-fallback"
-  Tömörítési kombináció: "coding-agent-stack"
-  Folyamat: RTK -> Caveman
-  Célok:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Ez lehetővé teszi a halmozott tömörítés használatát ingyenes/kódolási szolgáltatóknál, miközben a fizetős előfizetéseknél megtartja a Lite módot.
+Ez lehetővé teszi a halmozott tömörítés használatát free/coding -szolgáltatóknál, miközben megtartja az egyszerűsített módot a fizetős előfizetéseknél.
 
-Ez a „Kombinációnkénti felülbírálás” hozzárendelés eltérő vezérlőelem, mint az **útválasztási kombináció tömörítési módjának** felülbírálása (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — a mező sémája az `rtk`, `stacked` és `omniglyph` értékeket is elfogadja) — ez a felülbírálás nem választ ki névvel ellátott tömörítésikombináció-folyamatot; csupán beállítja a `resolveCompressionPlan` által figyelembe vett `compressionMode` mezőt. Beállítható a kombináció kártyáján (`Irányítópult → Kombinációk`), illetve a #6760 óta útválasztási kombinációnként az „Útválasztáshoz rendelés” listában is, az `Irányítópult → Kontextus és gyorsítótár → Tömörítési kombinációk` menüpontban, közvetlenül a fent dokumentált folyamathoz-rendelési jelölőnégyzet mellett. Mindkét felületen végzett módosítás ugyanazon a `PUT /api/combos/{id}` végponton keresztül marad meg.
+Ez a "Kombinációnkénti felülbírálás" hozzárendelés egy másik vezérlőelem, mint a** routing-combo tömörítési mód** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex válaszok — a mező sémája `rtk`, `stacked` és `omniglyph` is elfogadja ) — ez a felülírás nem választ egy megnevezett tömörítési kombinációs folyamatot; csak beállítja a `resolveCompressionPlan` által vizsgált `compressionMode` mezőt. Ez beállítható a kombinált kártyán (`Dashboard → Combos`), vagy a #6760 óta, útvonalválasztásonként a `Dashboard → Context & Cache → Compression Combos`"Útválasztáshoz hozzárendelése" listájában, közvetlenül a fent dokumentált folyamat-hozzárendelés jelölőnégyzet mellett. Mindkét felület ugyanazon a `PUT /api/combos/{id}` végponton keresztül fennmarad.
 
 ### Kérésenkénti felülbírálás
 
-Küldje el az `x-omniroute-compression` kérésfejlécet, ha egyetlen kérésre szeretné felülbírálni a tömörítési tervet. Ennek van a legmagasabb prioritása — felülírja az útválasztási kombináció felülbírálását, az aktív profilt, az automatikus aktiválást és a panel Default beállítását. Az ismeretlen értékeket a rendszer figyelmen kívül hagyja (a kérést soha nem utasítja el), és továbbra is a globális főkapcsoló vezérel mindent: ha a tömörítés globálisan ki van kapcsolva, a fejléc nem kapcsolhatja be. Értékek:
+Küldje el a `x-omniroute-compression` kérés fejlécét, hogy felülbírálja a tömörítési tervet egyetlen kérelemre. A legmagasabb prioritású — amely felülmúlja az útválasztási kombináció felülbírálását, az aktív profilt, az automatikus triggert és a panel alapértelmezését. Az ismeretlen értékeket figyelmen kívül hagyja (a kérést soha nem utasítja el), és a globális főkapcsoló továbbra is mindent átkap: ha a tömörítés globálisan ki van kapcsolva, a fejléc nem tudja bekapcsolni. Értékek:
 
-| Érték         | Hatás                                                                                                                                 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `off`         | Ennél a kérésnél nincs tömörítés.                                                                                                     |
-| `default`     | A panelből származtatott Default profil (figyelmen kívül hagyja az aktív profilt). A veszteséges motorok kikapcsolva maradnak.        |
-| `safe`        | Ugyanaz, mintha kihagyná a fejlécet: csak deduplikáció és szóköz-összevonás.                                                          |
-| `allow-lossy` | Megtartja a kérés operátori tervét, beleértve az összegzéseket, a relevanciaszűrőket és a stílusátírásokat.                           |
-| `engine:<id>` | Egyetlen motor, ha engedélyezve van, például `engine:rtk`. Ez az adott motor kérésenkénti engedélyezése.                              |
-| `<combo>`     | Egy névvel ellátott kombináció; először név alapján, kis- és nagybetűktől függetlenül, majd azonosító alapján történik az egyeztetés. |
+| Érték         | Hatás                                                                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Nincs tömörítés ehhez a kéréshez.                                                                                       |
+| `default`     | A panelből származó Alapértelmezett profil (figyelmen kívül hagyja az aktív profilt). A veszteséges motorok kimaradnak. |
+| `safe`        | Ugyanaz, mint a fejléc elhagyása.                                                                                       |
+| `allow-lossy` | Tartsa meg a kérés operátori tervét, beleértve az összefoglalókat, a relevanciaszűrőket és a stílusátírásokat.          |
+| `engine:<id>` | Egyetlen motor, ha engedélyezve van, pl. `engine:rtk`. Ez az adott motor kérésenkénti engedélyezése.                    |
+| `<combo>`     | Egy elnevezett kombó, amely először névvel (kis- és nagybetűk megkülönböztetése nélkül), majd azonosítóval párosul.     |
 
-Az `allow-lossy`, az `engine:<id>` vagy egy névvel ellátott kombináció nélkül a veszteséges motorok nem kerülnek alkalmazásra. Ha a tömörítés be van kapcsolva, a kérés továbbra is munkamenet-szintű deduplikációt és szóköz-összevonást kap.
+`allow-lossy`, `engine:<id>` vagy egy elnevezett kombó nélkül a veszteséges motorok nem kerülnek alkalmazásra. Ha egy veszteséges alapértelmezett, automatikus trigger vagy útválasztási felülbírálás leminősítésre kerül, OmniRoute a konfigurált sorrendben tartja a felismert veszteségmentes lépéseket a konfigurált halmozott folyamatból. Csak akkor esik vissza `session-dedup → lite`, ha egyetlen konfigurált veszteségmentes lépés sem marad fenn.
 
-Az alkalmazott tervet a válasz az `X-OmniRoute-Compression: <mode>; source=<source>` fejlécben küldi vissza, ahol a `<source>` a következők egyike: `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` vagy `off`.
+A Beállítások panel** Hatékony csővezeték** az előnézet a szokásos nyugalmi tervet mutatja. Amikor egy automatikus trigger futhat, ugyanabban az előnézetben megjelenik a feltételes tényleges folyamat, így a panel és a fejléc nélküli futásidejű felbontás összhangban marad.
+
+Az alkalmazott terv visszhangzik a `X-OmniRoute-Compression: <mode>; source=<source>` válaszfejlécben, ahol `<source>` `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` vagy `off` egyike.
 
 ### API
 
 ```bash
-# Tömörítési beállítások lekérése
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Tömörítési beállítások frissítése
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Egy adott RTK/stacked adattartalom előnézete
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# RTK szűrőcsomagok listázása
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Az RTK közvetlen tesztelése opcionális parancsmetaadatokkal
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'
