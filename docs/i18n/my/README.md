@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — အခမဲ့ AI Gateway
+# 🚀 OmniRoute — The Free AI Gateway
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**[Diego Souza](https://github.com/diegosouzapw) ဖန်တီးခဲ့သည်။**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Coding ကို မရပ်တန့်ပါနဲ့။ AI ကိရိယာတိုင်း → ၃၈၀ ခုသော ပံ့ပိုးသူများ — ၁၅၀+ ခု အခမဲ့ — တစ်ခုတည်းသော endpoint မှတစ်ဆင့်။ Claude Code, Codex, Cursor, Cline, Copilot & Antigravity ကို အခမဲ့ Claude / GPT / Gemini သို့ auto-fallback ဖြင့်။ RTK + Caveman စုစည်းထားသော compression ဖြင့် token များကို ၁၅–၉၅% (ပျမ်းမျှ ~၈၉%) ထိ ချွေတာနိုင်သည် — အကန့်အသတ် မကျော်သွားပါစေ။ ၃၈၀ ခုသော AI ပံ့ပိုးသူများ · ၁၅၀+ အခမဲ့အဆင့်များ · ~၁.၆၂ ဘီလီယံ အခမဲ့ token များ/လ · ၂၀ ခုသော routing မဟာဗျူဟာများ · စတင်ရန် $0။"/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1288,29 +1288,29 @@ port တစ်ခုတည်းရှိ process တစ်ခုတည်းက
 <br/>
 <div align="center">
 
-## 🛠️ နည်းပညာအစု
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
   <tr><th align="left">အလွှာ</th><th align="left">နည်းပညာ</th></tr>
   <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>ဘာသာစကား</b></td><td>TypeScript 6.0 — <code>src/</code> နှင့် <code>open-sse/</code> တစ်လျှောက် <b>100% TypeScript</b> (v2.0 မှစ၍ core တွင် <code>any</code> လုံးဝမရှိ)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>ဒေတာဘေ့စ်</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON အဟောင်းစနစ်) — ဒိုမိန်းမော်ဂျူး 147 ခု၊ migration 221 ခု</td></tr>
-  <tr><td nowrap><b>မှတ်ဉာဏ်</b></td><td>SQLite FTS5 အပြည့်အစုံစာသား + int8-quantized vector embeddings၊ typed decay</td></tr>
-  <tr><td nowrap><b>Schemas</b></td><td>Zod 4 — MCP tool I/O validation + API contracts</td></tr>
+  <tr><td nowrap><b>ဘာသာစကား</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> <code>src/</code> နှင့် <code>open-sse/</code> ဖြတ်ပြီး (v2.0 မှစ၍ core တွင် <code>any</code> သုည)</td></tr>
+  <tr><td nowrap><b>မူဘောင်</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>ဒေတာဘေ့စ်</b></td><td>better-sqlite3 (SQLite, WAL ဂျာနယ်ထုတ်ခြင်း) + LowDB (JSON အမွေအနှစ်) — 147 ဒိုမိန်း မော်ဂျူးများ၊ ရွှေ့ပြောင်းခြင်း 221</td></tr>
+  <tr><td nowrap><b>ဉာဏ်</b></td><td>SQLite FTS5 စာသားအပြည့်အစုံ + int8-quantized vector embeddings, typed decay</td></tr>
+  <tr><td nowrap><b>အစီအစဉ်များ</b></td><td>Zod 4 — MCP tool I/O validation + API စာချုပ်များ</td></tr>
   <tr><td nowrap><b>ပရိုတိုကောများ</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>ဒေတာစီးဆင်းမှု</b></td><td>Server-Sent Events (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>ချုံ့ခြင်း</b></td><td>12-engine pipeline — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>အထောက်အထားပြခြင်း &amp; လုံခြုံရေး</b></td><td>OAuth 2.0 (PKCE) + JWT + API Keys + MCP scoped auth · AES-256-GCM at rest · DOMPurify</td></tr>
-  <tr><td nowrap><b>ဖုံးကွယ်မှု</b></td><td>wreq-js — JA3 / JA4 TLS fingerprint impersonation၊ အဆင့် 3 ဆင့် proxy</td></tr>
-  <tr><td nowrap><b>ခံနိုင်ရည်</b></td><td>Circuit breaker၊ exponential backoff၊ anti-thundering-herd၊ auto-combo self-healing</td></tr>
-  <tr><td nowrap><b>မှတ်တမ်းတင်ခြင်း</b></td><td>pino — request context ပါဝင်သော ဖွဲ့စည်းတည်ဆောက်ထားသည့် JSON logs</td></tr>
-  <tr><td nowrap><b>စမ်းသပ်ခြင်း</b></td><td>Node.js test runner + Vitest — စောင့်ကြည့်ထားသည့် test files 8,400 ကျော်တွင် (unit, integration, E2E, security, ecosystem) static test declarations <b>60,000 ကျော်</b></td></tr>
-  <tr><td nowrap><b>ပလက်ဖောင်းများ</b></td><td>Desktop (Electron) · Android (Termux) · PWA (မည်သည့် browser မဆို)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — release ပြုလုပ်ချိန်တွင် npm publish + Docker Hub သို့ အလိုအလျောက်တင်ခြင်း</td></tr>
-  <tr><td nowrap><b>လင့်ခ်များ</b></td><td><a href="https://omniroute.online">ဝဘ်ဆိုက်</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>လွှ</b></td><td>ဆာဗာ- ပေးပို့သည့် အစီအစဉ်များ (SSE) + WebSocket တံတား (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>နှိမ်တယ်။</b></td><td>အင်ဂျင် 12 ခု ပိုက်လိုင်း — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; လုံခြုံရေး</b></td><td>OAuth 2.0 (PKCE) + JWT + API များ + MCP scoped auth · AES-256-GCM at rest · DOMPurify</td></tr>
+  <tr><td nowrap><b>ကိုယ်ပျောက်</b></td><td>wreq-js — JA3 / JA4 TLS လက်ဗွေ အယောင်ဆောင်ခြင်း၊ အဆင့် 3 ပရောက်စီ</td></tr>
+  <tr><td nowrap><b>ခံနိုင်ရည်ရှိခြင်း။</b></td><td>Circuit breaker၊ exponential backoff၊ မိုးခြိမ်းသံဆန့်ကျင်-နွားအုပ်၊ အလိုအလျောက်ပေါင်းစပ်-မိမိဘာသာ ကုစားခြင်း</td></tr>
+  <tr><td nowrap><b>သစ်ခုတ်ခြင်း။</b></td><td>တောင်းဆိုချက်အကြောင်းအရာနှင့်အတူ pino — ဖွဲ့စည်းတည်ဆောက်ထားသော JSON မှတ်တမ်းများ</td></tr>
+  <tr><td nowrap><b>စမ်းသပ်ခြင်း။</b></td><td>Node.js စမ်းသပ်ပြေးသူ + Vitest — <b>60,000 + static test ကြေငြာချက်များ</b> 8,400 + ခြေရာခံထားသော စမ်းသပ်ဖိုင်များ (ယူနစ်၊ ပေါင်းစပ်မှု၊ E2E၊ လုံခြုံရေး၊ ဂေဟစနစ်)</td></tr>
+  <tr><td nowrap><b>ပလက်ဖောင်းများ</b></td><td>ဒက်စ်တော့ (Electron) · Android (Termux) · PWA (မည်သည့်ဘရောက်ဆာ)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub လုပ်ဆောင်ချက်များ — အလိုအလျောက် npm ဖြန့်ချိသည့် + Docker Hub သည် ဖြန့်ချိသည်။</td></tr>
+  <tr><td nowrap><b>လင့်များ</b></td><td><a href="https://omniroute.online">ဝဘ်ဆိုဒ်</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1802,15 +1802,15 @@ OmniRoute သည် ရှေ့ကလမ်းဖောက်ပေးခဲ့
 
 ## 📄 လိုင်စင်
 
-MIT လိုင်စင် - အသေးစိတ်အတွက် [LICENSE](LICENSE) ကို ကြည့်ပါ။
+MIT လိုင်စင် - အသေးစိတ်အတွက် [LICENSE](LICENSE) ကြည့်ပါ။
 
 ---
 
 <div align="center">
 
-**[⬆ အပေါ်ဆုံးသို့ ပြန်သွားရန်](#-omniroute)** · open-source AI အသိုင်းအဝိုင်းအတွက် ❤️ ဖြင့် တည်ဆောက်ထားပါသည်။
+**[⬆ အပေါ်သို့ ပြန်သွားရန်](#-omniroute)** · open-source AI အသိုင်းအဝိုင်းအတွက် ❤️ ဖြင့် တည်ဆောက်ထားသည်။
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT License · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>ဖန်တီးထားသည်။ <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · MIT လိုင်စင် · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- အသိုင်းအဝိုင်း Q&A အတွက် GitHub Discussions ကို ဖွင့်ထားပါသည် -->
+<!-- GitHub Discussions enabled for community Q&A -->

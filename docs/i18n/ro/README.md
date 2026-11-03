@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — Gateway-ul AI Gratuit
+# 🚀 OmniRoute — Gateway AI gratuit
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Creat de [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Nu te opri niciodată din programare. Orice unealtă AI → 380 furnizori — 150+ gratuite — printr-un singur endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity în CLAUDE / GPT / Gemini GRATUIT cu fallback automat. Compresia stivuită RTK + Caveman economisește 15–95% tokeni (~89% medie) — nu atingi niciodată limitele. 380 furnizori AI · 150+ planuri gratuite · ~1,62 miliarde tokeni gratuiți/lună · 20 strategii de rutare · $0 la început."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1294,29 +1294,29 @@ Metrici canonice la 2026-10-18: **1.976 de videoclipuri unice** · **20.220.289 
 <br/>
 <div align="center">
 
-## 🛠️ Stiva tehnologică
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
   <tr><th align="left">Strat</th><th align="left">Tehnologie</th></tr>
-  <tr><td nowrap><b>Mediu de execuție</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Limbaj</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> în <code>src/</code> și <code>open-sse/</code> (<code>any</code> inexistent în nucleu începând cu v2.0)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Bază de date</b></td><td>better-sqlite3 (SQLite, jurnalizare WAL) + LowDB (JSON moștenit) — 147 de module de domeniu, 221 de migrări</td></tr>
-  <tr><td nowrap><b>Memorie</b></td><td>Căutare full-text SQLite FTS5 + încorporări vectoriale cuantizate int8, degradare tipizată</td></tr>
-  <tr><td nowrap><b>Scheme</b></td><td>Zod 4 — validarea I/O pentru instrumentele MCP + contracte API</td></tr>
+  <tr><td nowrap><b>Timp de rulare</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>Limbă</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> în <code>src/</code> și <code>open-sse/</code> (zero <code>any</code> în nucleu de la v2.0)</td></tr>
+  <tr><td nowrap><b>Cadru</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Baza de date</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 module de domeniu, 221 migrari</td></tr>
+  <tr><td nowrap><b>Memorie</b></td><td>SQLite FTS5 text complet + int8-quantized înglobări vectoriale, dezintegrare tastat</td></tr>
+  <tr><td nowrap><b>Scheme</b></td><td>Zod 4 — instrument MCP validare + contracte I/O API</td></tr>
   <tr><td nowrap><b>Protocoale</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Transmitere în flux</b></td><td>Evenimente trimise de server (SSE) + punte WebSocket (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Compresie</b></td><td>Conductă cu 12 motoare — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Autentificare &amp; securitate</b></td><td>OAuth 2.0 (PKCE) + JWT + chei API + autentificare MCP cu domeniu de aplicare · AES-256-GCM pentru date inactive · DOMPurify</td></tr>
-  <tr><td nowrap><b>Camuflaj</b></td><td>wreq-js — imitarea amprentelor TLS JA3 / JA4, proxy cu 3 niveluri</td></tr>
-  <tr><td nowrap><b>Reziliență</b></td><td>Întrerupător de circuit, reîncercare cu backoff exponențial, prevenirea efectului de turmă, autovindecare automată auto-combo</td></tr>
-  <tr><td nowrap><b>Jurnalizare</b></td><td>pino — jurnale JSON structurate cu contextul solicitării</td></tr>
-  <tr><td nowrap><b>Testare</b></td><td>Runnerul de teste Node.js + Vitest — <b>peste 60.000 de declarații statice de teste</b> în peste 8.400 de fișiere de teste urmărite (unitare, de integrare, E2E, de securitate, pentru ecosistem)</td></tr>
+  <tr><td nowrap><b>Streaming</b></td><td>Evenimente trimise de server (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Comprimare</b></td><td>Conductă cu 12 motoare — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; securitate</b></td><td>OAuth 2.0 (PKCE) + JWT + API + MCP scoped auth · AES-256-GCM în repaus · DOMPurify</td></tr>
+  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS uzurpare a amprentei, proxy pe 3 niveluri</td></tr>
+  <tr><td nowrap><b>Reziliență</b></td><td>Întrerupător, retragere exponențială, turmă anti-tunet, auto-vindecare combo</td></tr>
+  <tr><td nowrap><b>Înregistrare</b></td><td>jurnalele JSON structurate pino — cu context de solicitare</td></tr>
+  <tr><td nowrap><b>Testare</b></td><td>Node.js test runner + Vitest — <b>Declarații de testare statică de 60.000 +</b> peste 8.400 de fișiere de testare urmărite + (unitate, integrare, E2E, securitate, ecosistem)</td></tr>
   <tr><td nowrap><b>Platforme</b></td><td>Desktop (Electron) · Android (Termux) · PWA (orice browser)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — publicare automată npm + Docker Hub la lansare</td></tr>
-  <tr><td nowrap><b>Legături</b></td><td><a href="https://omniroute.online">Site web</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm publish + Docker Hub la lansare</td></tr>
+  <tr><td nowrap><b>Legături</b></td><td><a href="https://omniroute.online">Site-ul web</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1806,17 +1806,17 @@ OmniRoute se sprijină pe umerii unor giganți. A început ca un fork al **[9rou
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>A identificat suprafața cotei Grok Build; OmniRoute a verificat și corectat apoi independent formatul wire activ.</td></tr>
 </table>
 
-## 📄 Licență
+## Licență 📄
 
-Licența MIT - consultați [LICENSE](LICENSE) pentru detalii.
+Licență MIT - consultați [LICENSE](LICENSE) pentru detalii.
 
 ---
 
 <div align="center">
 
-**[⬆ Înapoi sus](#-omniroute)** · Creat cu ❤️ pentru comunitatea AI open-source.
+**[⬆ Înapoi sus](#-omniroute)** · Creat cu ❤️ pentru comunitatea open-source AI.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · Licență MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Creat de <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Nodul ≥ 22.22.2 · Licență MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions activate pentru întrebări și răspunsuri din comunitate -->
+<!-- GitHub Discussions enabled for community Q&A -->

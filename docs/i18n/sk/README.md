@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — Bezplatná AI brána
+# 🚀 OmniRoute — Bezplatná AI
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Vytvoril [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Nikdy neprestaňte kódovať. Každý AI nástroj → 380 poskytovateľov — 150+ zadarmo — cez jeden endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity do BEZPLATNÉHO Claude / GPT / Gemini s automatickým záložným riešením. RTK + Caveman vrstvená kompresia šetrí 15–95% tokenov (~89% priemer) — nikdy neprekročíte limity. 380 AI poskytovateľov · 150+ bezplatných úrovní · ~1,62 miliardy bezplatných tokenov/mesiac · 20 stratégií smerovania · $0 na začiatok."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1285,28 +1285,28 @@ Kanonické metriky k 2026-10-18: **1.976 jedinečných videí** · **20.220.289 
 <br/>
 <div align="center">
 
-## 🛠️ Technologický stack
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
   <tr><th align="left">Vrstva</th><th align="left">Technológia</th></tr>
   <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Jazyk</b></td><td>TypeScript 6.0 — <b>100 % TypeScript</b> v rámci <code>src/</code> a <code>open-sse/</code> (v jadre od v2.0 žiadne <code>any</code>)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Databáza</b></td><td>better-sqlite3 (SQLite, WAL žurnálovanie) + LowDB (starší JSON) — 147 doménových modulov, 221 migrácií</td></tr>
-  <tr><td nowrap><b>Pamäť</b></td><td>Fulltextové vyhľadávanie SQLite FTS5 + vektorové embeddingy kvantizované na int8, typovaný útlm</td></tr>
-  <tr><td nowrap><b>Schémy</b></td><td>Zod 4 — validácia I/O nástrojov MCP + kontrakty API</td></tr>
+  <tr><td nowrap><b>Jazyk</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> cez <code>src/</code> a <code>open-sse/</code> (nula <code>any</code> v jadre od verzie 2.0)</td></tr>
+  <tr><td nowrap><b>Rámec</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Databáza</b></td><td>better-sqlite3 (SQLite, WAL žurnálovanie) + LowDB (JSON legacy) — 147 doménových modulov, 221 migrácií</td></tr>
+  <tr><td nowrap><b>pamäť</b></td><td>SQLite FTS5 fulltextové + int8-quantized vektorové vloženie, zadaný rozklad</td></tr>
+  <tr><td nowrap><b>Schémy</b></td><td>Zod 4 — MCP nástroj I/O validácia zmlúv + API</td></tr>
   <tr><td nowrap><b>Protokoly</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Streamovanie</b></td><td>Server-Sent Events (SSE) + most WebSocket (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Komprimácia</b></td><td>Pipeline s 12 nástrojmi — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Autentifikácia a bezpečnosť</b></td><td>OAuth 2.0 (PKCE) + JWT + kľúče API + autentifikácia MCP s rozsahmi · AES-256-GCM pri uložení · DOMPurify</td></tr>
-  <tr><td nowrap><b>Utajenie</b></td><td>wreq-js — impersonácia odtlačkov TLS JA3 / JA4, proxy s 3 úrovňami</td></tr>
-  <tr><td nowrap><b>Odolnosť</b></td><td>Istič, exponenciálny backoff, ochrana pred efektom stáda, automatické samoliečenie kombinácií</td></tr>
-  <tr><td nowrap><b>Protokolovanie</b></td><td>pino — štruktúrované JSON logy s kontextom požiadavky</td></tr>
-  <tr><td nowrap><b>Testovanie</b></td><td>Testovací nástroj Node.js + Vitest — <b>viac než 60 000 statických deklarácií testov</b> vo viac než 8 400 sledovaných testovacích súboroch (unit, integračné, E2E, bezpečnostné, ekosystémové)</td></tr>
+  <tr><td nowrap><b>Streamovanie</b></td><td>Udalosti odoslané serverom (SSE) + WebSocket most (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Kompresia</b></td><td>12-motorové potrubie — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Zabezpečenie Auth &amp;</b></td><td>OAuth 2.0 (PKCE) + JWT + API Klávesy + MCP scoped auth · AES-256-GCM v pokoji · DOMPurify</td></tr>
+  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS odcudzenie odtlačku prsta, 3-úrovňový proxy</td></tr>
+  <tr><td nowrap><b>Odolnosť</b></td><td>Istič, exponenciálne ustupovanie, stádo hromu, automatické kombinované samoliečenie</td></tr>
+  <tr><td nowrap><b>Ťažba dreva</b></td><td>pino — štruktúrované protokoly JSON s kontextom požiadavky</td></tr>
+  <tr><td nowrap><b>Testovanie</b></td><td>Node.js skúšobný bežec + Vitest — <b>60 000 deklarácií statických testov +</b> cez 8 400 sledovaných testovacích súborov + (jednotka, integrácia, E2E, bezpečnosť, ekosystém)</td></tr>
   <tr><td nowrap><b>Platformy</b></td><td>Desktop (Electron) · Android (Termux) · PWA (ľubovoľný prehliadač)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — automatické publikovanie do npm + Docker Hub pri vydaní</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm publikovať + Docker Hub pri vydaní</td></tr>
   <tr><td nowrap><b>Odkazy</b></td><td><a href="https://omniroute.online">Webová stránka</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
@@ -1797,17 +1797,17 @@ OmniRoute stojí na pleciach gigantov. Začal ako fork projektu **[9router](http
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Identifikoval kvótové rozhranie Grok Build; OmniRoute následne nezávisle overil a opravil aktuálny wire formát.</td></tr>
 </table>
 
-## 📄 Licencia
+## Licencia 📄
 
-Licencia MIT – podrobnosti nájdete v [LICENSE](LICENSE).
+Licencia MIT – podrobnosti nájdete [LICENSE](LICENSE).
 
 ---
 
 <div align="center">
 
-**[⬆ Späť na začiatok](#-omniroute)** · Vytvorené s ❤️ pre open-source AI komunitu.
+**[⬆ Späť na začiatok](#-omniroute)** · Postavené pomocou ❤️ pre komunitu AI s otvoreným zdrojom.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · Licencia MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Vytvoril <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · licencia MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- Diskusie na GitHube sú povolené pre komunitné otázky a odpovede -->
+<!-- GitHub Discussions enabled for community Q&A -->

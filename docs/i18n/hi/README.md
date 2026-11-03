@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute डैशबोर्ड" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
-# 🚀 OmniRoute — मुफ़्त एआई गेटवे
+# 🚀 OmniRoute — निःशुल्क AI गेटवे
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**[डिएगो सूजा](https://github.com/diegosouzapw) द्वारा बनाया गया**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — कोडिंग कभी बंद न करें। हर एआई टूल → 380 प्रदाता — 150+ मुफ़्त — एक ही एंडपॉइंट के माध्यम से। Claude Code, Codex, Cursor, Cline, Copilot और Antigravity को मुफ़्त Claude / GPT / Gemini में ऑटो-फॉलबैक के साथ। RTK + Caveman स्टैक्ड कंप्रेशन 15–95% टोकन (औसतन ~89%) बचाता है — कभी भी लिमिट्स पर न पहुंचे। 380 एआई प्रदाता · 150+ मुफ़्त टियर · ~1.62B मुफ़्त टोकन/माह · 20 रूटिंग रणनीतियाँ · $0 से शुरू करें।"/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1294,29 +1294,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1 भी इसे 
 <br/>
 <div align="center">
 
-## 🛠️ तकनीकी स्टैक
+## 🛠️ टेक स्टैक
 
 </div>
 
 <table>
-  <tr><th align="left">परत</th><th align="left">तकनीक</th></tr>
-  <tr><td nowrap><b>रनटाइम</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>भाषा</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> <code>src/</code> और <code>open-sse/</code> में (v2.0 के बाद से कोर में शून्य <code>any</code>)</td></tr>
-  <tr><td nowrap><b>फ़्रेमवर्क</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>डेटाबेस</b></td><td>better-sqlite3 (SQLite, WAL जर्नलिंग) + LowDB (JSON लेगेसी) — 147 डोमेन मॉड्यूल, 221 माइग्रेशन</td></tr>
-  <tr><td nowrap><b>मेमोरी</b></td><td>SQLite FTS5 पूर्ण-पाठ + int8-क्वांटाइज़्ड वेक्टर एम्बेडिंग, टाइप्ड डिके</td></tr>
-  <tr><td nowrap><b>स्कीमा</b></td><td>Zod 4 — MCP टूल I/O सत्यापन + API अनुबंध</td></tr>
+  <tr><th align="left">परत</th><th align="left">तकनीकी</th></tr>
+  <tr><td nowrap><b>क्रम</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>भाषा</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> <code>src/</code> और <code>open-sse/</code> के पार (v2.0 के बाद से कोर में शून्य <code>any</code> )</td></tr>
+  <tr><td nowrap><b>रूपरेखा</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>डेटाबेस</b></td><td>better-sqlite3 (SQLite, WAL जर्नलिंग) + LowDB (JSON लीगेसी) — 147 डोमेन मॉड्यूल, 221 माइग्रेशन</td></tr>
+  <tr><td nowrap><b>याद</b></td><td>SQLite FTS5 पूर्ण-पाठ + int8-quantized वेक्टर एम्बेडिंग, टाइप किया गया क्षय</td></tr>
+  <tr><td nowrap><b>स्कीमा</b></td><td>Zod 4 — MCP उपकरण I/O सत्यापन + API अनुबंध</td></tr>
   <tr><td nowrap><b>प्रोटोकॉल</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>स्ट्रीमिंग</b></td><td>Server-Sent Events (SSE) + WebSocket ब्रिज (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>संपीड़न</b></td><td>12-इंजन पाइपलाइन — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>प्रमाणीकरण और सुरक्षा</b></td><td>OAuth 2.0 (PKCE) + JWT + API Keys + MCP स्कोप्ड ऑथ · AES-256-GCM विश्राम अवस्था में · DOMPurify</td></tr>
-  <tr><td nowrap><b>स्टील्थ</b></td><td>wreq-js — JA3 / JA4 TLS फ़िंगरप्रिंट प्रतिरूपण, 3-स्तरीय प्रॉक्सी</td></tr>
-  <tr><td nowrap><b>लचीलापन</b></td><td>सर्किट ब्रेकर, एक्सपोनेंशियल बैकऑफ़, एंटी-थंडरिंग-हर्ड, ऑटो-कॉम्बो स्व-उपचार</td></tr>
-  <tr><td nowrap><b>लॉगिंग</b></td><td>pino — अनुरोध संदर्भ वाले संरचित JSON लॉग</td></tr>
-  <tr><td nowrap><b>परीक्षण</b></td><td>Node.js टेस्ट रनर + Vitest — 8,400+ ट्रैक की गई टेस्ट फ़ाइलों में <b>60,000+ स्थिर टेस्ट घोषणाएँ</b> (यूनिट, इंटीग्रेशन, E2E, सुरक्षा, इकोसिस्टम)</td></tr>
-  <tr><td nowrap><b>प्लेटफ़ॉर्म</b></td><td>डेस्कटॉप (Electron) · Android (Termux) · PWA (कोई भी ब्राउज़र)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — रिलीज़ पर स्वचालित npm प्रकाशन + Docker Hub</td></tr>
-  <tr><td nowrap><b>लिंक</b></td><td><a href="https://omniroute.online">वेबसाइट</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>स्ट्रीमिंग</b></td><td>सर्वर-भेजे गए इवेंट (SSE) + WebSocket ब्रिज (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>दबाव</b></td><td>12-इंजन पाइपलाइन — RTK, केवमैन, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>प्रामाणिक &amp; सुरक्षा</b></td><td>OAuth 2.0 (PKCE) + JWT + API कुंजी + MCP स्कोप्ड ऑथ · AES-256-GCM आराम पर · DOMPurify</td></tr>
+  <tr><td nowrap><b>चुपके से</b></td><td>wreq-js — JA3 / JA4 TLS फिंगरप्रिंट प्रतिरूपण, 3-स्तरीय प्रॉक्सी</td></tr>
+  <tr><td nowrap><b>लचीलापन</b></td><td>सर्किट ब्रेकर, एक्सपोनेंशियल बैकऑफ़, एंटी-थंडरिंग-झुंड, ऑटो-कॉम्बो सेल्फ-हीलिंग</td></tr>
+  <tr><td nowrap><b>लॉगिंग</b></td><td>अनुरोध संदर्भ के साथ पिनो — संरचित JSON लॉग</td></tr>
+  <tr><td nowrap><b>परीक्षण</b></td><td>Node.js टेस्ट रनर + Vitest — <b>60,000 + स्थैतिक परीक्षण घोषणाएँ</b> 8,400 + ट्रैक की गई परीक्षण फ़ाइलें (इकाई, एकीकरण, E2E, सुरक्षा, पारिस्थितिकी तंत्र)</td></tr>
+  <tr><td nowrap><b>प्लेटफार्म</b></td><td>डेस्कटॉप (Electron) · एंड्रॉइड (टर्मक्स) · PWA (कोई भी ब्राउज़र)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub क्रियाएँ — ऑटो npm रिलीज़ पर + Docker हब प्रकाशित करें</td></tr>
+  <tr><td nowrap><b>लिंक</b></td><td><a href="https://omniroute.online">वेबसाइट</a> · <a href="https://www.npmjs.com/package/omniroute">NPM</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker हब</a></td></tr>
 </table>
 
 <div align="center">
@@ -1814,9 +1814,9 @@ MIT लाइसेंस - विवरण के लिए [LICENSE](LICENSE) 
 
 <div align="center">
 
-**[⬆ शीर्ष पर वापस जाएँ](#-omniroute)** · ओपन-सोर्स AI समुदाय के लिए ❤️ से बनाया गया।
+**[⬆ शीर्ष पर वापस जाएँ](#-omniroute)** · ओपन-सोर्स AI समुदाय के लिए ❤️ के साथ निर्मित।
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT लाइसेंस · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>के द्वारा बनाई गई <a href="https://github.com/diegosouzapw">डिएगो सूजा</a> · OmniRoute v3.8.53 · नोड ≥ 22.22.2 · MIT लाइसेंस · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- समुदाय प्रश्नोत्तर के लिए GitHub Discussions सक्षम -->
+<!-- GitHub Discussions enabled for community Q&A -->

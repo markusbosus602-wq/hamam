@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute 儀表板" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
-# 🚀 OmniRoute — 免費 AI 閘道
+# 🚀 OmniRoute —免費的AI網關
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**創作者：[迭戈·蘇薩](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — 永不停下編碼。每個 AI 工具 → 380 個提供者 — 其中 150+ 個免費 — 透過單一端點。Claude Code、Codex、Cursor、Cline、Copilot 與 Antigravity 整合至免費的 Claude / GPT / Gemini，並具備自動備援。RTK + Caveman 堆疊式壓縮可節省 15–95% 的權杖（平均約 89%）— 絕不觸及限制。380 個 AI 提供者 · 150+ 個免費方案 · 每月約 1.62B 個免費權杖 · 20 種路由策略 · $0 即可開始。"/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1285,29 +1285,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1 也會略過
 <br/>
 <div align="center">
 
-## 🛠️ 技術堆疊
+## 🛠️技術堆疊
 
 </div>
 
 <table>
-  <tr><th align="left">層級</th><th align="left">技術</th></tr>
-  <tr><td nowrap><b>執行環境</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>語言</b></td><td>TypeScript 6.0 — <code>src/</code> 與 <code>open-sse/</code> 全面採用 <b>100% TypeScript</b>（自 v2.0 起核心程式碼中為零 <code>any</code>）</td></tr>
+  <tr><th align="left">層</th><th align="left">科技</th></tr>
+  <tr><td nowrap><b>運行時</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>語言</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> 跨<code>src/</code>和<code>open-sse/</code> （自 v2.0 以來核心中的<code>any</code>為零）</td></tr>
   <tr><td nowrap><b>框架</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>資料庫</b></td><td>better-sqlite3（SQLite、WAL journaling）+ LowDB（JSON legacy）— 147 個網域模組、221 個遷移</td></tr>
-  <tr><td nowrap><b>記憶體</b></td><td>SQLite FTS5 全文檢索 + int8-quantized 向量嵌入、具類型衰減</td></tr>
-  <tr><td nowrap><b>結構描述</b></td><td>Zod 4 — MCP 工具 I/O 驗證 + API 合約</td></tr>
-  <tr><td nowrap><b>協定</b></td><td>MCP（stdio / HTTP / SSE）+ A2A v0.3（JSON-RPC 2.0 + SSE）</td></tr>
-  <tr><td nowrap><b>串流</b></td><td>Server-Sent Events（SSE）+ WebSocket 橋接器（<code>/v1/ws</code>）</td></tr>
-  <tr><td nowrap><b>壓縮</b></td><td>12 引擎管線 — RTK、Caveman、LLMLingua-2（MobileBERT ONNX）、GCF、OmniGlyph</td></tr>
-  <tr><td nowrap><b>驗證與安全性</b></td><td>OAuth 2.0（PKCE）+ JWT + API Keys + MCP 範圍限定驗證 · 靜態資料採用 AES-256-GCM · DOMPurify</td></tr>
-  <tr><td nowrap><b>隱匿性</b></td><td>wreq-js — JA3 / JA4 TLS 指紋模擬、3 級代理伺服器</td></tr>
-  <tr><td nowrap><b>韌性</b></td><td>斷路器、指數退避、防止雷群效應、自動組合自我修復</td></tr>
-  <tr><td nowrap><b>記錄</b></td><td>pino — 具請求內容的結構化 JSON 記錄</td></tr>
-  <tr><td nowrap><b>測試</b></td><td>Node.js 測試執行器 + Vitest — 8,400+ 個受追蹤測試檔案中共有 <b>60,000+ 個靜態測試宣告</b>（單元、整合、E2E、安全性、生態系統）</td></tr>
-  <tr><td nowrap><b>平台</b></td><td>桌面（Electron）· Android（Termux）· PWA（任何瀏覽器）</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — 發行時自動發佈至 npm + Docker Hub</td></tr>
-  <tr><td nowrap><b>連結</b></td><td><a href="https://omniroute.online">網站</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>資料庫</b></td><td>better-sqlite3 （SQLite、 WAL日誌） + LowDB （JSON舊版） — 147 個域模組，221 個遷移</td></tr>
+  <tr><td nowrap><b>記憶</b></td><td>SQLite FTS5全文+ int8-quantized向量嵌入，類型化衰減</td></tr>
+  <tr><td nowrap><b>模式</b></td><td>Zod 4 — MCP工具I/O驗證+ API合約</td></tr>
+  <tr><td nowrap><b>協定</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
+  <tr><td nowrap><b>串流媒體</b></td><td>伺服器發送的事件 (SSE) + WebSocket橋接器 (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>壓縮</b></td><td>12 引擎管道— RTK、 Caveman 、 LLMLingua-2 (MobileBERT ONNX) 、 GCF、 OmniGlyph</td></tr>
+  <tr><td nowrap><b>授權&amp;安全</b></td><td>OAuth 2.0 (PKCE) + JWT + API密鑰+ MCP範圍驗證 · AES-256-GCM靜態 · DOMPurify</td></tr>
+  <tr><td nowrap><b>隱身</b></td><td>wreq-js — JA3 / JA4 TLS指紋模擬，三級代理</td></tr>
+  <tr><td nowrap><b>彈性</b></td><td>斷路器、指數退避、防雷群、自動組合自愈</td></tr>
+  <tr><td nowrap><b>記錄</b></td><td>pino —帶有請求上下文的結構化JSON日誌</td></tr>
+  <tr><td nowrap><b>測試</b></td><td>Node.js測試運行者+ Vitest — <b>60,000 個+靜態測試聲明</b> 跨越 8,400 個+追蹤測試檔案（單元、整合、 E2E、安全性、生態系統）</td></tr>
+  <tr><td nowrap><b>平台</b></td><td>桌面 (Electron) · Android (Termux) · PWA （任何瀏覽器）</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub操作— auto npm 發布+ Docker Hub 發布</td></tr>
+  <tr><td nowrap><b>連結</b></td><td><a href="https://omniroute.online">網站</a> · <a href="https://www.npmjs.com/package/omniroute">新專案管理</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker中心</a></td></tr>
 </table>
 
 <div align="center">
@@ -1797,17 +1797,17 @@ OmniRoute 踩在巨人的肩膀上。它最初是 **[9router](https://github.com
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>識別出 Grok Build 配額介面；OmniRoute 隨後獨立驗證並修正了即時線上格式。</td></tr>
 </table>
 
-## 📄 授權條款
+## 📄許可證
 
-MIT 授權條款 - 詳情請參閱 [LICENSE](LICENSE)。
+MIT許可證 - 有關詳細信息，請參閱[LICENSE](LICENSE) 。
 
 ---
 
 <div align="center">
 
-**[⬆ 回到頂部](#-omniroute)** · 以 ❤️ 為開源 AI 社群打造。
+**[⬆回到頂部](#-omniroute)**· 使用❤️為開源AI社群建構。
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT 授權條款 · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>創建者： <a href="https://github.com/diegosouzapw">迭戈·蘇薩</a> · OmniRoute v3.8.53 · 節點≥ 22.22.2 · MIT許可證 · <a href="https://omniroute.online">全方位線上</a></sub>
 
 </div>
 <!-- GitHub Discussions enabled for community Q&A -->

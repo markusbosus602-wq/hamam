@@ -38,22 +38,23 @@ Flag boolean huwa kkunsidrat **attivat** meta l-valur effettiv tiegħu jkun `"tr
 
 ## Katalgu tal-Bandiera
 
-114-il bandiera fuq 6 kategoriji.** Default** hija d-definizzjoni default — il-valur użat meta la DB override u lanqas varjabbli ambjentali ma jkunu preżenti.
+115-il bandiera fuq 6 kategoriji.** Default** hija d-definizzjoni default — il-valur użat meta la DB override u lanqas varjabbli ambjentali ma jkunu preżenti.
 
-### Sigurtà (10)
+### Sigurtà (11)
 
-| Ewlenin                                 | Tip     | Default  | Deskrizzjoni                                                                                                                                                                                                                                                                                           |
-| --------------------------------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `REQUIRE_API_KEY`                       | boolean | `false`  | Jeħtieġ ċavetta API għat-talbiet kollha deħlin.                                                                                                                                                                                                                                                        |
-| `INPUT_SANITIZER_ENABLED`               | boolean | `true`   | Ippermetti sanitizzazzjoni tal-input għat-talbiet kollha.                                                                                                                                                                                                                                              |
-| `INJECTION_GUARD_MODE`                  | enum    | `off`    | Modalità ta 'lqugħ ta' injezzjoni fil-pront. Valuri: `off`, `warn`, `block`, `redact`.                                                                                                                                                                                                                 |
-| `PII_REDACTION_ENABLED`                 | boolean | `false`  | Aqbad PII minn talbiet (indipendenti minn `INPUT_SANITIZER_MODE`).                                                                                                                                                                                                                                     |
-| `PII_RESPONSE_SANITIZATION`             | boolean | `false`  | Sanitize PII mir-risposti tal-provditur.                                                                                                                                                                                                                                                               |
-| `PII_RESPONSE_SANITIZATION_MODE`        | enum    | `redact` | Modalità ghas-sanitizzazzjoni tar-rispons PII. Valuri: `redact`, `warn`, `block`, `off`.                                                                                                                                                                                                               |
-| `OUTBOUND_SSRF_GUARD_ENABLED`           | boolean | `true`   | Alias tal-wirt: valur issejvjat fuq il-toggle tad-dashboard ta' din il-bandiera jinqara qabel l-ambjent; `false`, `0`, `no`, jew `off` f'waħda jdawwar l-host checks tal-gwardja URL barra bħal `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`.                                                               |
-| `ALLOW_API_KEY_REVEAL`                  | boolean | `false`  | Ħalli l-utenti tad-dashboard awtentikati jiżvelaw ċwievet API maħżuna minflok jaraw biss valuri mgħottija.                                                                                                                                                                                             |
-| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | boolean | `false`  | Inkludi l-prefiss tal-kont fil-linji tal-ġurnal AUTH (eż. "L-użu tal-kont <provider> : abc12345..."). Iddiżattivat b'mod awtomatiku sabiex l-identifikaturi tal-kont jiġu redatti mir-reġistri tal-proċess shared/multi-tenant. Indipendenti mill-Modalità Debug; flipping Debug Mode ma jiżvelax dan. |
-| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | boolean | `false`  | Meta OIDC tkun attivata, iddiżattiva l-login tal-password sabiex l-utenti jkunu jistgħu jawtentikaw biss permezz ta' OIDC Single Sign-On. Meta tkun diżattivata (default), kemm il-login tal-password kif ukoll OIDC huma disponibbli.                                                                 |
+| Ewlenin                                 | Tip     | Default  | Deskrizzjoni                                                                                                                                                                                                                                                                                                            |
+| --------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REQUIRE_API_KEY`                       | boolean | `false`  | Jeħtieġ ċavetta API għat-talbiet kollha deħlin.                                                                                                                                                                                                                                                                         |
+| `INPUT_SANITIZER_ENABLED`               | boolean | `true`   | Ippermetti sanitizzazzjoni tal-input għat-talbiet kollha.                                                                                                                                                                                                                                                               |
+| `INJECTION_GUARD_MODE`                  | enum    | `off`    | Modalità ta 'lqugħ ta' injezzjoni fil-pront. Valuri: `off`, `warn`, `block`, `redact`.                                                                                                                                                                                                                                  |
+| `PII_REDACTION_ENABLED`                 | boolean | `false`  | Aqbad PII minn talbiet (indipendenti minn `INPUT_SANITIZER_MODE`).                                                                                                                                                                                                                                                      |
+| `PII_RESPONSE_SANITIZATION`             | boolean | `false`  | Sanitize PII mir-risposti tal-provditur.                                                                                                                                                                                                                                                                                |
+| `PII_RESPONSE_SANITIZATION_MODE`        | enum    | `redact` | Modalità ghas-sanitizzazzjoni tar-rispons PII. Valuri: `redact`, `warn`, `block`, `off`.                                                                                                                                                                                                                                |
+| `OUTBOUND_SSRF_GUARD_ENABLED`           | boolean | `true`   | Alias tal-wirt: valur issejvjat fuq il-toggle tad-dashboard ta' din il-bandiera jinqara qabel l-ambjent; `false`, `0`, `no`, jew `off` f'waħda jdawwar l-host checks tal-gwardja URL barra bħal `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`.                                                                                |
+| `ALLOW_API_KEY_REVEAL`                  | boolean | `false`  | Ħalli l-utenti tad-dashboard awtentikati jiżvelaw ċwievet API maħżuna minflok jaraw biss valuri mgħottija.                                                                                                                                                                                                              |
+| `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | boolean | `false`  | Inkludi l-prefiss tal-kont fil-linji tal-ġurnal AUTH (eż. "L-użu tal-kont <provider> : abc12345..."). Iddiżattivat b'mod awtomatiku sabiex l-identifikaturi tal-kont jiġu redatti mir-reġistri tal-proċess shared/multi-tenant. Indipendenti mill-Modalità Debug; flipping Debug Mode ma jiżvelax dan.                  |
+| `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | boolean | `false`  | Meta OIDC tkun attivata, iddiżattiva l-login tal-password sabiex l-utenti jkunu jistgħu jawtentikaw biss permezz ta' OIDC Single Sign-On. Meta tkun diżattivata (default), kemm il-login tal-password kif ukoll OIDC huma disponibbli.                                                                                  |
+| `API_KEY_AUDIT_CLIENT_DETAILS_ENABLED`  | boolean | `false`  | Irreġistra l-indirizz IP ta’ min iċempel u l-utent-aġent fuq ir-ringieli tal-verifika `api_key.auth.touch` miktuba għal metadata u skoperta ta’ API-key ta’ suċċess (#17982). Mitfi b'mod awtomatiku: dawk ir-ringieli għadhom jirreġistraw liema ċavetta ntużat, meta, u f'liema mogħdija, mingħajr IP jew user-agent. |
 
 ### Netwerk (29)
 
@@ -234,10 +235,10 @@ Jirritorna kull bandiera bil-valur effettiv tagħha, is-sors, u sommarju.
       "requiresRestart": false,
       "warningLevel": "caution",
     },
-    // ... all 114 flags
+    // ... all 115 flags
   ],
   "summary": {
-    "total": 114,
+    "total": 115,
     "active": 0,
     "inactive": 0,
     "overriddenByDb": 0,

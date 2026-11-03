@@ -30,93 +30,84 @@ OmniRoute ń ṣe ìlànà ìfúnpọ̀ prompt onímodulu kan tí ń ṣiṣẹ�
 
 ---
 
-## Àwọn Ipo Ìdínkù
+## Awọn ọna funmorawon
 
-### Pípa
+### Paa
 
-Kò sí ìdínkù tí a ṣe. Gbogbo àwọn ìfiráńṣẹ́ máa kọjá láìyí padà.
+Ko si funmorawon loo. Gbogbo awọn ifiranṣẹ kọja nipasẹ ko yipada.
 
-### Ipo Ìfẹ̀ẹ́ (~15% ìpamọ́, <1ms ìdádúrò)
+### Ipo Lite ( awọn ifowopamọ ~ 15%, aiduro < 1ms)
 
-Ipo tó ṣàánú jù lọ — àìsí ìyípadà itumọ̀ rárá, ìmọ́sẹ̀ ọ̀nà ìkọ nìkan:
+Itọju ọna kika — ti o ni aabo julọ. Abajade ọpa rẹ jẹ adanu, nitorinaa ọna aiyipada (ko si `allow-lossy`, `engine:lite` tabi orukọ-konbo ijade) nṣiṣẹ Lite pẹlu `compressToolResults: false`: awọn abajade irinṣẹ iṣaaju de ọdọ olupese ko yipada.
 
-| Ọ̀nà                      | Àpèjúwe                                                 |
-| ------------------------ | ------------------------------------------------------- |
-| `collapseWhitespace`     | Dà àwọn ila òfo tó tele ara àti àwọn àyè òfo ìparí papọ̀ |
-| `dedupSystemPrompt`      | Yọ àwọn ìfiráńṣẹ́ ètò ẹ̀rọ afikúnlọ́mọ kúrò                |
-| `compressToolResults`    | Dín àwọn àbájáde irinṣẹ́/iṣẹ́ tí ó gbólòhùn pọ̀ kù         |
-| `removeRedundantContent` | Yọ àwọn ìtọ́sọ́nà àtúnṣe kúrò                             |
-| `replaceImageUrls`       | Ṣe àwọn URI dátà àwòrán base64 ní kíkúkú                |
+| Ilana                    | Apejuwe                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| `collapseWhitespace`     | Darapọ awọn laini òfo itẹlera ati awọn aye itọpa                                     |
+| `dedupSystemPrompt`      | Yọ awọn ifiranṣẹ eto ẹda-iwe kuro                                                    |
+| `compressToolResults`    | Ge awọn abajade irinṣẹ iṣaaju si fila kekere (pipadanu: nikan pẹlu ijade ibeere kan) |
+| `removeRedundantContent` | Rinhoho tun ilana                                                                    |
+| `replaceImageUrls`       | Kukuru base64 data aworan URIs                                                       |
 
-**Ó dára fún:** Lílò lọ́wọ́lọ́wọ́ gbogbo ìgbà, àwọn ẹ̀rọ iṣẹ́ tí ààbò ṣe pàtàkì.
+**Dara julọ fun:** Lilo nigbagbogbo, awọn iṣan-iṣẹ iṣẹ-pataki aabo.
 
-### Ipo Deede (~30% ìpamọ́)
+### Ipo Standard (~ 30% ifowopamọ)
 
-Ó gbéra nípa [Caveman](https://github.com/JuliusBrussee/caveman) — ó yọ àwọn ọ̀rọ̀ àfikún àti ọ̀rọ̀ gbólòhùn kúrò nígbà tí ó ń pa itumọ̀ mọ́:
+Atilẹyin nipasẹ [Caveman](https://github.com/JuliusBrussee/caveman) — yọ awọn ọrọ kikun kuro ati ọrọ-ọrọ ọrọ-ọrọ lakoko ti o tọju itumọ:
 
-- Ó yọ àwọn ọ̀rọ̀ àfikún kúrò ("jọ̀wọ́", "mo rò pé", "lórí ìpìlẹ̀", "ní tòótọ́")
-- Ó ṣe àwọn gbólòhùn pípẹ̀ ní kíkúkú ("láti lè" → "láti", "nítorí pé" → "nítorí")
-- Ó yọ àwọn ìbèèrè ọ̀nà ọlá kúrò ("Ǹjẹ́ o kì í bá ni wàhálà...", "Bí o bá ṣeé ṣe...")
-- Àwọn òfin regex 30+ tí a ṣe dára fún àwọn ìbéèrè kikọ kóòdù
+- Yọ awọn ọrọ kikun kuro ("jọwọ", "Mo ro pe", "ipilẹṣẹ", "gangan")
+- Di awọn gbolohun ọrọ sisọ ("lati le" → "si", "ni abajade" → "nitori")
+- Awọn ọna hedging towotowo ("Ṣe o lokan...", "Ti o ba ṣee ṣe...")
+- 30 + regex awọn ofin aifwy fun ifaminsi ta
 
-**Ó dára fún:** Ẹ̀rọ iṣẹ́ kikọ kóòdù ojoojúmọ́, àwọn ẹgbẹ́ tí ó ń ṣọ́ra lórí ináwó.
+**Dara julọ fun:** Awọn ṣiṣan ifaminsi ojoojumọ, awọn ẹgbẹ mimọ idiyele.
 
-### Ipo Alágbára (~50% ìpamọ́)
+### Ipo ibinu (~ 50% ifowopamọ)
 
-Ìṣàkóso ìtàn ọlọ́gbọ́n fún àwọn ìgbà iṣẹ́ gígùn:
+Itan-akọọlẹ smart iṣakoso fun awọn akoko pipẹ:
 
-- **Ìgbójòde Ìfiráńṣẹ́** — àwọn ìfiráńṣẹ́ àtijọ́ máa jẹ́ dídínkù díẹ̀díẹ̀
-- **Ìdínkù Àbájáde Irinṣẹ́** — àwọn àbájáde irinṣẹ́ gígùn jẹ́ gígẹ̀sẹ̀ tàbí yíyọ kúrò (àwọn
-  ila àkọ́kọ́/ìkẹyìn, àlùmọ́ni ila ìbáramu, ìdídámọ́ kìí JSON)
-- **Àwọn Ààbò Ìdájúlẹ̀ Ọgbin** — ó rí sí pé àwọn ẹ̀jì `tool_use` + `tool_result` dúró ní ìbáramu
-- **Ìmọ̀lẹ̀ Fèrèsè Àyíká** — ó bọ̀wọ̀ fún àwọn òpin token àwoṣe-kọ̀ọ̀kan
+- **Ifiranṣẹ Ti ogbo** — agbalagba awọn ifiranṣẹ gba progressively fisinuirindigbindigbin
+- **Funmorawon Abajade Irinṣẹ** Awọn abajade ohun elo gigun — ti ge tabi elide (awọn laini first/last, sisẹ laini baramu, iṣọpọ bọtini JSON )
+- **Igbekale iyege olusona** — ṣe idaniloju awọn orisii `tool_use` + `tool_result` duro ni ibamu
+- **Imoye Window Ọrọ** — ọwọ fun-awoṣe àmi ifilelẹ
 
-**Ó dára fún:** Àwọn ìgbà ìtúnṣe àṣìṣe gígùn, àwọn ibùdó kóòdù ńlá.
+**Dara julọ fun:** Awọn akoko ṣiṣatunṣe gbooro, awọn koodu koodu nla.
 
-### Ipo Gajulò (~75% ìpamọ́)
+### Ipo Ultra (~ 75% ifowopamọ)
 
-Ìdínkù tó ga jù lọ fún àwọn ipò tí token ṣe pàtàkì:
+Funmorawon ti o pọju fun àmi-pataki awọn oju iṣẹlẹ:
 
-- **Ìkẹ́kùn Ọgbọ́n-ìwádìí** — ìkẹ́kùn token tó dá lórí àmì-ó fún ọ̀rọ̀ kikọ
-- **Ìtọju Ọgbin** — àwọn ẹ̀já kóòdù, kóòdù inú-ila, àwọn URL àti àwọn ìdámọ̀ jẹ́ fífi àmì pa
-  mọ́ àti tún sọ wọ́n pọ̀ gẹ́gẹ́ bí wọ́n ṣe rí, kò jẹ́ kíkẹ́ rárá
-- **Ìpele SLM àṣàyàn** — àwoṣe ìbílẹ̀ kékeré kan lè ṣe ìtúnṣe ìkẹ́kùn náà nígbà tí a bá ṣètò rẹ̀
-- Ó ṣe olómìnira lára ipo Alágbára: kò ṣe ìgbójòde ìfiráńṣẹ́, ìdínkù àbájáde irinṣẹ́ tàbí ẹ̀rọ
-  ìṣàkótán ìdábòbò (íkùnà ìpele SLM nìkan lè dari ìrìn ìdábòbò kan nípasẹ̀ ipo alágbára)
+- **Heuristic Pruning** — Dimegilio-orisun àmi pruning ti prose
+- **Itoju Ilana** Awọn bulọọki koodu olodi —, koodu inline, URLs ati awọn idamọ jẹ okuta ibojì ati tun-dipo ọrọ-ọrọ, ko gere rara.
+- **Iyan SLM ipele** — awoṣe agbegbe kekere kan le ṣatunṣe piruni nigba ti a tunto
+- Ominira ti ipo ibinu: ko ṣiṣẹ ti ogbo ifiranṣẹ, funmorawon esi-irinṣẹ tabi akopọ-pada sẹhin (ikuna-ipele SLM nikan le ṣe ipadabọ ipadabọ nipasẹ ibinu)
 
-**Ó dára fún:** Nígbà tí o bá ń kòlu àwọn òpin àyíká lẹ́ẹ̀kejì.
+**Dara julọ fun:** Nigbati o ba n lu awọn opin ọrọ-ọrọ leralera.
 
-### Ipo RTK (ààlà òkè-odo 60-90%)
+### Ipo RTK (60-90% iwọn oke)
 
-A ṣe ipo RTK dára fún àwọn àbájáde irinṣẹ́ gbólòhùn tí ó ń fara han nínú àwọn ìgbà aṣojú-kikọ-kóòdù:
+Ipo RTK jẹ iṣapeye fun awọn abajade irinṣẹ ọrọ-ọrọ ti o han ni awọn akoko aṣoju ifaminsi:
 
-- Ó mọ àwọn ẹ̀yà àṣẹ/àbájáde bíi `git status`, `git diff`, `git log`, àwọn olùṣe ìdánwò, àwọn
-  kíkó TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, àkọsílẹ̀ Docker,
-  àbájáde ìpìlẹ̀-ẹ̀rọ, àti àbájáde shell gbogboogbò
-- Ó lo àwọn àkójọ àlùmọ́ni JSON láti `open-sse/services/compression/engines/rtk/filters/`
-- Ó mú àwọn àlùmọ́ni RTK TOML schema v1 wọlé láti inú àwọn fáìlì `filters.toml` iṣẹ́-àn tàbí
-  gbogbo àyé, pẹ̀lú ìfàrádá àyẹ̀wò inú-ila àti ìdíwọ́-ìgbẹ́kẹ̀lé fún àwọn fáìlì iṣẹ́-àn
-- Ó wá pẹ̀lú àwọn àlùmọ́ni 56 tí a kọ́ sínú pẹ̀lú àwọn àpẹẹrẹ ìfàrádá inú-ila
-- Ó yọ àwọn ìtẹ̀le ìṣàkóso ANSI, àwọn igi ìlòsíwájú, àwọn ila àtúnṣe, àti àríyànjiyàn àìṣeéṣe kúrò
-- Ó pa àwọn ìkùnà, àṣìṣe, ìkìlọ̀, àwọn fáìlì tí a yí padà, àwọn ìkúlẹ̀, àti ìparí àbájáde gígùn mọ́
-- Ó ṣe àtìlẹ́yìn fún àwọn àlùmọ́ni iṣẹ́-àn tí a dí pẹ̀lú ìgbẹ́kẹ̀lé, àwọn àlùmọ́ni gbogbo àyé, àti
-  ìmúpadàbọ̀ àbájáde òkìtì tí a bo mọ́lẹ̀ gẹ́gẹ́ àṣàyàn
+- Ṣe awari awọn kilasi command/output gẹgẹbi `git status`, `git diff`, `git log`, awọn asare idanwo, TypeScript/Vite/Webpack kọ, ESLint/Biome/Prettier, npm audit/installs, awọn akọọlẹ Docker, iṣelọpọ infra, ati iṣelọpọ ikarahun jeneriki
+- Nlo awọn akopọ àlẹmọ JSON lati `open-sse/services/compression/engines/rtk/filters/`
+- Ṣe agbewọle awọn asẹ RTK TOML schema v1 lati iṣẹ akanṣe tabi awọn faili `filters.toml` agbaye, pẹlu afọwọsi idanwo laini ati ẹnu-ọna igbẹkẹle fun awọn faili iṣẹ akanṣe
+- Awọn asẹ 56 ti a ṣe sinu ọkọ oju omi pẹlu awọn ayẹwo idanwo opopo
+- Yọ awọn ilana iṣakoso ANSI kuro, awọn ifi ilọsiwaju, awọn ila ti a tun ṣe, ati ariwo ti kii ṣe iṣe
+- Ṣe itọju awọn ikuna, awọn aṣiṣe, awọn ikilọ, awọn faili ti o yipada, awọn akojọpọ, ati iru iṣẹjade gigun
+- Ṣe atilẹyin awọn asẹ ise agbese ti o ni igbẹkẹle, awọn asẹ agbaye, ati imupadabọ aise-jade ti o yan
 
-**Ó dára fún:** Àwọn ìgbà aṣojú pẹ̀lú àkọsílẹ̀ shell, kíkó, ìdánwò, git, grep, àti àbájáde fáìlì.
+**Dara julọ fun:** Awọn akoko aṣoju pẹlu ikarahun, kọ, idanwo, git, grep, ati awọn iwe afọwọkọ-jade faili.
 
-### Ipo Ìkópamọ́ (ààlà tó yẹ 78-95%)
+### Ipo Tolera (78-95% ibiti o yẹ)
 
-Ipo ìkópamọ́ ń ṣe àwọn ẹ̀rọ ìdínkù ọ̀pọ̀ ní ìtẹ̀le tó ṣeé ṣàkíyèsí. Ìlàna àtìbẹ̀rẹ̀ ni:
+Tolera mode nṣiṣẹ ọpọ funmorawon enjini ni a deterministic ibere. Pipeline aiyipada ni:
 
 ```txt
 RTK -> Caveman
 ```
 
-Ìtẹ̀le yìí kọ́kọ́ pa àbájáde tẹ́mìnà/irinṣẹ́ mọ́ ní kíkúkú, kó sì fi ìdídámọ́ itumọ̀ Caveman kan
-ìbéèrè èdè abínibí tó kù. A lè ṣètò àwọn ìlàna ìkópamọ́ ní gbogbo àyé tàbí nípasẹ̀ àwọn àkópọ̀
-ìdínkù tí a yan fún àwọn àkópọ̀ ìtọ́sọ́nà-ọ̀nà.
+Aṣẹ yẹn jẹ ki iṣẹjade terminal/tool jẹ iwapọ ni akọkọ, lẹhinna kan isọdi-itumọ Caveman si itọsi ede adayeba ti o ku. Awọn paipu tolera le jẹ tunto ni agbaye tabi nipasẹ awọn akojọpọ funmorawon ti a yàn si awọn akojọpọ ipa-ọna.
 
-**Ó dára fún:** Àyíká àfikún pẹ̀lú àwọn àkọsílẹ̀ irinṣẹ́ ńlá àti àwọn ìtọ́sọ́nà ènìyàn tàbí àwọn ìkúlẹ̀ olùrànlọ́wọ́.
+**Dara julọ fun:** Ọrọ ti o dapọ pẹlu awọn igbasilẹ irinṣẹ nla pẹlu awọn itọnisọna eniyan tabi awọn akopọ oluranlọwọ.
 
 ---
 
@@ -184,21 +175,20 @@ Pẹ̀lú Stacked:       10K-2.5K tóóki ni a fi ránṣẹ́     (ààlà RTK+
 
 ---
 
-## Ìṣètò
+## Iṣeto ni
 
-### Pánẹ́ẹ̀lì Ìṣàkóso
+### Dasibodu
 
-Lọ sí `Dashboard → Context & Cache`:
+Lilö kiri si `Dashboard → Context & Cache`:
 
-- **Caveman** — yíyan ìpo, àwọn àkójọpọ̀ èdè, àwòkọ́kọ́, àti àwọn àiyipada àgbáyé
-- **RTK** — àwòkọ́kọ́ àsẹ-àlẹ̀mọ́, àwọn ètò ààbò RTK, àti àkójọ àwọn àlẹ̀mọ́
-- **Àwọn Àpapọ̀ Ìfúnpọ̀** — àwọn ìlànà ẹ̀rọ tí a fún ní orúkọ, tí a yàn sí àwọn àpapọ̀ ìdarí
-- **Ààlà Ìmúṣiṣẹ́ Aifọwọ́yi** — mú ìfúnpọ̀ ṣiṣẹ́ láìfọwọ́yi nígbà tí iye token bá kọjá ààlà
+- **Caveman** yiyan ipo —, awọn akopọ ede, awotẹlẹ, ati awọn aipe agbaye
+- **RTK** — aṣẹ-àlẹmọ awotẹlẹ, RTK eto ailewu, ati àlẹmọ katalogi
+- **Combos funmorawon** — oniwa awọn pipelines engine sọtọ si afisona combos
+- **Ibalẹ-Ipa-afọwọyi** — ṣiṣẹ funmorawon laifọwọyi nigbati iye tokini ba kọja iloro
 
-### Ìkọlù Àpapọ̀ Kọ̀ọ̀kan
+### Per-Konbo idojuk
 
-Nínú `Dashboard → Context & Cache → Compression Combos`, yan àpapọ̀ ìfúnpọ̀ kan fún àpapọ̀
-ìdarí kan:
+Ni `Dashboard → Context & Cache → Compression Combos`, fi konbo funmorawon kan si akojọpọ ipa ọna:
 
 ```txt
 Combo: "free-tier-fallback"
@@ -209,61 +199,49 @@ Combo: "free-tier-fallback"
     2. if/qwen3.8-max-preview
 ```
 
-Èyí jẹ́ kí o lè lo ìfúnpọ̀ alápele-lórí-ara fún àwọn olupèsè ọ̀fẹ́/ìkọ̀wé kóòdù, nígbà tí o ń pa ìpo lite mọ́ fún
-àwọn ìforúkọsílẹ̀ tí a sanwó fún.
+Eyi n jẹ ki o lo funmorawon tolera lori awọn olupese free/coding lakoko ti o tọju ipo Lite lori awọn ṣiṣe alabapin sisan.
 
-Ìyàn “Ìkọlù Àpapọ̀ Kọ̀ọ̀kan” yìí jẹ́ ìṣàkóso tó yàtọ̀ sí ìkọlù **ìpo ìfúnpọ̀ àpapọ̀-ìdarí**
-(Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — schema ti pápá náà tún gba
-`rtk`, `stacked` àti `omniglyph`) — ìkọlù yẹn kì í yan ìlànà àpapọ̀-ìfúnpọ̀ tí a fún ní orúkọ;
-ó kàn ń ṣètò pápá `compressionMode` tí `resolveCompressionPlan` ń tọ́ka sí. A lè ṣètò rẹ̀ lórí káàdì àpapọ̀
-(`Dashboard → Combos`) tàbí, láti #6760, fún àpapọ̀ ìdarí kọ̀ọ̀kan nínú àkójọ “Assign to routing” ní
-`Dashboard → Context & Cache → Compression Combos`, lẹ́gbẹ̀ẹ́ àpótí ìṣàyẹ̀wò fún yíyan ìlànà
-tí a ṣàkọsílẹ̀ lókè. Àwọn ojú-ìṣàkóso méjèèjì ń tọ́jú ìyípadà nípasẹ̀ endpoint `PUT /api/combos/{id}` kan náà.
+Iṣẹ iyansilẹ “Per-Combo Override” yii jẹ iṣakoso ti o yatọ si ti** afisona-konbo funmorawon mode** danu (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Awọn idahun — ero aaye naa tun gba `rtk`, `stacked` ati `omniglyph`) — ti o bori ko mu opo gigun ti epo-combo ti a npè ni; o kan ṣeto aaye `compressionMode` ti a gba imọran nipasẹ `resolveCompressionPlan`. O le ṣeto boya lori kaadi konbo (`Dashboard → Combos`) tabi, lati #6760, fun konbo ipa-ọna ninu atokọ “Firanṣẹ si ipa-ọna” lori `Dashboard → Context & Cache → Compression Combos`, ni apa ọtun si apoti apoti iṣẹ iyansilẹ pipeline ti o gbasilẹ loke. Awọn ipele mejeeji duro nipasẹ aaye ipari `PUT /api/combos/{id}` kanna.
 
-### Ìkọlù fún ìbéèrè kọ̀ọ̀kan
+### Ibere-ibere idojuk
 
-Fi header ìbéèrè `x-omniroute-compression` ránṣẹ́ láti kọlu ètò ìfúnpọ̀ fún ìbéèrè kan ṣoṣo.
-Ó ní ipò àkọ́kọ́ tó ga jù lọ — ó borí ìkọlù àpapọ̀-ìdarí, prófáìlì tó ń ṣiṣẹ́, ìmúṣiṣẹ́
-aifọwọ́yi, àti Default pánẹ́ẹ̀lì. A máa kọbi ara sí àwọn iye tí a kò mọ̀ (a kì í kọ ìbéèrè náà sílẹ̀ láéláé), àti
-bọ́tìnì àgbáyé pàtàkì ṣì ń darí ohun gbogbo: nígbà tí ìfúnpọ̀ bá wà ní pípa káàkiri, header náà kò lè
-mú un ṣiṣẹ́. Àwọn iye:
+Firanṣẹ akọsori ibeere `x-omniroute-compression` lati fopin si ero funmorawon fun ibeere ẹyọkan. O ni ipo iṣaaju ti o ga julọ — o lu ipalọlọ ipa-konbo, profaili ti nṣiṣe lọwọ, okunfa adaṣe, ati Aiyipada nronu. Awọn iye ti a ko mọ ni a kọbikita (ibeere naa ko kọ rara) ati pe iyipada titunto si agbaye tun jẹ ẹnubode ohun gbogbo: nigbati funmorawon ba wa ni pipa ni agbaye, akọsori ko le tan-an. Awọn iye:
 
-| Iye           | Ipa                                                                                                  |
-| ------------- | ---------------------------------------------------------------------------------------------------- |
-| `off`         | Kò sí ìfúnpọ̀ fún ìbéèrè yìí.                                                                         |
-| `default`     | Prófáìlì Default tí pánẹ́ẹ̀lì dá sílẹ̀ (kò ka prófáìlì tó ń ṣiṣẹ́ sí). A fi àwọn ẹ̀rọ lossy sí pípa.      |
-| `safe`        | Bákan náà bí fífi header sílẹ̀: dedup àti kíkó àlàfo pọ̀ nìkan.                                        |
-| `allow-lossy` | Pa ètò oníṣẹ́ ti ìbéèrè yìí mọ́, pẹ̀lú àwọn àkótán, àwọn àlẹ̀mọ́ ìbáramu, àti àwọn àtúnkọ ara.            |
-| `engine:<id>` | Ẹ̀rọ kan ṣoṣo nígbà tó bá ṣiṣẹ́, àpẹẹrẹ `engine:rtk`. Èyí ni yíyan wọlé fún ẹ̀rọ náà fún ìbéèrè kọ̀ọ̀kan. |
-| `<combo>`     | Àpapọ̀ tí a fún ní orúkọ, tí a kọ́kọ́ fi orúkọ bá mu (láìka lẹ́tà ńlá/kékeré), lẹ́yìn náà pẹ̀lú id.        |
+| Iye           | Ipa                                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| `off`         | Ko si funmorawon fun yi ìbéèrè.                                                                           |
+| `default`     | Profaili Aiyipada ti o jẹri nronu (kọ oju si profaili ti nṣiṣe lọwọ). Awọn ẹrọ ti o padanu ti wa ni pipa. |
+| `safe`        | Kanna bi omitting akọsori.                                                                                |
+| `allow-lossy` | Jeki ero oniṣẹ ẹrọ ibeere yii, pẹlu awọn akojọpọ, awọn asẹ ibaramu, ati awọn atunko ara.                  |
+| `engine:<id>` | Ẹnjini ẹyọkan nigbati o ba ṣiṣẹ, fun apẹẹrẹ `engine:rtk`. Eyi ni ijade-ibeere-kọọkan fun ẹrọ yẹn.         |
+| `<combo>`     | Akopọ ti a npè ni, ti o baamu pẹlu orukọ (aibikita ọran) ni akọkọ, lẹhinna nipasẹ id.                     |
 
-Láìsí `allow-lossy`, `engine:<id>`, tàbí àpapọ̀ tí a fún ní orúkọ, a kì í lo àwọn ẹ̀rọ lossy.
-Ìbéèrè náà ṣì máa gba dedup session àti kíkó àlàfo pọ̀ nígbà tí ìfúnpọ̀ bá wà ní ṣíṣe.
+Laisi `allow-lossy`, `engine:<id>`, tabi konbo ti a npè ni, awọn ẹrọ ti o padanu ko ni lo. Nigbati Aiyipada ti o padanu, olufa-laifọwọyi, tabi ipadasẹhin ipa ọna ti dinku, OmniRoute n tọju awọn igbesẹ ti aisi adanu ti a mọ lati opo gigun ti epo tolera ti iṣeto ni tito atunto. O ṣubu pada si `session-dedup → lite` nikan nigbati ko si atunto ipadanu ti ko ye.
 
-A máa fi ètò tí a lò hàn padà nínú header ìdáhùn `X-OmniRoute-Compression: <mode>; source=<source>`,
-níbi tí `<source>` ti jẹ́ ọ̀kan lára `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default`, tàbí `off`.
+Igbimọ Eto naa** Opo gigun ti o munadoko** awotẹlẹ fihan arinrin ni-isinmi ètò. Nigbati olufa adaṣe ba le ṣiṣẹ, awotẹlẹ kanna tun fihan opo gigun ti epo ti o munadoko ki nronu ati ipinnu akoko asiko ti o kere si akọsori duro ni ibamu.
+
+Eto ti a fiwe si ni a tun pada sinu akọsori esi `X-OmniRoute-Compression: <mode>; source=<source>`, nibiti `<source>` jẹ ọkan ninu `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default`, tabi `off`.
 
 ### API
 
 ```bash
-# Gba àwọn ètò ìfúnpọ̀
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Ṣàfikún àwọn ètò ìfúnpọ̀
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Ṣàwòkọ́kọ́ payload RTK/stacked kan pàtó
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Ṣàkójọ àwọn àkójọpọ̀ àlẹ̀mọ́ RTK
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Dán RTK wò ní tààrà pẹ̀lú metadata àsẹ tí kò pọn dandan
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

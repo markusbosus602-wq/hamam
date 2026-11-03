@@ -32,82 +32,82 @@ OmniRoute implementuje modułowy potok kompresji promptów, który działa **pro
 
 ## Tryby kompresji
 
-### Wyłączona
+### Wyłączony
 
-Brak kompresji. Wszystkie wiadomości przechodzą bez zmian.
+Nie zastosowano kompresji. Wszystkie wiadomości przechodzą bez zmian.
 
-### Tryb Lite (~15% oszczędności, opóźnienie <1 ms)
+### Tryb Lite (~ 15% oszczędności, < opóźnienie 1 ms)
 
-Najbezpieczniejszy tryb — zerowa zmiana semantyczna, tylko uporządkowanie formatowania:
+Najbezpieczniejszy tryb czyszczenia formatowania —. Obcięcie wyników narzędzia jest stratne, więc domyślna ścieżka (bez opcji `allow-lossy`, `engine:lite` lub nazwanej kombinacji) działa lekko z `compressToolResults: false`: wcześniejsze wyniki narzędzi docierają do dostawcy w niezmienionej formie.
 
-| Technika                 | Opis                                                    |
-| ------------------------ | ------------------------------------------------------- |
-| `collapseWhitespace`     | Scala kolejne puste wiersze i spacje na końcach wierszy |
-| `dedupSystemPrompt`      | Usuwa zduplikowane komunikaty systemowe                 |
-| `compressToolResults`    | Kompresuje rozwlekłe wyniki narzędzi/funkcji            |
-| `removeRedundantContent` | Usuwa powtarzające się instrukcje                       |
-| `replaceImageUrls`       | Skraca identyfikatory URI danych obrazów base64         |
+| Technika                 | Opis                                                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Scal kolejne puste linie i końcowe spacje                                                                            |
+| `dedupSystemPrompt`      | Usuń zduplikowane wiadomości systemowe                                                                               |
+| `compressToolResults`    | Obetnij wcześniejsze wyniki narzędzia do maksymalnego limitu (stratne: tylko w przypadku wyrażenia zgody na żądanie) |
+| `removeRedundantContent` | Usuń powtarzające się instrukcje                                                                                     |
+| `replaceImageUrls`       | Skróć dane obrazu base64 URIs                                                                                        |
 
-**Najlepszy do:** pracy w trybie ciągłym, procesów krytycznych dla bezpieczeństwa.
+**Najlepsze dla:** Zawsze aktywne użytkowanie, przepływy pracy krytyczne dla bezpieczeństwa.
 
-### Tryb Standard (~30% oszczędności)
+### Tryb Standardowy (~ 30% oszczędności)
 
-Zainspirowany projektem [Caveman](https://github.com/JuliusBrussee/caveman) — usuwa słowa-wypełniacze i rozwlekłe sformułowania, zachowując znaczenie:
+Zainspirowany [Cavemanem](https://github.com/JuliusBrussee/caveman) — usuwa słowa wypełniające i pełne sformułowania, zachowując jednocześnie znaczenie:
 
-- Usuwa słowa-wypełniacze („please”, „I think”, „basically”, „actually”)
-- Skraca rozwlekłe zwroty („in order to” → „to”, „as a result of” → „because”)
-- Usuwa grzecznościowe wstawki („Would you mind...”, „If you could possibly...”)
-- Ponad 30 reguł regex dostosowanych do promptów programistycznych
+- Usuwa słowa wypełniające („proszę”, „myślę”, „w zasadzie”, „właściwie”)
+- Kondensuje szczegółowe wyrażenia („w celu” → „do”, „w wyniku” → „ponieważ”)
+- Usuwa grzeczne zabezpieczenie („Czy miałbyś coś przeciwko…”, „Gdybyś mógł…”)
+- 30 reguł wyrażeń regularnych + dostosowanych do podpowiedzi dotyczących kodowania
 
-**Najlepszy do:** codziennych procesów programistycznych, zespołów dbających o koszty.
+**Najlepsze dla:** Codzienne przepływy pracy związane z kodowaniem, zespoły świadome kosztów.
 
-### Tryb Aggressive (~50% oszczędności)
+### Tryb agresywny (~ 50% oszczędności)
 
 Inteligentne zarządzanie historią podczas długich sesji:
 
-- **Starzenie wiadomości** — starsze wiadomości są stopniowo coraz silniej kompresowane
-- **Kompresja wyników narzędzi** — długie wyniki narzędzi są obcinane lub skracane (pierwsze/ostatnie wiersze, filtrowanie wierszy z dopasowaniami, kompaktowanie kluczy JSON)
-- **Mechanizmy ochrony integralności strukturalnej** — zapewniają spójność par `tool_use` + `tool_result`
-- **Świadomość okna kontekstu** — przestrzega limitów tokenów dla poszczególnych modeli
+- **Starzenie się wiadomości** — starsze wiadomości są stopniowo kompresowane
+- **Kompresja wyniku narzędzia** Wyniki długiego narzędzia — są obcięte lub pominięte (linie first/last, filtrowanie linii dopasowania, zagęszczanie klucza JSON )
+- **Strażnicy integralności strukturalnej** — zapewnia, że pary `tool_use` + `tool_result` pozostają spójne
+- **Świadomość okna kontekstowego** — przestrzega limitów tokenów dla poszczególnych modeli
 
-**Najlepszy do:** długich sesji debugowania, dużych baz kodu.
+**Najlepsze dla:** Rozszerzone sesje debugowania, duże bazy kodu.
 
-### Tryb Ultra (~75% oszczędności)
+### Tryb Ultra (~ 75% oszczędności)
 
-Maksymalna kompresja do scenariuszy krytycznych pod względem tokenów:
+Maksymalna kompresja dla scenariuszy krytycznych dla tokenu:
 
-- **Przycinanie heurystyczne** — przycinanie tokenów prozy na podstawie punktacji
-- **Zachowanie struktury** — blok kodu, kod inline, adresy URL i identyfikatory są zamieniane na znaczniki (tombstone) i ponownie zszywane w oryginalnej postaci — nigdy nie są przycinane
-- **Opcjonalna warstwa SLM** — po skonfigurowaniu mały lokalny model może udoskonalić przycinanie
-- Niezależny od trybu Aggressive: nie uruchamia starzenia wiadomości, kompresji wyników narzędzi ani awaryjnego streszczacza (tylko awaria warstwy SLM może skierować przebieg awaryjny przez tryb aggressive)
+- **Przycinanie heurystyczne** — przycinanie prozy na podstawie tokenów
+- **Zachowanie struktury** — chronione bloki kodu, kod inline, URLs i identyfikatory są nagrobne i ponownie zszyte dosłownie, nigdy nie przycinane
+- **Opcjonalny poziom SLM** — mały model lokalny może udoskonalić przycinanie po skonfigurowaniu
+- Niezależne od trybu agresywnego: nie powoduje starzenia się komunikatów, kompresji wyników narzędzi ani podsumowania awaryjnego (tylko awaria poziomu SLM może skierować przejście awaryjne przez tryb agresywny)
 
-**Najlepszy do:** sytuacji, gdy wielokrotnie osiągasz limity kontekstu.
+**Najlepsze dla:** Kiedy wielokrotnie przekraczasz limity kontekstu.
 
-### Tryb RTK (zakres 60–90% upstream)
+### Tryb RTK (60-90% zasięgu w górę)
 
-Tryb RTK jest zoptymalizowany pod kątem rozwlekłych wyników narzędzi pojawiających się w sesjach agentów programistycznych:
+Tryb RTK jest zoptymalizowany pod kątem pełnych wyników narzędzi, które pojawiają się w sesjach agenta kodującego:
 
-- Wykrywa klasy poleceń/wyjść, takie jak `git status`, `git diff`, `git log`, programy uruchamiające testy, kompilacje TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/instalacje, logi Dockera, wyjście infrastruktury oraz ogólne wyjście powłoki
-- Stosuje pakiety filtrów JSON z `open-sse/services/compression/engines/rtk/filters/`
-- Importuje filtry RTK TOML schema v1 z projektowych lub globalnych plików `filters.toml`, z walidacją przez testy inline i kontrolą zaufania dla plików projektowych
-- Dostarcza 56 wbudowanych filtrów z przykładami weryfikacji inline
-- Usuwa sekwencje sterujące ANSI, paski postępu, powtarzające się wiersze i szum niewymagający reakcji
-- Zachowuje niepowodzenia, błędy, ostrzeżenia, zmienione pliki, podsumowania i końcówkę długiego wyjścia
-- Obsługuje filtry projektowe z kontrolą zaufania, filtry globalne oraz opcjonalne odzyskiwanie surowego wyjścia po anonimizacji
+- Wykrywa klasy command/output takie jak `git status`, `git diff`, `git log`, uruchamiacze testów, kompilacje TypeScript/Vite/Webpack, ESLint/Biome/Prettier, npm audit/installs, logi Docker, wyjście infra i ogólne wyjście powłoki
+- Dotyczy pakietów filtrów JSON firmy `open-sse/services/compression/engines/rtk/filters/`
+- Importuje filtry schematu RTK TOML v1 z projektu lub globalnych plików `filters.toml`, z weryfikacją testów inline i bramką zaufania dla plików projektu
+- Zawiera 56 wbudowanych filtrów z wbudowaną weryfikacją próbek
+- Usuwa sekwencje kontrolne ANSI, paski postępu, powtarzające się linie i szumy, których nie można podjąć
+- Zachowuje awarie, błędy, ostrzeżenia, zmienione pliki, podsumowania i koniec długich wyników
+- Obsługuje filtry projektów bramkowanych przez zaufanie, filtry globalne i opcjonalne odzyskiwanie zredagowanych nieprzetworzonych danych wyjściowych
 
-**Najlepszy do:** sesji agentowych z transkryptami powłoki, kompilacji, testów, git, grep i wyjścia plików.
+**Najlepsze dla:** Sesje agentów z powłokami, kompilacjami, testami, git, grep i transkrypcjami wyjściowymi plików.
 
-### Tryb Stacked (zakres kwalifikowany: 78–95%)
+### Tryb skumulowany (78–95% kwalifikującego się zakresu)
 
-Tryb Stacked uruchamia wiele silników kompresji w deterministycznej kolejności. Domyślny pipeline to:
+Tryb skumulowany uruchamia wiele silników kompresji w deterministycznej kolejności. Domyślny potok to:
 
 ```txt
 RTK -> Caveman
 ```
 
-Taka kolejność najpierw zapewnia zwartość wyjścia terminala/narzędzi, a następnie stosuje semantyczną kondensację Caveman do pozostałego promptu w języku naturalnym. Pipeline'y Stacked można konfigurować globalnie lub poprzez kombinacje kompresji przypisane do kombinacji routingu.
+Ta kolejność sprawia, że wyjście terminal/tool jest najpierw zwarte, a następnie stosuje kondensację semantyczną jaskiniowca do pozostałego znaku zachęty w języku naturalnym. Potoki skumulowane można konfigurować globalnie lub poprzez kombinacje kompresji przypisane do kombinacji routingu.
 
-**Najlepszy do:** mieszanych kontekstów z dużymi logami narzędzi oraz instrukcjami użytkownika lub podsumowaniami asystenta.
+**Najlepsze dla:** Mieszany kontekst z dużymi dziennikami narzędzi oraz instrukcjami personelu lub podsumowaniami asystentów.
 
 ---
 
@@ -181,15 +181,14 @@ Ze Stacked:             10K-2.5K tokenów wysłanych     (kwalifikujący się za
 
 Przejdź do `Dashboard → Context & Cache`:
 
-- **Caveman** — wybór trybu, pakiety językowe, podgląd i globalne ustawienia domyślne
-- **RTK** — podgląd filtra poleceń, ustawienia bezpieczeństwa RTK i katalog filtrów
-- **Compression Combos** — nazwane potoki silników przypisane do kombinacji routingu
-- **Auto-Trigger Threshold** — automatyczne włączanie kompresji, gdy liczba tokenów przekroczy próg
+- **Jaskiniowiec** wybór trybu —, pakiety językowe, podgląd i globalne ustawienia domyślne
+- **RTK** podgląd filtra poleceń —, ustawienia bezpieczeństwa RTK i katalog filtrów
+- **Kombinacje kompresyjne** — nazwane potoki silnika przypisane do kombinacji routingu
+- **Próg automatycznego wyzwalania** — automatycznie włącza kompresję, gdy liczba tokenów przekracza próg
 
-### Nadpisanie dla kombinacji
+### Zastąpienie poszczególnych kombinacji
 
-W `Dashboard → Context & Cache → Compression Combos` przypisz kombinację kompresji do kombinacji
-routingu:
+W `Dashboard → Context & Cache → Compression Combos` przypisz kombinację kompresji do kombinacji routingu:
 
 ```txt
 Combo: "free-tier-fallback"
@@ -200,63 +199,49 @@ Combo: "free-tier-fallback"
     2. if/qwen3.8-max-preview
 ```
 
-Pozwala to używać wieloetapowej kompresji u darmowych dostawców i dostawców przeznaczonych do
-programowania, zachowując jednocześnie tryb lekki w płatnych subskrypcjach.
+Dzięki temu możesz używać kompresji stosowej u dostawców free/coding, zachowując jednocześnie tryb uproszczony w płatnych subskrypcjach.
 
-To przypisanie „Nadpisanie dla kombinacji” jest innym mechanizmem sterującym niż nadpisanie
-**trybu kompresji kombinacji routingu** (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses —
-schemat tego pola akceptuje również `rtk`, `stacked` i `omniglyph`) — to nadpisanie nie wybiera
-nazwanego potoku kombinacji kompresji, lecz jedynie ustawia pole `compressionMode` używane przez
-`resolveCompressionPlan`. Można je ustawić na karcie kombinacji (`Dashboard → Combos`) lub, od wersji
-#6760, dla każdej kombinacji routingu na liście „Assign to routing” w
-`Dashboard → Context & Cache → Compression Combos`, tuż obok opisanego powyżej pola wyboru
-przypisania potoku. Oba interfejsy zapisują dane za pośrednictwem tego samego punktu końcowego
-`PUT /api/combos/{id}`.
+To przypisanie „Zastąpienie kombinacji” różni się od** tryb kompresji kombinacji routingu** override ( odpowiedzi Default/Off/Lite/Standard/Aggressive/Ultra/Codex — schemat pola akceptuje także `rtk`, `stacked` i `omniglyph`) — to override nie wybiera nazwanego potoku combo kompresji; po prostu ustawia pole `compressionMode` z którym konsultuje się `resolveCompressionPlan`. Można go ustawić albo na karcie combo (`Dashboard → Combos`), albo, od #6760, na kombinację routingu na liście „Przypisz do routingu” na `Dashboard → Context & Cache → Compression Combos`, tuż obok pola wyboru przypisania potoku udokumentowanego powyżej. Obie powierzchnie utrzymują się w tym samym punkcie końcowym `PUT /api/combos/{id}`.
 
-### Nadpisanie dla żądania
+### Zastąpienie na żądanie
 
-Wyślij nagłówek żądania `x-omniroute-compression`, aby nadpisać plan kompresji dla pojedynczego
-żądania. Ma on najwyższy priorytet — zastępuje nadpisanie kombinacji routingu, aktywny profil,
-automatyczne wyzwalanie oraz wartość domyślną z panelu. Nieznane wartości są ignorowane (żądanie
-nigdy nie jest odrzucane), a globalny przełącznik główny nadal kontroluje wszystkie ustawienia:
-gdy kompresja jest globalnie wyłączona, nagłówek nie może jej włączyć. Wartości:
+Wyślij nagłówek żądania `x-omniroute-compression`, aby zastąpić plan kompresji dla pojedynczego żądania. Ma najwyższy priorytet — przewyższa zastąpienie kombinacji routingu, aktywny profil, automatyczne wyzwalanie i domyślny panel. Nieznane wartości są ignorowane (żądanie nigdy nie jest odrzucane), a globalny wyłącznik główny nadal zamyka wszystko: gdy kompresja jest globalnie wyłączona, nagłówek nie może jej włączyć. Wartości:
 
-| Wartość       | Efekt                                                                                                                         |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `off`         | Brak kompresji dla tego żądania.                                                                                              |
-| `default`     | Domyślny profil określony w panelu (ignoruje aktywny profil). Silniki stratne pozostają wyłączone.                            |
-| `safe`        | Tak samo jak przy pominięciu nagłówka: tylko deduplikacja i redukcja białych znaków.                                          |
-| `allow-lossy` | Zachowuje plan operatora tego żądania, w tym podsumowania, filtry trafności i zmiany stylu.                                   |
-| `engine:<id>` | Pojedynczy silnik, jeśli jest włączony, np. `engine:rtk`. Jest to zgoda na użycie tego silnika dla danego żądania.            |
-| `<combo>`     | Nazwana kombinacja, dopasowywana najpierw według nazwy (bez rozróżniania wielkości liter), a następnie według identyfikatora. |
+| Wartość       | Efekt                                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `off`         | Brak kompresji dla tego żądania.                                                                                               |
+| `default`     | Profil domyślny wyprowadzony z panelu (ignoruje profil aktywny). Silniki ze stratami są wyłączone.                             |
+| `safe`        | To samo, co pominięcie nagłówka.                                                                                               |
+| `allow-lossy` | Zachowaj plan operatora tego żądania, w tym podsumowania, filtry trafności i przepisanie stylu.                                |
+| `engine:<id>` | Pojedynczy silnik, gdy jest włączony, np. `engine:rtk`. To jest opcja wyrażenia zgody na żądanie dla tego silnika.             |
+| `<combo>`     | Nazwana kombinacja, dopasowywana najpierw według nazwy (bez uwzględniania wielkości liter), a następnie według identyfikatora. |
 
-Bez `allow-lossy`, `engine:<id>` lub nazwanej kombinacji silniki stratne nie są stosowane. Jeśli
-kompresja jest włączona, żądanie nadal podlega deduplikacji sesji i redukcji białych znaków.
+Bez `allow-lossy`, `engine:<id>` lub nazwanej kombinacji, silniki stratne nie są stosowane. Kiedy stratna wartość domyślna, automatyczne wyzwalanie lub zastąpienie routingu zostanie obniżona, OmniRoute zachowuje rozpoznane bezstratne kroki ze skonfigurowanego skumulowanego potoku w skonfigurowanej kolejności. Wraca do `session-dedup → lite` tylko wtedy, gdy nie przetrwa żaden skonfigurowany krok bezstratny.
 
-Zastosowany plan jest zwracany w nagłówku odpowiedzi
-`X-OmniRoute-Compression: <mode>; source=<source>`, gdzie `<source>` przyjmuje jedną z wartości:
-`request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` lub `off`.
+Panel Ustawienia** Efektywny rurociąg** podgląd pokazuje zwykły plan odpoczynku. Gdy może zostać uruchomione automatyczne wyzwalanie, ten sam podgląd pokazuje również warunkowy efektywny potok, dzięki czemu rozdzielczość panelu i środowiska wykonawczego bez nagłówków pozostają wyrównane.
+
+Zastosowany plan jest powtórzony w nagłówku odpowiedzi `X-OmniRoute-Compression: <mode>; source=<source>`, gdzie `<source>` jest jednym z `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` lub `off`.
 
 ### API
 
 ```bash
-# Pobierz ustawienia kompresji
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Zaktualizuj ustawienia kompresji
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Wyświetl podgląd określonego ładunku RTK/stacked
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# Wyświetl listę pakietów filtrów RTK
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Przetestuj RTK bezpośrednio z opcjonalnymi metadanymi polecenia
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

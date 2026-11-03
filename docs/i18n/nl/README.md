@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — De Gratis AI Gateway
+# 🚀 OmniRoute — De gratis AI gateway
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Gemaakt door [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Blijf altijd coderen. Elke AI-tool → 380 providers — 150+ gratis — via één endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity naar GRATIS Claude / GPT / Gemini met automatische fallback. RTK + Caveman gestapelde compressie bespaart 15–95% tokens (~89% gemiddeld) — nooit meer limieten bereiken. 380 AI-providers · 150+ gratis niveaus · ~1,62 miljard gratis tokens/maand · 20 routeringsstrategieën · €0 om te starten."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1285,29 +1285,29 @@ Canonieke statistieken op 2026-10-18: **1.976 unieke video's** · **20.220.289 b
 <br/>
 <div align="center">
 
-## 🛠️ Technologiestack
+## 🛠️ Tech-stack
 
 </div>
 
 <table>
   <tr><th align="left">Laag</th><th align="left">Technologie</th></tr>
-  <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Taal</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> in <code>src/</code> en <code>open-sse/</code> (nul <code>any</code> in de kern sinds v2.0)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Database</b></td><td>better-sqlite3 (SQLite, WAL-journaling) + LowDB (JSON-legacy) — 147 domeinmodules, 221 migraties</td></tr>
-  <tr><td nowrap><b>Geheugen</b></td><td>SQLite FTS5 voor volledige tekst + int8-gekwantiseerde vectorinsluitingen, getypeerd verval</td></tr>
-  <tr><td nowrap><b>Schema's</b></td><td>Zod 4 — validatie van MCP-tool-I/O + API-contracten</td></tr>
+  <tr><td nowrap><b>Looptijd</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>Taal</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> over <code>src/</code> en <code>open-sse/</code> (nul <code>any</code> in core sinds v2.0)</td></tr>
+  <tr><td nowrap><b>Kader</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Database</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 domeinmodules, 221 migraties</td></tr>
+  <tr><td nowrap><b>Geheugen</b></td><td>SQLite FTS5 volledige tekst + int8-quantized vectorinbedding, getypt verval</td></tr>
+  <tr><td nowrap><b>Schema's</b></td><td>Zod 4 — MCP tool I/O validatie + API contracten</td></tr>
   <tr><td nowrap><b>Protocollen</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Streaming</b></td><td>Server-Sent Events (SSE) + WebSocket-bridge (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Compressie</b></td><td>Pipeline met 12 engines — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Authenticatie &amp; beveiliging</b></td><td>OAuth 2.0 (PKCE) + JWT + API-sleutels + MCP-authenticatie met scope · AES-256-GCM voor gegevens in rust · DOMPurify</td></tr>
-  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS-fingerprintimitatie, proxy met 3 niveaus</td></tr>
-  <tr><td nowrap><b>Veerkracht</b></td><td>Circuit breaker, exponentiële backoff, bescherming tegen de thundering-herd, zelfherstel via automatische combinaties</td></tr>
-  <tr><td nowrap><b>Logging</b></td><td>pino — gestructureerde JSON-logs met requestcontext</td></tr>
-  <tr><td nowrap><b>Testen</b></td><td>Node.js-test runner + Vitest — <b>meer dan 60.000 statische testdeclaraties</b> in meer dan 8.400 bijgehouden testbestanden (unit, integratie, E2E, beveiliging, ecosysteem)</td></tr>
+  <tr><td nowrap><b>Streamen</b></td><td>Door de server verzonden gebeurtenissen (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Compressie</b></td><td>Pijpleiding met 12 motoren — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; -beveiliging</b></td><td>OAuth 2.0 (PKCE) + JWT + API + MCP scoped auth · AES-256-GCM in rust · DOMPurify</td></tr>
+  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS vingerafdrukimitatie, proxy op 3 niveaus</td></tr>
+  <tr><td nowrap><b>Weerstand</b></td><td>Stroomonderbreker, exponentiële uitstel, anti-donderkudde, automatische combo zelfherstel</td></tr>
+  <tr><td nowrap><b>Loggen</b></td><td>pino — gestructureerde JSON -logboeken met verzoekcontext</td></tr>
+  <tr><td nowrap><b>Testen</b></td><td>Node.js testloper + Vitest — <b>60.000 + statische testverklaringen</b> over 8.400 + bijgehouden testbestanden (eenheid, integratie, E2E, beveiliging, ecosysteem)</td></tr>
   <tr><td nowrap><b>Platformen</b></td><td>Desktop (Electron) · Android (Termux) · PWA (elke browser)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — automatische publicatie naar npm + Docker Hub bij releases</td></tr>
-  <tr><td nowrap><b>Links</b></td><td><a href="https://omniroute.online">Website</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Acties — auto npm publiceer + Docker Hub bij release</td></tr>
+  <tr><td nowrap><b>Koppelingen</b></td><td><a href="https://omniroute.online">Website</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1797,17 +1797,17 @@ OmniRoute staat op de schouders van reuzen. Het begon als een fork van **[9route
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Identificeerde het quotumoppervlak van Grok Build; OmniRoute heeft vervolgens onafhankelijk de live wire-indeling geverifieerd en gecorrigeerd.</td></tr>
 </table>
 
-## 📄 Licentie
+## 📄 -licentie
 
-MIT-licentie - zie [LICENSE](LICENSE) voor details.
+MIT -licentie - zie [LICENSE](LICENSE) voor details.
 
 ---
 
 <div align="center">
 
-**[⬆ Terug naar boven](#-omniroute)** · Gebouwd met ❤️ voor de open-source AI-community.
+**[⬆ Terug naar boven](#-omniroute)** · Gebouwd met ❤️ voor de open-source AI gemeenschap.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT-licentie · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Gemaakt door <a href="https://github.com/diegosouzapw">Diego Souz</a> · OmniRoute v3.8.53 · Knooppunt ≥ 22.22.2 · MIT licentie · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions ingeschakeld voor community Q&A -->
+<!-- GitHub Discussions enabled for community Q&A -->

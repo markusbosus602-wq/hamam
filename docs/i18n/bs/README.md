@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — Besplatna AI Gateway
+# 🚀 OmniRoute — Besplatni AI Gateway
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Kreirao [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Nikad ne prestajte kodirati. Svaki AI alat → 380 provajdera — 150+ besplatnih — kroz jedan endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity u BESPLATNI Claude / GPT / Gemini sa automatskim prebacivanjem. RTK + Caveman složena kompresija štedi 15–95% tokena (~89% prosjek) — nikad ne prelazite limite. 380 AI provajdera · 150+ besplatnih paketa · ~1.62B besplatnih tokena/mj · 20 strategija rutiranja · $0 za početak."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1293,29 +1293,29 @@ Kanonske metrike na dan 2026-10-18: **1.976 jedinstvenih videozapisa** · **20.2
 <br/>
 <div align="center">
 
-## 🛠️ Tehnološki stek
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
-  <tr><th align="left">Sloj</th><th align="left">Tehnologija</th></tr>
-  <tr><td nowrap><b>Izvršno okruženje</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Jezik</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> u direktorijima <code>src/</code> i <code>open-sse/</code> (nula <code>any</code> u jezgri od v2.0)</td></tr>
-  <tr><td nowrap><b>Okvir</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Baza podataka</b></td><td>better-sqlite3 (SQLite, WAL evidentiranje) + LowDB (naslijeđeni JSON) — 147 domenskih modula, 221 migracija</td></tr>
-  <tr><td nowrap><b>Memorija</b></td><td>SQLite FTS5 pretraga punog teksta + vektorski ugrađeni prikazi kvantizirani na int8, tipizirano opadanje</td></tr>
-  <tr><td nowrap><b>Šeme</b></td><td>Zod 4 — MCP validacija ulaza/izlaza alata + API ugovori</td></tr>
+  <tr><th align="left">Layer</th><th align="left">Tehnologija</th></tr>
+  <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>Jezik</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> preko <code>src/</code> i <code>open-sse/</code> (nula <code>any</code> u jezgri od v2.0)</td></tr>
+  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Baza podataka</b></td><td>better-sqlite3 (SQLite, WAL dnevnik) + LowDB (JSON naslijeđe) — 147 modula domena, 221 migracija</td></tr>
+  <tr><td nowrap><b>Memorija</b></td><td>SQLite FTS5 puni tekst + int8-quantized vektorske ugradnje, otkucano raspadanje</td></tr>
+  <tr><td nowrap><b>Šeme</b></td><td>Zod 4 — MCP alat I/O validacija + API ugovori</td></tr>
   <tr><td nowrap><b>Protokoli</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Strimovanje</b></td><td>Server-Sent Events (SSE) + WebSocket most (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Kompresija</b></td><td>Cjevovod s 12 mehanizama — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Autentikacija i sigurnost</b></td><td>OAuth 2.0 (PKCE) + JWT + API ključevi + MCP autentikacija s opsegom · AES-256-GCM u mirovanju · DOMPurify</td></tr>
-  <tr><td nowrap><b>Nevidljivost</b></td><td>wreq-js — oponašanje TLS otiska JA3 / JA4, proxy s 3 nivoa</td></tr>
-  <tr><td nowrap><b>Otpornost</b></td><td>Prekidač strujnog kola, eksponencijalno povlačenje, zaštita od stampeda zahtjeva, automatsko kombinovano samostalno popravljanje</td></tr>
-  <tr><td nowrap><b>Evidentiranje</b></td><td>pino — strukturirani JSON zapisi s kontekstom zahtjeva</td></tr>
-  <tr><td nowrap><b>Testiranje</b></td><td>Pokretač testova za Node.js + Vitest — <b>više od 60.000 statičkih deklaracija testova</b> u više od 8.400 praćenih datoteka testova (jedinični, integracijski, E2E, sigurnosni, ekosistemski)</td></tr>
+  <tr><td nowrap><b>Streaming</b></td><td>Događaji poslani serverom (SSE) + WebSocket most (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Kompresija</b></td><td>Cjevovod s 12 motora — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; sigurnost</b></td><td>OAuth 2.0 (PKCE) + JWT + API Ključevi + MCP auth s opsegom · AES-256-GCM u mirovanju · DOMPurify</td></tr>
+  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS predstavljanje otiska prsta, proxy na 3 nivoa</td></tr>
+  <tr><td nowrap><b>Otpornost</b></td><td>Prekidač strujnog kruga, eksponencijalno povlačenje, protiv grmljavine, auto-kombo samoizlječenje</td></tr>
+  <tr><td nowrap><b>Logging</b></td><td>pino — strukturirani JSON dnevniki s kontekstom zahtjeva</td></tr>
+  <tr><td nowrap><b>Testiranje</b></td><td>Node.js test runner + Vitest — <b>60.000 + statičkih testnih deklaracija</b> preko 8.400 + praćenih test fajlova (jedinica, integracija, E2E, sigurnost, ekosistem)</td></tr>
   <tr><td nowrap><b>Platforme</b></td><td>Desktop (Electron) · Android (Termux) · PWA (bilo koji preglednik)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — automatska objava na npm + Docker Hub prilikom izdanja</td></tr>
-  <tr><td nowrap><b>Veze</b></td><td><a href="https://omniroute.online">Web stranica</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Akcije — auto npm objavi + Docker Hub nakon izdavanja</td></tr>
+  <tr><td nowrap><b>Linkovi</b></td><td><a href="https://omniroute.online">Website</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1805,7 +1805,7 @@ OmniRoute stoji na ramenima divova. Započeo je kao fork projekta **[9router](ht
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Identifikovao je površinu kvote za Grok Build; OmniRoute je zatim nezavisno provjerio i ispravio aktivni format komunikacije.</td></tr>
 </table>
 
-## 📄 Licenca
+## 📄 License
 
 MIT licenca - pogledajte [LICENSE](LICENSE) za detalje.
 
@@ -1813,9 +1813,9 @@ MIT licenca - pogledajte [LICENSE](LICENSE) za detalje.
 
 <div align="center">
 
-**[⬆ Nazad na vrh](#-omniroute)** · Napravljeno s ❤️ za open-source AI zajednicu.
+**[⬆ Povratak na vrh](#-omniroute)** · Napravljen sa ❤️ za AI zajednicu otvorenog koda.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT licenca · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · MIT Licenca · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions omogućen za pitanja i odgovore zajednice -->
+<!-- GitHub Discussions enabled for community Q&A -->

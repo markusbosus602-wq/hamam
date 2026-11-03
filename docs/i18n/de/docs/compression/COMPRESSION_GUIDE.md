@@ -34,90 +34,80 @@ Client-Anfrage
 
 ### Aus
 
-Keine Komprimierung. Alle Nachrichten werden unverändert durchgereicht.
+Keine Komprimierung angewendet. Alle Nachrichten werden unverändert weitergeleitet.
 
-### Lite-Modus (~15 % Ersparnis, <1 ms Latenz)
+### Lite-Modus (~ 15 % Ersparnis, < 1 ms Latenz)
 
-Der sicherste Modus – keine semantische Veränderung, nur Formatierungsbereinigung:
+Der sicherste Modus zur Bereinigung — -Formatierung. Die Kürzung der Tool-Ergebnisse ist verlustbehaftet, daher wird der Standardpfad (kein `allow-lossy`, `engine:lite` oder benanntes Combo-Opt-In) lite mit `compressToolResults: false` ausgeführt: Frühere Tool-Ergebnisse erreichen den Anbieter unverändert.
 
-| Technik                  | Beschreibung                                                                |
-| ------------------------ | --------------------------------------------------------------------------- |
-| `collapseWhitespace`     | Fasst aufeinanderfolgende Leerzeilen und Leerzeichen am Zeilenende zusammen |
-| `dedupSystemPrompt`      | Entfernt doppelte Systemnachrichten                                         |
-| `compressToolResults`    | Komprimiert ausführliche Tool-/Funktionsausgaben                            |
-| `removeRedundantContent` | Entfernt wiederholte Anweisungen                                            |
-| `replaceImageUrls`       | Kürzt Base64-Bild-Daten-URIs                                                |
+| Technik                  | Beschreibung                                                                                          |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Führen Sie aufeinanderfolgende Leerzeilen und nachgestellte Leerzeichen zusammen                      |
+| `dedupSystemPrompt`      | Entfernen Sie doppelte Systemmeldungen                                                                |
+| `compressToolResults`    | Frühere Tool-Ergebnisse auf die Lite-Obergrenze kürzen (verlustbehaftet: nur mit Anforderungs-Opt-in) |
+| `removeRedundantContent` | Wiederholte Anweisungen entfernen                                                                     |
+| `replaceImageUrls`       | Base64-Bilddaten URIs kürzen                                                                          |
 
-**Am besten geeignet für:** Dauerbetrieb, sicherheitskritische Workflows.
+**Am besten für:** Ständige Nutzung, sicherheitskritische Arbeitsabläufe.
 
-### Standard-Modus (~30 % Ersparnis)
+### Standardmodus (~ 30 % Ersparnis)
 
-Inspiriert von [Caveman](https://github.com/JuliusBrussee/caveman) – entfernt Füllwörter und ausschweifende Formulierungen, ohne die Bedeutung zu verändern:
+Inspiriert von [Caveman](https://github.com/JuliusBrussee/caveman) entfernt — Füllwörter und ausführliche Formulierungen und behält gleichzeitig die Bedeutung bei:
 
-- Entfernt Füllwörter ("please", "I think", "basically", "actually")
-- Verdichtet ausschweifende Phrasen ("in order to" → "to", "as a result of" → "because")
-- Entfernt höfliche Abschwächungen ("Would you mind...", "If you could possibly...")
-- Über 30 Regex-Regeln, optimiert für Coding-Prompts
+- Entfernt Füllwörter („bitte“, „ich denke“, „grundsätzlich“, „eigentlich“)
+- Verdichtet ausführliche Phrasen („um“ → „zu“, „als Ergebnis von“ → „weil“)
+- Entfernt höfliche Absicherungen („Würde es Ihnen etwas ausmachen…“, „Wenn Sie könnten…“)
+- 30 + -Regex-Regeln, optimiert für Codierungsaufforderungen
 
-**Am besten geeignet für:** Tägliche Coding-Workflows, kostenbewusste Teams.
+**Am besten für:** Tägliche Codierungsworkflows, kostenbewusste Teams.
 
-### Aggressiver Modus (~50 % Ersparnis)
+### Aggressiver Modus (~ 50 % Ersparnis)
 
 Intelligente Verlaufsverwaltung für lange Sitzungen:
 
-- **Nachrichten-Alterung** – ältere Nachrichten werden zunehmend stärker komprimiert
-- **Tool-Ergebnis-Komprimierung** – lange Tool-Ausgaben werden gekürzt oder ausgelassen (erste/letzte Zeilen,
-  Match-Zeilen-Filterung, JSON-Schlüssel-Verdichtung)
-- **Wächter für strukturelle Integrität** – stellt sicher, dass `tool_use`- + `tool_result`-Paare konsistent bleiben
-- **Kontextfenster-Berücksichtigung** – respektiert modellspezifische Token-Limits
+- **Nachrichtenalterung** Ältere — Nachrichten werden zunehmend komprimiert
+- **Tool-Ergebniskomprimierung** Die Ausgaben — Long-Tools werden abgeschnitten oder eliminiert (first/last Zeilen, Match-Line-Filterung, JSON -Schlüsselkomprimierung).
+- **Strukturelle Integritätswächter** — stellt sicher, dass `tool_use` + `tool_result` Paare konsistent bleiben
+- **Kontextfensterbewusstsein** — respektiert die Token-Grenzwerte pro Modell
 
-**Am besten geeignet für:** Längere Debugging-Sitzungen, große Codebases.
+**Am besten für:** Erweiterte Debugging-Sitzungen, große Codebasen.
 
-### Ultra-Modus (~75 % Ersparnis)
+### Ultra-Modus (~ 75 % Ersparnis)
 
-Maximale Komprimierung für token-kritische Szenarien:
+Maximale Komprimierung für tokenkritische Szenarien:
 
-- **Heuristisches Pruning** – Score-basiertes Token-Pruning von Fließtext
-- **Strukturerhaltung** – Codeblöcke mit Fences, Inline-Code, URLs und Bezeichner werden
-  als Tombstones markiert und wortgetreu wieder eingefügt, niemals entfernt
-- **Optionale SLM-Stufe** – ein kleines lokales Modell kann das Pruning verfeinern, sofern konfiguriert
-- Unabhängig vom aggressiven Modus: Es findet kein Message-Aging, keine Tool-Ergebnis-Komprimierung
-  und kein Fallback-Summarizer statt (nur ein Fehler der SLM-Stufe kann einen Fallback-Durchlauf
-  über den aggressiven Modus auslösen)
+- **Heuristisches Beschneiden** — Score-basierte Token-Beschneidung von Prosa
+- **Strukturerhaltung** — -umzäunte Codeblöcke, Inline-Code, URLs und Bezeichner werden mit Tombstones versehen und wörtlich neu zusammengefügt, niemals beschnitten
+- **Optionale SLM -Stufe** — Ein kleines lokales Modell kann die Bereinigung verfeinern, wenn es konfiguriert ist
+- Unabhängig vom aggressiven Modus: Es werden keine Nachrichtenalterung, keine Tool-Ergebniskomprimierung oder die Fallback-Zusammenfassung ausgeführt (nur ein Ausfall der SLM-Ebene kann einen Fallback-Durchlauf über den aggressiven Modus weiterleiten).
 
-**Am besten geeignet für:** Wenn Sie wiederholt an Kontextlimits stoßen.
+**Am besten für:** Wenn Sie wiederholt an Kontextgrenzen stoßen.
 
-### RTK-Modus (60–90 % Upstream-Bereich)
+### RTK Modus (60–90 % Upstream-Bereich)
 
-Der RTK-Modus ist für ausführliche Tool-Ausgaben optimiert, die in Coding-Agent-Sitzungen anfallen:
+RTK Modus ist für ausführliche Tool-Ausgaben optimiert, die in Coding-Agent-Sitzungen angezeigt werden:
 
-- Erkennt Befehls-/Ausgabeklassen wie `git status`, `git diff`, `git log`, Test-Runner,
-  TypeScript/Vite/Webpack-Builds, ESLint/Biome/Prettier, npm audit/Installs, Docker-Logs, Infra-Ausgaben
-  und generische Shell-Ausgaben
-- Wendet JSON-Filterpakete aus `open-sse/services/compression/engines/rtk/filters/` an
-- Importiert RTK-TOML-Schema-v1-Filter aus Projekt- oder globalen `filters.toml`-Dateien, mit Inline-Test-
-  Validierung und Trust-Gating für Projektdateien
-- Wird mit 56 integrierten Filtern inklusive Inline-Verifizierungsbeispielen ausgeliefert
-- Entfernt ANSI-Steuersequenzen, Fortschrittsbalken, wiederholte Zeilen und nicht umsetzbares Rauschen
-- Behält Fehlschläge, Fehler, Warnungen, geänderte Dateien, Zusammenfassungen und das Ende langer Ausgaben bei
-- Unterstützt trust-gesteuerte Projektfilter, globale Filter und die optionale Wiederherstellung der
-  geschwärzten Rohausgabe
+- Erkennt command/output Klassen wie `git status`, `git diff`, `git log`, Testläufer, TypeScript/Vite/Webpack -Builds, ESLint/Biome/Prettier, NPM audit/installs, Docker -Protokolle, Infra-Ausgabe und generische Shell-Ausgabe
+- Wendet JSON Filterpakete von `open-sse/services/compression/engines/rtk/filters/` an
+- Importiert RTK TOML Schema-V1-Filter aus Projekt- oder globalen `filters.toml` Dateien mit Inline-Testvalidierung und Trust-Gating für Projektdateien
+- Im Lieferumfang sind 56 integrierte Filter mit Inline-Verifizierungsproben enthalten
+- Entfernt ANSI -Kontrollsequenzen, Fortschrittsbalken, wiederholte Zeilen und nicht umsetzbares Rauschen
+- Behält Fehler, Fehler, Warnungen, geänderte Dateien, Zusammenfassungen und das Ende einer langen Ausgabe bei
+- Unterstützt vertrauenswürdige Projektfilter, globale Filter und optionale Wiederherstellung geschwärzter Rohausgaben
 
-**Am besten geeignet für:** Agent-Sitzungen mit Shell-, Build-, Test-, Git-, Grep- und Dateiausgabe-Transkripten.
+**Am besten für:** Agentensitzungen mit Shell-, Build-, Test-, Git-, Grep- und Dateiausgabetranskripten.
 
-### Stacked-Modus (78–95 % bei geeigneten Inhalten)
+### Stapelmodus (78–95 % zulässiger Bereich)
 
-Der Stacked-Modus führt mehrere Komprimierungs-Engines in einer deterministischen Reihenfolge aus. Die Standard-Pipeline ist:
+Im gestapelten Modus werden mehrere Komprimierungs-Engines in einer deterministischen Reihenfolge ausgeführt. Die Standardpipeline ist:
 
 ```txt
 RTK -> Caveman
 ```
 
-Diese Reihenfolge komprimiert zuerst die Terminal-/Tool-Ausgabe und wendet anschließend die semantische
-Verdichtung von Caveman auf den verbleibenden natürlichsprachlichen Prompt an. Stacked-Pipelines können
-global oder über Komprimierungs-Combos konfiguriert werden, die Routing-Combos zugewiesen sind.
+Diese Reihenfolge hält terminal/tool Ausgabe zuerst kompakt und wendet dann die semantische Verdichtung von Caveman auf die verbleibende Eingabeaufforderung in natürlicher Sprache an. Gestapelte Pipelines können global oder über Komprimierungskombinationen konfiguriert werden, die Routing-Kombinationen zugewiesen sind.
 
-**Am besten geeignet für:** Gemischte Kontexte mit großen Tool-Logs plus menschlichen Anweisungen oder Assistenten-Zusammenfassungen.
+**Am besten für:** Gemischter Kontext mit großen Werkzeugprotokollen sowie menschlichen Anweisungen oder Zusammenfassungen von Assistenten.
 
 ---
 
@@ -187,69 +177,71 @@ Mit Stacked:        10K-2.5K Token gesendet     (geeignete RTK+Caveman-Spanne vo
 
 ## Konfiguration
 
-### Dashboard
+### Armaturenbrett
 
 Navigieren Sie zu `Dashboard → Context & Cache`:
 
-- **Caveman** — Modusauswahl, Sprachpakete, Vorschau und globale Standardeinstellungen
-- **RTK** — Vorschau des Befehlsfilters, RTK-Sicherheitseinstellungen und Filterkatalog
+- **Höhlenmensch** Auswahl des — -Modus, Sprachpakete, Vorschau und globale Standardeinstellungen
+- **RTK** — -Befehlsfiltervorschau, RTK Sicherheitseinstellungen und Filterkatalog
 - **Komprimierungskombinationen** — benannte Engine-Pipelines, die Routing-Kombinationen zugewiesen sind
-- **Schwellenwert für automatische Aktivierung** — Komprimierung automatisch aktivieren, wenn die Tokenanzahl den Schwellenwert überschreitet
+- **Auto-Trigger-Schwellenwert** — aktiviert automatisch die Komprimierung, wenn die Token-Anzahl den Schwellenwert überschreitet
 
-### Außerkraftsetzung pro Kombination
+### Override pro Combo
 
-Weisen Sie unter `Dashboard → Context & Cache → Compression Combos` einer Routing-Kombination eine Komprimierungskombination zu:
+Weisen Sie in `Dashboard → Context & Cache → Compression Combos` einer Routing-Kombination eine Komprimierungskombination zu:
 
 ```txt
-Kombination: "free-tier-fallback"
-  Komprimierungskombination: "coding-agent-stack"
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
   Pipeline: RTK -> Caveman
-  Ziele:
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-So können Sie gestapelte Komprimierung bei kostenlosen bzw. Coding-Anbietern verwenden und gleichzeitig für kostenpflichtige Abonnements den Lite-Modus beibehalten.
+Dadurch können Sie die gestapelte Komprimierung bei free/coding -Anbietern verwenden und gleichzeitig den Lite-Modus bei kostenpflichtigen Abonnements beibehalten.
 
-Diese Zuweisung zur „Außerkraftsetzung pro Kombination“ ist ein anderes Steuerelement als die Außerkraftsetzung des **Komprimierungsmodus der Routing-Kombination** (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — das Schema des Felds akzeptiert außerdem `rtk`, `stacked` und `omniglyph`). Diese Außerkraftsetzung wählt keine benannte Komprimierungskombinations-Pipeline aus, sondern legt lediglich das von `resolveCompressionPlan` ausgewertete Feld `compressionMode` fest. Sie kann entweder auf der Kombinationskarte (`Dashboard → Combos`) oder seit #6760 pro Routing-Kombination in der Liste „Assign to routing“ unter `Dashboard → Context & Cache → Compression Combos` festgelegt werden, direkt neben dem oben dokumentierten Kontrollkästchen für die Pipeline-Zuweisung. Beide Oberflächen speichern ihre Einstellungen über denselben Endpunkt `PUT /api/combos/{id}`.
+Diese „Per-Combo Override“-Zuweisung ist eine andere Steuerung als die** Routing-Combo-Komprimierungsmodus** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex -Antworten — Das Feldschema akzeptiert auch `rtk`, `stacked` und `omniglyph`) — das überschreibt, wählt keine benannte Komprimierungs-Kombinationspipeline aus; Es legt lediglich das von `resolveCompressionPlan` konsultierte `compressionMode` Feld fest. Es kann entweder auf der Combo-Karte (`Dashboard → Combos`) oder seit #6760 pro Routing-Combo in der Liste „Zu Routing zuweisen“ auf `Dashboard → Context & Cache → Compression Combos` direkt neben dem oben dokumentierten Kontrollkästchen für die Pipeline-Zuweisung festgelegt werden. Beide Oberflächen bleiben über denselben `PUT /api/combos/{id}` Endpunkt bestehen.
 
-### Außerkraftsetzung pro Anfrage
+### Überschreibung pro Anfrage
 
-Senden Sie den Anfrage-Header `x-omniroute-compression`, um den Komprimierungsplan für eine einzelne Anfrage außer Kraft zu setzen. Er hat die höchste Priorität — er überstimmt die Außerkraftsetzung der Routing-Kombination, das aktive Profil, die automatische Aktivierung und die Standardeinstellung des Panels. Unbekannte Werte werden ignoriert (die Anfrage wird niemals abgelehnt), und der globale Hauptschalter bleibt maßgeblich: Wenn die Komprimierung global deaktiviert ist, kann sie über den Header nicht aktiviert werden. Werte:
+Senden Sie den `x-omniroute-compression` -Anfrageheader, um den Komprimierungsplan für eine einzelne Anfrage zu überschreiben. Es hat die höchste Priorität — und übertrifft die Routing-Combo-Überschreibung, das aktive Profil, den automatischen Trigger und die Panel-Standardeinstellung. Unbekannte Werte werden ignoriert (die Anfrage wird niemals abgelehnt) und der globale Hauptschalter sperrt weiterhin alles: Wenn die Komprimierung global deaktiviert ist, kann der Header sie nicht aktivieren. Werte:
 
-| Wert          | Wirkung                                                                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `off`         | Keine Komprimierung für diese Anfrage.                                                                                                              |
-| `default`     | Das vom Panel abgeleitete Standardprofil (ignoriert das aktive Profil). Verlustbehaftete Engines bleiben deaktiviert.                               |
-| `safe`        | Entspricht dem Weglassen des Headers: nur Deduplizierung und Zusammenfassung von Leerraum.                                                          |
-| `allow-lossy` | Behält den Operatorplan dieser Anfrage bei, einschließlich Zusammenfassungen, Relevanzfiltern und Stilumschreibungen.                               |
-| `engine:<id>` | Eine einzelne Engine, sofern aktiviert, z. B. `engine:rtk`. Dies ist die anfragebezogene Aktivierung für diese Engine.                              |
-| `<combo>`     | Eine benannte Kombination, die zuerst anhand des Namens (ohne Beachtung der Groß-/Kleinschreibung) und anschließend anhand der ID abgeglichen wird. |
+| Wert          | Wirkung                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `off`         | Keine Komprimierung für diese Anfrage.                                                                                                            |
+| `default`     | Das vom Panel abgeleitete Standardprofil (ignoriert das aktive Profil). Verlustbehaftete Motoren werden weggelassen.                              |
+| `safe`        | Identisch mit dem Weglassen des Headers.                                                                                                          |
+| `allow-lossy` | Behalten Sie den Operatorplan dieser Anfrage bei, einschließlich Zusammenfassungen, Relevanzfiltern und Stiländerungen.                           |
+| `engine:<id>` | Eine einzelne Engine, wenn aktiviert, z. B. `engine:rtk`. Dies ist das Opt-in pro Anfrage für diese Engine.                                       |
+| `<combo>`     | Eine benannte Kombination, die zuerst nach dem Namen (ohne Berücksichtigung der Groß- und Kleinschreibung) und dann nach der ID abgeglichen wird. |
 
-Ohne `allow-lossy`, `engine:<id>` oder eine benannte Kombination werden keine verlustbehafteten Engines angewendet. Wenn die Komprimierung aktiviert ist, erhält die Anfrage weiterhin Sitzungs-Deduplizierung und eine Zusammenfassung von Leerraum.
+Ohne `allow-lossy`, `engine:<id>` oder eine benannte Kombination werden verlustbehaftete Engines nicht angewendet. Wenn ein verlustbehafteter Standard-, Auto-Trigger- oder Routing-Override herabgestuft wird, behält OmniRoute die erkannten verlustfreien Schritte aus der konfigurierten gestapelten Pipeline in der konfigurierten Reihenfolge bei. Es greift nur dann auf `session-dedup → lite` zurück, wenn kein konfigurierter verlustfreier Schritt überlebt.
 
-Der angewendete Plan wird im Antwort-Header `X-OmniRoute-Compression: <mode>; source=<source>` zurückgegeben, wobei `<source>` einer der Werte `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` oder `off` ist.
+Das Einstellungsfenster** Effektive Pipeline** Die Vorschau zeigt den normalen Ruheplan. Wenn ein automatischer Trigger ausgeführt werden kann, zeigt dieselbe Vorschau auch seine bedingte effektive Pipeline an, sodass das Panel und die Header-lose Laufzeitauflösung aufeinander abgestimmt bleiben.
+
+Der angewendete Plan wird im `X-OmniRoute-Compression: <mode>; source=<source>` -Antwortheader zurückgegeben, wobei `<source>` einer von `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` oder `off` ist.
 
 ### API
 
 ```bash
-# Komprimierungseinstellungen abrufen
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Komprimierungseinstellungen aktualisieren
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Vorschau einer bestimmten RTK-/gestapelten Nutzlast anzeigen
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# RTK-Filterpakete auflisten
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# RTK direkt mit optionalen Befehlsmetadaten testen
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

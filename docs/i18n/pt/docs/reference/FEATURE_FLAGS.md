@@ -35,9 +35,9 @@ Um sinalizador booleano é considerado **ativado** quando o seu valor efetivo é
 
 ## Catálogo de Bandeiras
 
-114 bandeiras em 6 categorias.** Predefinição** é a definição padrão — o valor utilizado quando não há substituição de DB nem de variável de ambiente.
+115 bandeiras em 6 categorias.** Predefinição** é a definição padrão — o valor utilizado quando não há substituição de DB nem de variável de ambiente.
 
-### Segurança (10)
+### Segurança (11)
 
 | Chave                                   | Tipo       | Predefinição | Descrição                                                                                                                                                                                                                                                                                                                                  |
 | --------------------------------------- | ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -51,6 +51,7 @@ Um sinalizador booleano é considerado **ativado** quando o seu valor efetivo é
 | `ALLOW_API_KEY_REVEAL`                  | booleano   | `false`      | Permitir que os utilizadores autenticados do painel revelem chaves API armazenadas em vez de verem apenas valores mascarados.                                                                                                                                                                                                              |
 | `AUTH_LOG_INCLUDE_ACCOUNT_ID`           | booleano   | `false`      | Inclui o prefixo da conta nas linhas de registo AUTH (por exemplo, "Utilizando a conta <provider> : abc12345..."). Desativado por defeito para que os identificadores de conta sejam editados a partir dos registos do processo shared/multi-tenant. Independentemente do modo de depuração; inverter o modo de depuração não revela isso. |
 | `OMNIROUTE_OIDC_DISABLE_PASSWORD_LOGIN` | booleano   | `false`      | Quando OIDC estiver ativado, desative o login com palavra-passe para que os utilizadores se possam autenticar apenas através do logon único OIDC. Quando desativado (padrão), tanto o login por palavra-passe como OIDC estão disponíveis.                                                                                                 |
+| `API_KEY_AUDIT_CLIENT_DETAILS_ENABLED`  | booleano   | `false`      | Registe o endereço IP e o agente de utilizador do chamador nas linhas do registo de auditoria `api_key.auth.touch` escritas para leituras de descoberta e metadados de chave API bem-sucedidas (#17982). Desativado por defeito: estas linhas ainda registam qual a chave utilizada, quando e em que caminho, sem IP ou user-agent.        |
 
 ### Rede (29)
 
@@ -231,10 +232,10 @@ Retorna cada sinalizador com o seu valor efetivo, origem e um resumo.
       "requiresRestart": false,
       "warningLevel": "caution",
     },
-    // ... all 114 flags
+    // ... all 115 flags
   ],
   "summary": {
-    "total": 114,
+    "total": 115,
     "active": 0,
     "inactive": 0,
     "overriddenByDb": 0,

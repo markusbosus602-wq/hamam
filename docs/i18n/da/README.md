@@ -11,11 +11,11 @@
 <br/>
 <br/>
 
-# 🚀 OmniRoute — Den gratis AI-gateway
+# 🚀 OmniRoute — Den gratis AI gateway
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Skabt af [Diego Souza](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Stop aldrig med at kode. Hvert AI-værktøj → 380 udbydere — 150+ gratis — gennem ét endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity til GRATIS Claude / GPT / Gemini med automatisk fallback. RTK + Caveman stablet komprimering sparer 15–95% tokens (~89% i gennemsnit) — ram aldrig grænsen. 380 AI-udbydere · 150+ gratis niveauer · ~1,62 mia. gratis tokens/md · 20 routingstrategier · 0 kr. at starte."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1295,29 +1295,29 @@ Kanoniske målinger pr. 2026-10-18: **1.976 unikke videoer** · **20.220.289 ken
 <br/>
 <div align="center">
 
-## 🛠️ Teknologistak
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
   <tr><th align="left">Lag</th><th align="left">Teknologi</th></tr>
-  <tr><td nowrap><b>Kørselstid</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Sprog</b></td><td>TypeScript 6.0 — <b>100 % TypeScript</b> på tværs af <code>src/</code> og <code>open-sse/</code> (ingen <code>any</code> i kernen siden v2.0)</td></tr>
-  <tr><td nowrap><b>Framework</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>Database</b></td><td>better-sqlite3 (SQLite, WAL-journalføring) + LowDB (ældre JSON) — 147 domænemoduler, 221 migreringer</td></tr>
-  <tr><td nowrap><b>Hukommelse</b></td><td>SQLite FTS5-fuldtekst + int8-kvantificerede vektorembeddings, typet henfald</td></tr>
-  <tr><td nowrap><b>Skemaer</b></td><td>Zod 4 — MCP-værktøjs-I/O-validering + API-kontrakter</td></tr>
-  <tr><td nowrap><b>Protokoller</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Streaming</b></td><td>Server-Sent Events (SSE) + WebSocket-bro (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Komprimering</b></td><td>12-motorers pipeline — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Godkendelse og sikkerhed</b></td><td>OAuth 2.0 (PKCE) + JWT + API-nøgler + MCP-omfangsbegrænset godkendelse · AES-256-GCM i hvile · DOMPurify</td></tr>
-  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS-fingeraftryksimpersonering, proxy i 3 niveauer</td></tr>
-  <tr><td nowrap><b>Robusthed</b></td><td>Kredsløbsafbryder, eksponentiel backoff, beskyttelse mod stampeding herd, automatisk selvhelbredelse med kombinationer</td></tr>
-  <tr><td nowrap><b>Logning</b></td><td>pino — strukturerede JSON-logfiler med anmodningskontekst</td></tr>
-  <tr><td nowrap><b>Testning</b></td><td>Node.js-testkørsel + Vitest — <b>60.000+ statiske testdeklarationer</b> på tværs af 8.400+ sporede testfiler (enheds-, integrations-, E2E-, sikkerheds- og økosystemtest)</td></tr>
-  <tr><td nowrap><b>Platforme</b></td><td>Desktop (Electron) · Android (Termux) · PWA (enhver browser)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — automatisk npm-udgivelse + Docker Hub ved release</td></tr>
-  <tr><td nowrap><b>Links</b></td><td><a href="https://omniroute.online">Websted</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>Runtime</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>Sprog</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> på tværs af <code>src/</code> og <code>open-sse/</code> (nul <code>any</code> i kerne siden v2.0)</td></tr>
+  <tr><td nowrap><b>Ramme</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>Database</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 domænemoduler, 221 migreringer</td></tr>
+  <tr><td nowrap><b>Hukommelse</b></td><td>SQLite FTS5 fuldtekst + int8-quantized vektorindlejringer, skrevet henfald</td></tr>
+  <tr><td nowrap><b>Skemaer</b></td><td>Zod 4 — MCP værktøj I/O validering + API kontrakter</td></tr>
+  <tr><td nowrap><b>Protokoller</b></td><td>MCP (stdio/ HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
+  <tr><td nowrap><b>Streaming</b></td><td>Server-sendte hændelser (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Kompression</b></td><td>12-motors rørledning — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; sikkerhed</b></td><td>OAuth 2.0 (PKCE) + JWT + API Nøgler + MCP scoped auth · AES-256-GCM i hvile · DOMPurify</td></tr>
+  <tr><td nowrap><b>Stealth</b></td><td>wreq-js — JA3 / JA4 TLS efterligning af fingeraftryk, 3-niveau proxy</td></tr>
+  <tr><td nowrap><b>Modstandsdygtighed</b></td><td>Circuit breaker, eksponentiel backoff, anti-torden-flok, auto-combo selvhelbredelse</td></tr>
+  <tr><td nowrap><b>Logning</b></td><td>pino — strukturerede JSON -logfiler med anmodningskontekst</td></tr>
+  <tr><td nowrap><b>Afprøvning</b></td><td>Node.js testløber + Vitest — <b>60.000 + statiske testerklæringer</b> på tværs af 8.400 + -sporede testfiler (enhed, integration, E2E, sikkerhed, økosystem)</td></tr>
+  <tr><td nowrap><b>Platforme</b></td><td>Desktop (Electron) · Android (Termux) · PWA (en hvilken som helst browser)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm udgiver + Docker Hub ved udgivelse</td></tr>
+  <tr><td nowrap><b>Links</b></td><td><a href="https://omniroute.online">Hjemmeside</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1807,17 +1807,17 @@ OmniRoute står på skuldrene af giganter. Det begyndte som en fork af **[9route
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Identificerede Grok Build-kvoten; OmniRoute verificerede og korrigerede derefter det aktive wire-format uafhængigt.</td></tr>
 </table>
 
-## 📄 Licens
+## 📄 -licens
 
-MIT-licens - se [LICENSE](LICENSE) for detaljer.
+MIT -licens - se [LICENSE](LICENSE) for detaljer.
 
 ---
 
 <div align="center">
 
-**[⬆ Tilbage til toppen](#-omniroute)** · Bygget med ❤️ til open source AI-fællesskabet.
+**[⬆ Tilbage til toppen](#-omniroute)** · Bygget med ❤️ til open source AI fællesskabet.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT-licens · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Skabt af <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · MIT -licens · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions er aktiveret til spørgsmål og svar i fællesskabet -->
+<!-- GitHub Discussions enabled for community Q&A -->

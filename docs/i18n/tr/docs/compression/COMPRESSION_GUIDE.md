@@ -34,88 +34,80 @@ OmniRoute, istekler üst sağlayıcılara ulaşmadan önce **proaktif olarak** �
 
 ### Kapalı
 
-Sıkıştırma uygulanmaz. Tüm mesajlar değişiklik olmadan iletilir.
+Hiçbir sıkıştırma uygulanmadı. Tüm mesajlar değişmeden iletilir.
 
-### Lite Modu (~%15 tasarruf, <1ms gecikme)
+### Basit Mod (~%15 tasarruf, < 1 ms gecikme)
 
-En güvenli mod — sıfır anlamsal değişiklik, yalnızca biçimlendirme temizliği:
+En güvenli mod — biçimlendirme temizliği. Araç-sonucunun kesilmesi kayıplıdır, dolayısıyla varsayılan yol ( `allow-lossy`, `engine:lite` veya adlandırılmış-kombo katılımı yok) lite'yi `compressToolResults: false` ile çalıştırır: önceki araç sonuçları sağlayıcıya değişmeden ulaşır.
 
-| Teknik                   | Açıklama                                                     |
-| ------------------------ | ------------------------------------------------------------ |
-| `collapseWhitespace`     | Ardışık boş satırları ve satır sonu boşluklarını birleştirir |
-| `dedupSystemPrompt`      | Yinelenen sistem mesajlarını kaldırır                        |
-| `compressToolResults`    | Ayrıntılı araç/fonksiyon çıktılarını sıkıştırır              |
-| `removeRedundantContent` | Tekrarlanan talimatları ayıklar                              |
-| `replaceImageUrls`       | base64 görüntü veri URI'lerini kısaltır                      |
+| Teknik                   | Tanım                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Ardışık boş satırları ve sondaki boşlukları birleştir                                          |
+| `dedupSystemPrompt`      | Yinelenen sistem mesajlarını kaldırın                                                          |
+| `compressToolResults`    | Önceki araç sonuçlarını basit sınıra kadar kısaltın (kayıplı: yalnızca isteğe bağlı katılımla) |
+| `removeRedundantContent` | Tekrarlanan talimatları kaldırın                                                               |
+| `replaceImageUrls`       | Base64 görüntü verilerini URIs kısaltın                                                        |
 
-**Şunlar için ideal:** Sürekli açık kullanım, güvenlik açısından kritik iş akışları.
+**Şunun için en iyisi:** Her zaman açık kullanım, güvenlik açısından kritik iş akışları.
 
 ### Standart Mod (~%30 tasarruf)
 
-[Caveman](https://github.com/JuliusBrussee/caveman)'den ilham alır — anlamı koruyarak dolgu sözcükleri ve uzun ifadeleri kaldırır:
+[Caveman'dan](https://github.com/JuliusBrussee/caveman) ilham alan — anlamı korurken dolgu sözcükleri ve ayrıntılı ifadeleri kaldırır:
 
-- Dolgu sözcüklerini kaldırır ("please" (lütfen), "I think" (bence), "basically" (aslında), "actually" (doğrusu))
-- Uzun ifadeleri yoğunlaştırır ("in order to" → "to", "as a result of" → "because")
-- Nazik çekimser ifadeleri ayıklar ("Would you mind...", "If you could possibly...")
-- Kodlama istemleri için ayarlanmış 30'dan fazla regex kuralı
+- Dolgu sözcüklerini kaldırır ("lütfen", "sanırım", "temelde", "aslında")
+- Ayrıntılı ifadeleri yoğunlaştırır ("için" → "to", "sonuç olarak" → "çünkü")
+- Kibar riskten korunmayı ortadan kaldırır ("Sakıncası var mı...", "Mümkünse...")
+- Kodlama istemleri için ayarlanmış 30 + normal ifade kuralı
 
-**Şunlar için ideal:** Günlük kodlama iş akışları, maliyet hassasiyeti olan ekipler.
+**Şunun için en iyisi:** Günlük kodlama iş akışları, maliyet bilincine sahip ekipler.
 
 ### Agresif Mod (~%50 tasarruf)
 
 Uzun oturumlar için akıllı geçmiş yönetimi:
 
-- **Mesaj Eskitme** — eski mesajlar giderek artan oranda sıkıştırılır
-- **Araç Sonucu Sıkıştırma** — uzun araç çıktıları kırpılır veya elenir (ilk/son satırlar,
-  eşleşen satır filtreleme, JSON anahtar sıkıştırma)
+- **Mesaj Eskitme** — eski mesajları giderek sıkıştırılıyor
+- **Araç Sonuç Sıkıştırma** — uzun araç çıktıları kesilmiş veya atlanmış (first/last çizgileri, eşleştirme çizgisi filtreleme, JSON tuş sıkıştırma)
 - **Yapısal Bütünlük Korumaları** — `tool_use` + `tool_result` çiftlerinin tutarlı kalmasını sağlar
-- **Bağlam Penceresi Farkındalığı** — modele özgü token sınırlarına uyar
+- **Bağlam Penceresi Farkındalığı** — model başına belirteç sınırlarına saygı duyar
 
-**Şunlar için ideal:** Uzun hata ayıklama oturumları, büyük kod tabanları.
+**Şunun için en iyisi:** Genişletilmiş hata ayıklama oturumları, büyük kod tabanları.
 
 ### Ultra Mod (~%75 tasarruf)
 
-Token açısından kritik senaryolar için maksimum sıkıştırma:
+Belirteç açısından kritik senaryolar için maksimum sıkıştırma:
 
-- **Sezgisel Budama** — düz metnin puana dayalı token budaması
-- **Yapı Koruma** — çitli kod blokları, satır içi kod, URL'ler ve tanımlayıcılar
-  işaretlenir (tombstone) ve olduğu gibi yeniden birleştirilir, asla budanmaz
-- **İsteğe bağlı SLM katmanı** — yapılandırıldığında küçük bir yerel model budamayı iyileştirebilir
-- Agresif moddan bağımsızdır: mesaj eskitme, araç sonucu sıkıştırma veya yedek özetleyiciyi
-  çalıştırmaz (yalnızca bir SLM katmanı hatası, yedek geçişi agresif mod üzerinden yönlendirebilir)
+- **Sezgisel Budama** düzyazının — skoruna dayalı belirteç budaması
+- **Yapı Koruma** — çitle çevrili kod blokları, satır içi kod, URLs ve tanımlayıcılar kaldırıldı ve harfiyen yeniden dikildi, asla budanmadı
+- **İsteğe bağlı SLM katmanı** — küçük bir yerel model, yapılandırıldığında budamayı hassaslaştırabilir
+- Agresif moddan bağımsız: mesaj eskitme, araç-sonuç sıkıştırma veya geri dönüş özetleyicisini çalıştırmaz (yalnızca bir SLM katmanı hatası, bir geri dönüş geçişini agresif olarak yönlendirebilir)
 
-**Şunlar için ideal:** Bağlam sınırlarına tekrar tekrar ulaştığınızda.
+**Şunun için en iyisi:** Tekrar tekrar bağlam sınırlarına ulaştığınızda.
 
-### RTK Modu (%60-90 tek başına aralık)
+### RTK Modu (%60-90 yukarı akış aralığı)
 
-RTK modu, kodlama ajanı oturumlarında görülen ayrıntılı araç çıktıları için optimize edilmiştir:
+RTK modu, kodlama aracısı oturumlarında görünen ayrıntılı araç çıktıları için optimize edilmiştir:
 
-- `git status`, `git diff`, `git log`, test çalıştırıcıları, TypeScript/Vite/Webpack derlemeleri,
-  ESLint/Biome/Prettier, npm audit/kurulumları, Docker günlükleri, altyapı çıktısı ve genel
-  kabuk çıktısı gibi komut/çıktı sınıflarını algılar
-- `open-sse/services/compression/engines/rtk/filters/` altındaki JSON filtre paketlerini uygular
-- Proje veya genel `filters.toml` dosyalarından RTK TOML şema v1 filtrelerini içe aktarır; satır içi test
-  doğrulaması ve proje dosyaları için güven denetimi ile birlikte
-- Satır içi doğrulama örnekleriyle 56 yerleşik filtreyle gelir
+- `git status`, `git diff`, `git log`, test çalıştırıcıları, TypeScript/Vite/Webpack yapıları, ESLint/Biome/Prettier, npm audit/installs, Docker günlükleri, infra çıktısı ve genel kabuk çıktısı gibi command/output sınıflarını algılar
+- `open-sse/services/compression/engines/rtk/filters/` JSON filtre paketlerini uygular
+- Proje dosyaları için satır içi test doğrulama ve güven geçişi ile RTK TOML şema v1 filtrelerini projeden veya global `filters.toml` dosyalarından içe aktarır
+- Satır içi doğrulama örnekleriyle birlikte 56 yerleşik filtre sunar
 - ANSI kontrol dizilerini, ilerleme çubuklarını, tekrarlanan satırları ve eyleme dönüştürülemeyen gürültüyü kaldırır
-- Hataları, uyarıları, değişen dosyaları, özetleri ve uzun çıktının son kısmını korur
-- Güven denetimli proje filtrelerini, genel filtreleri ve isteğe bağlı gizlenmiş ham çıktı kurtarmayı destekler
+- Arızaları, hataları, uyarıları, değiştirilen dosyaları, özetleri ve uzun çıktının kuyruğunu korur
+- Güvene dayalı proje filtrelerini, genel filtreleri ve isteğe bağlı olarak düzenlenmiş ham çıktı kurtarmayı destekler
 
-**Şunlar için ideal:** Kabuk, derleme, test, git, grep ve dosya çıktısı dökümleri içeren ajan oturumları.
+**Şunun için en iyisi:** Kabuk, derleme, test, git, grep ve dosya çıktısı transkriptlerine sahip aracı oturumları.
 
-### Yığılmış Mod (%78-95 uygun aralık)
+### Yığın Modu (%78-95 uygun aralık)
 
-Yığılmış mod, birden fazla sıkıştırma motorunu belirleyici bir sırayla çalıştırır. Varsayılan işlem hattı:
+Yığılmış mod, birden fazla sıkıştırma motorunu deterministik bir sırayla çalıştırır. Varsayılan boru hattı:
 
 ```txt
 RTK -> Caveman
 ```
 
-Bu sıra, önce terminal/araç çıktısını kompakt tutar, ardından kalan doğal dil istemine
-Caveman anlamsal yoğunlaştırmasını uygular. Yığılmış işlem hatları genel olarak veya
-yönlendirme kombinasyonlarına atanan sıkıştırma kombinasyonları aracılığıyla yapılandırılabilir.
+Bu düzen, önce terminal/tool çıktısını kompakt tutar, ardından geri kalan doğal dil istemine Caveman anlam yoğunlaştırmasını uygular. Yığılmış işlem hatları genel olarak veya yönlendirme kombinasyonlarına atanan sıkıştırma kombinasyonları aracılığıyla yapılandırılabilir.
 
-**Şunlar için ideal:** Büyük araç günlüklerinin yanı sıra insan talimatları veya asistan özetleri içeren karma bağlamlar.
+**Şunun için en iyisi:** Büyük araç günlüklerinin yanı sıra insan talimatları veya asistan özetleri içeren karma bağlam.
 
 ---
 
@@ -192,84 +184,69 @@ Stacked ile:         10K-2.5K token gönderilir     (uygun RTK+Caveman içeriği
 
 ### Kontrol Paneli
 
-`Dashboard → Context & Cache` bölümüne gidin:
+`Dashboard → Context & Cache` gidin:
 
-- **Caveman** — mod seçimi, dil paketleri, önizleme ve genel varsayılanlar
+- **Mağara adamı** — modu seçimi, dil paketleri, önizleme ve genel varsayılanlar
 - **RTK** — komut filtresi önizlemesi, RTK güvenlik ayarları ve filtre kataloğu
-- **Compression Combos** — yönlendirme kombinasyonlarına atanan adlandırılmış motor işlem hatları
-- **Auto-Trigger Threshold** — belirteç sayısı eşiği aştığında sıkıştırmayı otomatik olarak etkinleştirir
+- **Sıkıştırma Kombinasyonları** Yönlendirme kombinasyonlarına atanan — adlı motor işlem hatları
+- **Otomatik Tetikleme Eşiği** belirteç sayısı eşiği aştığında — otomatik olarak sıkıştırmayı devreye alır
 
 ### Kombinasyon Başına Geçersiz Kılma
 
-`Dashboard → Context & Cache → Compression Combos` bölümünde, bir yönlendirme kombinasyonuna bir
-sıkıştırma kombinasyonu atayın:
+`Dashboard → Context & Cache → Compression Combos`, bir yönlendirme birleşimine bir sıkıştırma birleşimi atayın:
 
 ```txt
-Kombinasyon: "free-tier-fallback"
-  Sıkıştırma Kombinasyonu: "coding-agent-stack"
-  İşlem Hattı: RTK -> Caveman
-  Hedefler:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Bu, ücretli aboneliklerde lite modunu korurken ücretsiz/kodlama sağlayıcılarında yığınlanmış
-sıkıştırma kullanmanıza olanak tanır.
+Bu, ücretli aboneliklerde lite modunu korurken free/coding sağlayıcılarında yığın sıkıştırmayı kullanmanıza olanak tanır.
 
-Bu "Kombinasyon Başına Geçersiz Kılma" ataması, **yönlendirme kombinasyonu sıkıştırma
-modu** geçersiz kılmasından (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — alanın
-şeması ayrıca `rtk`, `stacked` ve `omniglyph` değerlerini de kabul eder) farklı bir denetimdir — bu geçersiz
-kılma, adlandırılmış bir sıkıştırma kombinasyonu işlem hattı seçmez; yalnızca
-`resolveCompressionPlan` tarafından kullanılan `compressionMode` alanını ayarlar. Bu ayar, kombinasyon kartında
-(`Dashboard → Combos`) veya #6760'tan bu yana
-`Dashboard → Context & Cache → Compression Combos` bölümündeki "Assign to routing" listesinde, yukarıda
-belgelenen işlem hattı atama onay kutusunun hemen yanında, yönlendirme kombinasyonu bazında yapılabilir.
-Her iki arayüz de aynı `PUT /api/combos/{id}` uç noktası üzerinden kalıcı hâle getirilir.
+Bu "Kombo Başına Geçersiz Kılma" ataması,** yönlendirme-birleşik sıkıştırma modu** geçersiz kılma (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — alanın şeması aynı zamanda `rtk`, `stacked` ve `omniglyph` de kabul eder ) geçersiz kılma — adlandırılmış bir sıkıştırma-kombo ardışık düzen seçmez; sadece `resolveCompressionPlan` tarafından başvurulan `compressionMode` alanını ayarlar. Birleşik kartta (`Dashboard → Combos`) veya # 6760'dan beri yukarıda belgelenen boru hattı atama onay kutusunun hemen yanındaki `Dashboard → Context & Cache → Compression Combos`"Yönlendirmeye ata" listesindeki yönlendirme birleşimi başına ayarlanabilir. Her iki yüzey de aynı `PUT /api/combos/{id}` uç noktasından devam eder.
 
 ### İstek başına geçersiz kılma
 
-Tek bir isteğin sıkıştırma planını geçersiz kılmak için `x-omniroute-compression` istek üstbilgisini
-gönderin. Bu, en yüksek önceliğe sahiptir — yönlendirme kombinasyonu geçersiz kılmasını, etkin profili,
-otomatik tetiklemeyi ve paneldeki Default ayarını geçersiz kılar. Bilinmeyen değerler yok sayılır (istek hiçbir zaman reddedilmez) ve
-genel ana anahtar yine de her şeyi denetler: sıkıştırma genel olarak kapalıyken üstbilgi bunu
-açamaz. Değerler:
+Tek bir isteğe ilişkin sıkıştırma planını geçersiz kılmak için `x-omniroute-compression` istek başlığını gönderin. En yüksek önceliğe sahiptir — yönlendirme kombinasyonu geçersiz kılmayı, aktif profili, otomatik tetiklemeyi ve Varsayılan panelden üstündür. Bilinmeyen değerler göz ardı edilir (istek hiçbir zaman reddedilmez) ve genel ana anahtar hala her şeyi kapsar: sıkıştırma genel olarak kapalıyken başlık onu açamaz. Değerler:
 
-| Değer         | Etki                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------- |
-| `off`         | Bu istek için sıkıştırma uygulanmaz.                                                                          |
-| `default`     | Panelden türetilen Default profili (etkin profili yok sayar). Kayıplı motorlar kapalı bırakılır.              |
-| `safe`        | Üstbilginin belirtilmemesiyle aynıdır: yalnızca yinelenenleri kaldırma ve boşluk daraltma uygulanır.          |
-| `allow-lossy` | Özetler, ilgi filtreleri ve stil yeniden yazımları dâhil olmak üzere bu isteğin operatör planını korur.       |
-| `engine:<id>` | Etkinleştirilmişse tek bir motor, ör. `engine:rtk`. Bu, söz konusu motor için istek başına katılımdır.        |
-| `<combo>`     | Önce ada göre (büyük/küçük harfe duyarsız), ardından kimliğe göre eşleştirilen adlandırılmış bir kombinasyon. |
+| Değer         | Etki                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| `off`         | Bu istek için sıkıştırma yok.                                                                                   |
+| `default`     | Panelden türetilen Varsayılan profil (aktif profili yok sayar). Kayıplı motorlar devre dışı bırakılır.          |
+| `safe`        | Başlığı atlamakla aynı şey.                                                                                     |
+| `allow-lossy` | Özetler, ilgi filtreleri ve stil yeniden yazımları dahil olmak üzere bu isteğin operatör planını saklayın.      |
+| `engine:<id>` | Etkinleştirildiğinde tek bir motor, örneğin `engine:rtk`. Bu, söz konusu motor için istek başına katılımdır.    |
+| `<combo>`     | Önce ada göre (büyük/küçük harfe duyarlı olmayan), ardından kimliğe göre eşleşen adlandırılmış bir kombinasyon. |
 
-`allow-lossy`, `engine:<id>` veya adlandırılmış bir kombinasyon olmadan kayıplı motorlar uygulanmaz.
-Sıkıştırma açıkken isteğe yine de oturum yinelenenlerini kaldırma ve boşluk daraltma uygulanır.
+`allow-lossy`, `engine:<id>` veya adlandırılmış bir kombinasyon olmadan kayıplı motorlar uygulanmaz. Kayıplı bir Varsayılan, otomatik tetikleme veya yönlendirme geçersiz kılma düzeyi düşürüldüğünde, OmniRoute yapılandırılmış yığılmış işlem hattından tanınan kayıpsız adımları yapılandırılmış sırayla tutar. Yalnızca yapılandırılmış kayıpsız bir adım hayatta kalmadığında `session-dedup → lite` geri döner.
 
-Uygulanan plan, `X-OmniRoute-Compression: <mode>; source=<source>` yanıt
-üstbilgisinde geri bildirilir; burada `<source>`, `request-header`, `routing-override`, `active-profile`,
-`auto-trigger`, `default` veya `off` değerlerinden biridir.
+Ayarlar panelinin** Etkili boru hattı** önizleme sıradan dinlenme planını gösterir. Bir otomatik tetikleme çalıştırılabildiğinde, aynı önizleme aynı zamanda koşullu etkili ardışık düzeni de gösterir, böylece panel ve başlıksız çalışma zamanı çözünürlüğü aynı hizada kalır.
+
+Uygulanan plan `X-OmniRoute-Compression: <mode>; source=<source>` yanıt başlığında yankılanır; burada `<source>`, `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` veya `off` biridir.
 
 ### API
 
 ```bash
-# Sıkıştırma ayarlarını al
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Sıkıştırma ayarlarını güncelle
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Belirli bir RTK/stacked yükünü önizle
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# RTK filtre paketlerini listele
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# İsteğe bağlı komut meta verileriyle RTK'yı doğrudan test et
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

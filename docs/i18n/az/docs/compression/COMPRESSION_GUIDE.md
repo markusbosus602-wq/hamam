@@ -30,93 +30,84 @@ Müştəri sorğusu
 
 ---
 
-## Sıxılma Rejimləri
+## Sıxılma rejimləri
 
-### Söndürülüb
+### Söndür
 
-Sıxılma tətbiq edilmir. Bütün mesajlar dəyişmədən keçir.
+Heç bir sıxılma tətbiq edilmir. Bütün mesajlar dəyişməz olaraq keçir.
 
-### Lite Rejimi (~15% qənaət, <1ms gecikmə)
+### Lite Rejimi (~ 15% qənaət, < 1ms gecikmə)
 
-Ən təhlükəsiz rejim — sıfır semantik dəyişiklik, yalnız formatlaşdırma təmizliyi:
+Ən təhlükəsiz rejim — formatlaşdırma təmizlənməsi. Onun alət-nəticəsinin kəsilməsi itkilidir, ona görə də defolt yol ( `allow-lossy`, `engine:lite` və ya adlandırılmış kombinasiya yoxdur) `compressToolResults: false` ilə lite rejimində işləyir: əvvəlki alət nəticələri dəyişməz olaraq provayderə çatır.
 
-| Texnika                  | Təsvir                                                  |
-| ------------------------ | ------------------------------------------------------- |
-| `collapseWhitespace`     | Ardıcıl boş sətirləri və sondakı boşluqları birləşdirir |
-| `dedupSystemPrompt`      | Təkrarlanan sistem mesajlarını silir                    |
-| `compressToolResults`    | Ətraflı alət/funksiya çıxışlarını sıxır                 |
-| `removeRedundantContent` | Təkrarlanan təlimatları aradan qaldırır                 |
-| `replaceImageUrls`       | base64 şəkil data URI-lərini qısaldır                   |
+| Texnika                  | Təsvir                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `collapseWhitespace`     | Ardıcıl boş sətirləri və arxadakı boşluqları birləşdirin                               |
+| `dedupSystemPrompt`      | Dublikat sistem mesajlarını silin                                                      |
+| `compressToolResults`    | Əvvəlki alət nəticələrini sadə ölçüyə qədər kəsin (itkili: yalnız qoşulma sorğusu ilə) |
+| `removeRedundantContent` | Təkrarlanan təlimatları çıxarın                                                        |
+| `replaceImageUrls`       | Base64 image data URIs qısaldın                                                        |
 
-**Ən uyğundur:** Daimi istifadə, təhlükəsizlik baxımından kritik iş axınları.
+**Ən yaxşısı:** Həmişə istifadədə, təhlükəsizlik baxımından kritik iş axınları.
 
-### Standart Rejim (~30% qənaət)
+### Standart rejim (~ 30% qənaət)
 
-[Caveman](https://github.com/JuliusBrussee/caveman)-dən ilhamlanıb — mənanı qoruyarkən doldurucu sözləri və uzun ifadələri aradan qaldırır:
+[Caveman](https://github.com/JuliusBrussee/caveman) -dan ilhamlanan — mənasını qoruyaraq doldurucu sözləri və təfərrüatlı ifadələri silir:
 
-- Doldurucu sözləri silir ("please", "I think", "basically", "actually")
-- Uzun ifadələri qısaldır ("in order to" → "to", "as a result of" → "because")
-- Nəzakətli yayındırma ifadələrini aradan qaldırır ("Would you mind...", "If you could possibly...")
-- Kodlaşdırma promptları üçün tənzimlənmiş 30+ regex qaydası
+- Doldurucu sözləri silir ("zəhmət olmasa", "düşünürəm", "əsasən", "əslində")
+- Mürəkkəb ifadələri yığcamlaşdırır (“to” → “to”, “nəticəsində” → “çünki”)
+- Strips nəzakətli hedcinq ("Zəhmət olmasa...", "Əgər bacarsanız...")
+- 30 + regex qaydaları kodlaşdırma göstərişləri üçün tənzimlənir
 
-**Ən uyğundur:** Gündəlik kodlaşdırma iş axınları, xərclərə həssas komandalar.
+**Ən yaxşısı:** Gündəlik kodlaşdırma iş axınları, xərcləri nəzərə alan komandalar.
 
-### Aqressiv Rejim (~50% qənaət)
+### Aqressiv rejim (~ 50% qənaət)
 
-Uzun sessiyalar üçün ağıllı tarixçə idarəetməsi:
+Uzun sessiyalar üçün ağıllı tarix idarəsi:
 
-- **Mesajların Köhnəlməsi** — köhnə mesajlar getdikcə daha çox sıxılır
-- **Alət Nəticələrinin Sıxılması** — uzun alət çıxışları kəsilir və ya qısaldılır (ilk/son sətirlər,
-  uyğunluq-sətri filtrasiyası, JSON açar sıxılması)
-- **Struktur Bütövlük Mühafizələri** — `tool_use` + `tool_result` cütlərinin uyğun qalmasını təmin edir
-- **Kontekst Pəncərəsi Nəzərəalması** — hər modelin token limitlərinə riayət edir
+- **Mesaj Yaşlanma** — köhnə mesajlar tədricən sıxılır
+- **Alət Nəticələrinin Sıxılması** — uzun alət çıxışları kəsilmiş və ya örtülmüşdür (first/last xətləri, uyğunluq xətti filtri, JSON açarının sıxılması)
+- **Struktur Dürüstlüyün Mühafizəçiləri** — `tool_use` + `tool_result` cütlərinin ardıcıl qalmasını təmin edir
+- **Kontekst pəncərəsi məlumatlılığı** — hər model üçün token limitlərinə hörmət edir
 
-**Ən uyğundur:** Uzunmüddətli sazlama sessiyaları, böyük kod bazaları.
+**Ən yaxşısı:** Genişləndirilmiş sazlama sessiyaları, böyük kod bazaları.
 
-### Ultra Rejim (~75% qənaət)
+### Ultra rejimi (~ 75% qənaət)
 
-Token baxımından kritik ssenarilər üçün maksimum sıxılma:
+Kritik token ssenariləri üçün maksimum sıxılma:
 
-- **Evristik Budama** — nəsr hissənin bal əsaslı token budanması
-- **Strukturun Qorunması** — qapalı kod blokları, sətirdaxili kod, URL-lər və identifikatorlar
-  olduğu kimi qorunub sözü-sözünə yenidən birləşdirilir, heç vaxt budanmır
-- **İstəyə bağlı SLM səviyyəsi** — konfiqurasiya edildikdə kiçik lokal model budamanı təkmilləşdirə bilər
-- Aqressiv rejimdən müstəqildir: mesaj köhnəlməsini, alət-nəticəsi sıxılmasını
-  və ya ehtiyat ümumiləşdiricini işə salmır (yalnız SLM səviyyəsinin uğursuzluğu ehtiyat keçidi
-  aqressiv rejim üzərindən yönləndirə bilər)
+- **Evristik budama** nəsrin — hesabına əsaslanan mö'cüzə budaması
+- **Strukturun Qorunması** — hasarlanmış kod blokları, sətirli kod, URLs və identifikatorlar məzar daşları ilə örtülmüş və yenidən tikilmişdir, heç vaxt budanmamışdır
+- **Könüllü SLM səviyyəsi** — kiçik bir yerli model konfiqurasiya edildikdə gavalı təmizləyə bilər
+- Aqressiv rejimdən asılı olmayaraq: o, mesajın köhnəlməsini, alət nəticələrinin sıxılmasını və ya ehtiyat yekunlaşdırıcısını işlətmir (yalnız SLM səviyyəli uğursuzluq aqressiv vasitəsilə ehtiyat keçidini istiqamətləndirə bilər)
 
-**Ən uyğundur:** Kontekst limitlərinə təkrar-təkrar çatdığınız hallar.
+**Ən yaxşısı:** Kontekst limitlərini təkrar-təkrar vurduğunuz zaman.
 
-### RTK Rejimi (60-90% yuxarı axın aralığı)
+### RTK Rejimi (60-90% yuxarı axın diapazonu)
 
-RTK rejimi kodlaşdırma agenti sessiyalarında yaranan ətraflı alət çıxışları üçün optimallaşdırılıb:
+RTK rejimi kodlaşdırma agenti seanslarında görünən ətraflı alət çıxışları üçün optimallaşdırılıb:
 
-- `git status`, `git diff`, `git log`, test icraçıları,
-  TypeScript/Vite/Webpack yığınları, ESLint/Biome/Prettier, npm audit/quraşdırmaları, Docker loqları, infra
-  çıxışı və ümumi shell çıxışı kimi əmr/çıxış siniflərini aşkarlayır
-- `open-sse/services/compression/engines/rtk/filters/` qovluğundan JSON filtr paketlərini tətbiq edir
-- Layihə və ya qlobal `filters.toml` fayllarından RTK TOML sxemi v1 filtrlərini idxal edir, layihə faylları üçün daxili test
-  yoxlaması və etibar məhdudlaşdırması ilə
-- Daxili yoxlama nümunələri ilə 56 hazır filtr təqdim edir
-- ANSI idarəetmə ardıcıllıqlarını, tərəqqi çubuqlarını, təkrarlanan sətirləri və əməliyyata yararsız səs-küyü aradan qaldırır
-- Uğursuzluqları, xətaları, xəbərdarlıqları, dəyişdirilmiş faylları, xülasələri və uzun çıxışın sonunu qoruyur
-- Etibar məhdudlaşdırılmış layihə filtrlərini, qlobal filtrləri və istəyə bağlı gizlədilmiş xam-çıxış bərpasını dəstəkləyir
+- `git status`, `git diff`, `git log`, test runners, TypeScript/Vite/Webpack builds, ESLint/Biome/Prettier, npm audit/installs, Docker logs, infra output və generic shell output kimi command/output siniflərini aşkar edir
+- `open-sse/services/compression/engines/rtk/filters/` dən JSON filtr paketlərini tətbiq edir
+- RTK TOML şeması v1 filtrlərini layihə fayllarından və ya qlobal `filters.toml` fayllarından idxal edir.
+- Daxili yoxlama nümunələri ilə 56 daxili filtr göndərir
+- ANSI nəzarət ardıcıllığını, tərəqqi çubuqlarını, təkrarlanan xətləri və təsirsiz səs-küyü aradan qaldırır
+- Uğursuzluqları, səhvləri, xəbərdarlıqları, dəyişdirilmiş faylları, xülasələri və uzun çıxışın quyruğunu qoruyur
+- Etibarlı layihə filtrlərini, qlobal filtrləri və isteğe bağlı redaktə edilmiş xam-çıxış bərpasını dəstəkləyir
 
-**Ən uyğundur:** shell, build, test, git, grep və fayl-çıxışı transkriptləri olan agent sessiyaları.
+**Ən yaxşısı:** Shell, build, test, git, grep və fayl çıxışı transkriptləri ilə agent seansları.
 
-### Yığılmış Rejim (78-95% tətbiq oluna bilən aralıq)
+### Yığılmış rejim (78-95% uyğun diapazon)
 
-Yığılmış rejim bir neçə sıxılma mühərrikini deterministik ardıcıllıqla işə salır. Defolt boru xətti belədir:
+Yığılmış rejim bir neçə sıxılma mühərrikini deterministik qaydada işlədir. Standart boru kəməri belədir:
 
 ```txt
 RTK -> Caveman
 ```
 
-Bu ardıcıllıq əvvəlcə terminal/alət çıxışını yığcam saxlayır, sonra qalan təbii dil promptuna
-Caveman semantik qısaltmasını tətbiq edir. Yığılmış boru xətləri qlobal olaraq və ya
-yönləndirmə kombinasiyalarına təyin edilmiş sıxılma kombinasiyaları vasitəsilə konfiqurasiya edilə bilər.
+Bu əmr əvvəlcə terminal/tool çıxışını yığcam saxlayır, sonra qalan təbii dil sorğusuna Caveman semantik kondensasiyasını tətbiq edir. Yığılmış boru kəmərləri qlobal miqyasda və ya marşrutlaşdırma birləşmələrinə təyin edilmiş sıxılma kombinasiyaları vasitəsilə konfiqurasiya edilə bilər.
 
-**Ən uyğundur:** Böyük alət loqları ilə yanaşı insan təlimatları və ya köməkçi xülasələri olan qarışıq kontekst.
+**Ən yaxşısı:** Böyük alət qeydləri və insan təlimatları və ya köməkçi xülasələri ilə qarışıq kontekst.
 
 ---
 
@@ -188,87 +179,71 @@ Stacked ilə:           10K-2.5K token göndərilir     (uyğun RTK+Caveman məz
 
 ## Konfiqurasiya
 
-### İdarəetmə paneli
+### İdarə paneli
 
-`Dashboard → Context & Cache` bölməsinə keçin:
+`Dashboard → Context & Cache`-ya keçin:
 
-- **Caveman** — rejim seçimi, dil paketləri, önizləmə və qlobal standart parametrlər
-- **RTK** — əmr filtrinin önizləməsi, RTK təhlükəsizlik parametrləri və filtr kataloqu
-- **Compression Combos** — marşrutlaşdırma kombinasiyalarına təyin edilən adlandırılmış mühərrik konveyerləri
-- **Auto-Trigger Threshold** — token sayı həddi keçdikdə sıxılmanı avtomatik aktivləşdirir
+- **Mağara adamı** — rejimi seçimi, dil paketləri, önizləmə və qlobal defoltlar
+- **RTK** — əmr-filtr önizləməsi, RTK təhlükəsizlik parametrləri və filtr kataloqu
+- **Sıxılma birləşmələri** — adlı mühərrik boru kəmərləri marşrutlaşdırıcı kombinələrə təyin edilmişdir
+- **Avtomatik Tətik Həddi** Tokenlərin sayı həddi aşdıqda — avtomatik olaraq sıxılmanı işə salır
 
-### Kombinasiya üzrə əvəzləmə
+### Hər Combo Override
 
-`Dashboard → Context & Cache → Compression Combos` bölməsində marşrutlaşdırma kombinasiyasına sıxılma
-kombinasiyası təyin edin:
+`Dashboard → Context & Cache → Compression Combos`-da marşrutlaşdırma kombinasiyasına sıxılma kombinasiyası təyin edin:
 
 ```txt
-Kombinasiya: "free-tier-fallback"
-  Sıxılma kombinasiyası: "coding-agent-stack"
-  Konveyer: RTK -> Caveman
-  Hədəflər:
+Combo: "free-tier-fallback"
+  Compression Combo: "coding-agent-stack"
+  Pipeline: RTK -> Caveman
+  Targets:
     1. if/kimi-k2.7-code
     2. if/qwen3.8-max-preview
 ```
 
-Bu, ödənişli abunəliklərdə yüngül rejimi saxlayaraq pulsuz/kodlaşdırma provayderlərində mərhələli
-sıxılmadan istifadə etməyə imkan verir.
+Bu, ödənişli abunəliklərdə sadə rejimi saxlayarkən free/coding provayderlərində yığılmış sıxılmadan istifadə etməyə imkan verir.
 
-Bu "Kombinasiya üzrə əvəzləmə" təyinatı **marşrutlaşdırma kombinasiyasının sıxılma rejimi**
-əvəzləməsindən (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Responses — sahənin
-sxemi həmçinin `rtk`, `stacked` və `omniglyph` dəyərlərini qəbul edir) fərqli idarəetmə elementidir —
-həmin əvəzləmə adlandırılmış sıxılma kombinasiyası konveyerini seçmir; o, sadəcə
-`resolveCompressionPlan` tərəfindən istifadə edilən `compressionMode` sahəsini təyin edir. Bu,
-kombinasiya kartında (`Dashboard → Combos`) və ya #6760-dan etibarən
-`Dashboard → Context & Cache → Compression Combos` bölməsindəki "Assign to routing" siyahısında,
-yuxarıda sənədləşdirilmiş konveyer təyinatı seçiminin yanında hər marşrutlaşdırma kombinasiyası üçün
-təyin edilə bilər. Hər iki interfeys dəyişiklikləri eyni `PUT /api/combos/{id}` son nöqtəsi vasitəsilə saxlayır.
+Bu "Per-Combo Override" tapşırığından fərqli bir nəzarətdir** marşrutlaşdırma-kombo sıxılma rejimi** override (Default/Off/Lite/Standard/Aggressive/Ultra/Codex Cavabları — sahənin sxemi də `rtk`, `stacked` və `omniglyph` qəbul edir) — ki, ləğv edilmiş sıxılma-kombo kəmərini seçmir; yalnız `resolveCompressionPlan` ilə məsləhətləşdiyi `compressionMode` sahəsini təyin edir. O, ya birləşmiş kartda (`Dashboard → Combos`) və ya №6760-dan etibarən, yuxarıda sənədləşdirilmiş boru kəməri təyinatının qeyd qutusunun yanında, `Dashboard → Context & Cache → Compression Combos`-də "Marşrutlaşdırmaya təyin et" siyahısında hər marşrutlaşdırma kombinasiyası üçün təyin edilə bilər. Hər iki səth eyni `PUT /api/combos/{id}` son nöqtəsi vasitəsilə davam edir.
 
-### Sorğu üzrə əvəzləmə
+### Hər bir sorğunun ləğvi
 
-Tək bir sorğu üçün sıxılma planını əvəzləmək məqsədilə `x-omniroute-compression` sorğu başlığını
-göndərin. O, ən yüksək prioritetə malikdir — marşrutlaşdırma kombinasiyası əvəzləməsindən, aktiv profildən,
-avtomatik aktivləşdirmədən və paneldəki Default seçimindən üstündür. Naməlum dəyərlər nəzərə alınmır
-(sorğu heç vaxt rədd edilmir) və qlobal əsas keçid yenə də hər şeyi idarə edir: sıxılma qlobal səviyyədə
-söndürülübsə, başlıq onu aktivləşdirə bilməz. Dəyərlər:
+Tək sorğu üçün sıxılma planını ləğv etmək üçün `x-omniroute-compression` sorğu başlığını göndərin. O, ən yüksək üstünlüyə malikdir — o, marşrutlaşdırma-kombo ləğvini, aktiv profili, avtomatik tetikleyiciyi və Defolt paneldən üstündür. Naməlum dəyərlərə məhəl qoyulmur (sorğu heç vaxt rədd edilmir) və qlobal master keçid hələ də hər şeyi açır: sıxılma qlobal olaraq söndürüldükdə, başlıq onu yandıra bilməz. Dəyərlər:
 
-| Dəyər         | Təsir                                                                                                          |
-| ------------- | -------------------------------------------------------------------------------------------------------------- |
-| `off`         | Bu sorğu üçün sıxılma yoxdur.                                                                                  |
-| `default`     | Paneldən əldə edilən Default profili (aktiv profili nəzərə almır). İtkili mühərriklər söndürülmüş qalır.       |
-| `safe`        | Başlığın buraxılması ilə eynidir: yalnız dublikatların silinməsi və boşluqların yığcamlaşdırılması.            |
-| `allow-lossy` | Xülasələr, uyğunluq filtrləri və üslub yenidən yazmaları daxil olmaqla, bu sorğunun operator planını saxlayır. |
-| `engine:<id>` | Aktiv olduqda tək mühərrik, məsələn, `engine:rtk`. Bu, həmin mühərrik üçün sorğu üzrə qoşulma seçimidir.       |
-| `<combo>`     | Əvvəlcə ada görə (registrdən asılı olmayaraq), sonra isə id-yə görə uyğunlaşdırılan adlandırılmış kombinasiya. |
+| Dəyər         | Effekt                                                                                                           |
+| ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `off`         | Bu sorğu üçün sıxılma yoxdur.                                                                                    |
+| `default`     | Paneldən əldə edilən Defolt profil (aktiv profilə məhəl qoymur). İtkili mühərriklər buraxılır.                   |
+| `safe`        | Başlığı buraxmaqla eynidir.                                                                                      |
+| `allow-lossy` | Xülasələr, uyğunluq filtrləri və üslubun yenidən yazılması daxil olmaqla, bu sorğunun operator planını saxlayın. |
+| `engine:<id>` | Aktivləşdirildikdə tək mühərrik, məsələn, `engine:rtk`. Bu, həmin mühərrik üçün hər bir sorğuya qoşulmadır.      |
+| `<combo>`     | Əvvəlcə adla (böyük hərflərə həssas olmayan), sonra id ilə uyğunlaşdırılan adlandırılmış kombo.                  |
 
-`allow-lossy`, `engine:<id>` və ya adlandırılmış kombinasiya olmadan itkili mühərriklər tətbiq edilmir.
-Sıxılma aktiv olduqda sorğu yenə də sessiya dublikatlarının silinməsindən və boşluqların
-yığcamlaşdırılmasından keçir.
+`allow-lossy`, `engine:<id>` və ya adlandırılmış kombi olmadan itkili mühərriklər tətbiq edilmir. İtkili Defolt, avtomatik tetikleyici və ya marşrutlaşdırma ləğv edildikdə, OmniRoute konfiqurasiya edilmiş yığılmış boru kəmərindən tanınan itkisiz addımları konfiqurasiya edilmiş qaydada saxlayır. Yalnız heç bir konfiqurasiya edilmiş itkisiz addım sağ qalmadıqda `session-dedup → lite` yə qayıdır.
 
-Tətbiq edilən plan `X-OmniRoute-Compression: <mode>; source=<source>` cavab başlığında geri qaytarılır;
-burada `<source>` `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default`
-və ya `off` dəyərlərindən biridir.
+Parametrlər paneli** Effektiv boru kəməri** önizləmə adi istirahət planını göstərir. Avtomatik tetikleyici işləyə bildikdə, eyni önizləmə həm də onun şərti effektiv boru xəttini göstərir ki, panel və başlıqsız icra zamanı ayırdetmə uyğunlaşsın.
+
+Tətbiq olunan plan `X-OmniRoute-Compression: <mode>; source=<source>` cavab başlığında əks olunur, burada `<source>` `request-header`, `routing-override`, `active-profile`, `auto-trigger`, `default` və ya `off`-dan biridir.
 
 ### API
 
 ```bash
-# Sıxılma parametrlərini əldə edin
+# Get compression settings
 curl http://localhost:20128/api/settings/compression
 
-# Sıxılma parametrlərini yeniləyin
+# Update compression settings
 curl -X PUT http://localhost:20128/api/settings/compression \
   -H "Content-Type: application/json" \
   -d '{"defaultMode":"stacked","autoTriggerMode":"stacked","autoTriggerTokens":32000}'
 
-# Müəyyən RTK/stacked faydalı yükünü önizləyin
+# Preview a specific RTK/stacked payload
 curl -X POST http://localhost:20128/api/compression/preview \
   -H "Content-Type: application/json" \
   -d '{"mode":"rtk","messages":[{"role":"tool","content":"npm test output here"}]}'
 
-# RTK filtr paketlərini siyahıya alın
+# List RTK filter packs
 curl http://localhost:20128/api/context/rtk/filters
 
-# Əlavə əmr metadatası ilə RTK-nı birbaşa sınaqdan keçirin
+# Test RTK directly with optional command metadata
 curl -X POST http://localhost:20128/api/context/rtk/test \
   -H "Content-Type: application/json" \
   -d '{"command":"npm test","text":"FAIL tests/example.test.ts\nError: boom"}'

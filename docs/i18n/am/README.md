@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute ዳሽቦርድ" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
-# 🚀 OmniRoute — ነፃ የAI መዳረሻ
+# 🚀 OmniRoute — ነፃው AI ጌትዌይ
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**[በዲያጎ ሱዛ](https://github.com/diegosouzapw) የተፈጠረ**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — ከቶ ኮድ መጻፍ አትቁም። ሁሉም የAI መሳሪያዎች → 380 አቅራቢዎች — 150+ ነፃ — በአንድ መግቢያ ነጥብ። Claude Code, Codex, Cursor, Cline, Copilot & Antigravity ወደ ነፃ Claude / GPT / Gemini በራስ-ሰር የመተካት ድጋፍ። RTK + Caveman የተያያዘ ጭነት ከ15–95% ቶክኖችን ያነሳል (~89% አማካይ) — ገደቦችን በቀላሉ አትድርስ። 380 የAI አቅራቢዎች · 150+ ነፃ ደረጃዎች · ~1.62B ነፃ ቶክኖች/ወር · 20 የመስመር ስታቴጂዎች · $0 ለመጀመር."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1285,29 +1285,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1ም ይዘለዋ�
 <br/>
 <div align="center">
 
-## 🛠️ የቴክኖሎጂ ቁልል
+## 🛠️ ቴክ ቁልል
 
 </div>
 
 <table>
   <tr><th align="left">ንብርብር</th><th align="left">ቴክኖሎጂ</th></tr>
-  <tr><td nowrap><b>የማስኬጃ አካባቢ</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>ቋንቋ</b></td><td>TypeScript 6.0 — በ<code>src/</code> እና <code>open-sse/</code> ውስጥ <b>100% TypeScript</b> (ከv2.0 ጀምሮ በዋናው ኮድ ውስጥ ዜሮ <code>any</code>)</td></tr>
-  <tr><td nowrap><b>ፍሬምወርክ</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>ዳታቤዝ</b></td><td>better-sqlite3 (SQLite, WAL journaling) + LowDB (JSON legacy) — 147 የዶሜይን ሞጁሎች፣ 221 ማይግሬሽኖች</td></tr>
-  <tr><td nowrap><b>ማህደረ ትውስታ</b></td><td>SQLite FTS5 የሙሉ ጽሑፍ ፍለጋ + int8-quantized vector embeddings፣ በአይነት የተወሰነ መቀነስ</td></tr>
-  <tr><td nowrap><b>ስኪማዎች</b></td><td>Zod 4 — የMCP መሣሪያ I/O ማረጋገጫ + የAPI ውሎች</td></tr>
+  <tr><td nowrap><b>የሩጫ ጊዜ</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>ቋንቋ</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> በ <code>src/</code> እና <code>open-sse/</code> (ዜሮ <code>any</code> በኮር ከv2.0 ጀምሮ)</td></tr>
+  <tr><td nowrap><b>ማዕቀፍ</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>የውሂብ ጎታ</b></td><td>better-sqlite3 (SQLite፣ WAL journaling) + LowDB (JSON ቅርስ) — 147 ጎራ ሞጁሎች፣ 221 ፍልሰት</td></tr>
+  <tr><td nowrap><b>ማህደረ ትውስታ</b></td><td>SQLite FTS5 ሙሉ ጽሑፍ + int8-quantized የቬክተር መክተቻዎች፣ የተተየበው መበስበስ</td></tr>
+  <tr><td nowrap><b>መርሃግብሮች</b></td><td>Zod 4 — MCP መሣሪያ I/O ማረጋገጫ + API ኮንትራቶች</td></tr>
   <tr><td nowrap><b>ፕሮቶኮሎች</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>ዥረት ማስተላለፍ</b></td><td>Server-Sent Events (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>መጭመቅ</b></td><td>12-ሞተር የሂደት ቧንቧ — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>ማረጋገጫ እና ደህንነት</b></td><td>OAuth 2.0 (PKCE) + JWT + API Keys + MCP scoped auth · AES-256-GCM በተቀመጠ ውሂብ ላይ · DOMPurify</td></tr>
-  <tr><td nowrap><b>ስውርነት</b></td><td>wreq-js — JA3 / JA4 TLS fingerprint impersonation, 3-ደረጃ ፕሮክሲ</td></tr>
-  <tr><td nowrap><b>ጽናት</b></td><td>Circuit breaker፣ exponential backoff፣ anti-thundering-herd፣ ራስ-ሰር ጥምረት ራስን-መጠገን</td></tr>
-  <tr><td nowrap><b>ምዝገባ</b></td><td>pino — የጥያቄ አውድ ያላቸው የተዋቀሩ JSON ምዝገባዎች</td></tr>
-  <tr><td nowrap><b>ሙከራ</b></td><td>Node.js test runner + Vitest — በ8,400+ የተከታተሉ የሙከራ ፋይሎች (unit, integration, E2E, security, ecosystem) ውስጥ <b>60,000+ የስታቲክ ሙከራ መግለጫዎች</b></td></tr>
-  <tr><td nowrap><b>መድረኮች</b></td><td>ዴስክቶፕ (Electron) · Android (Termux) · PWA (ማንኛውም አሳሽ)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — በልቀት ጊዜ ራስ-ሰር npm ማተም + Docker Hub</td></tr>
-  <tr><td nowrap><b>አገናኞች</b></td><td><a href="https://omniroute.online">ድረ-ገጽ</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>በዥረት መልቀቅ</b></td><td>በአገልጋይ የተላኩ ክስተቶች (SSE) + WebSocket ድልድይ (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>መጨናነቅ</b></td><td>12-ሞተር ቧንቧ መስመር — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; ደህንነት</b></td><td>OAuth 2.0 (PKCE) + JWT + API ቁልፎች + MCP scoped auth · AES-256-GCM በእረፍት · DOMPurify</td></tr>
+  <tr><td nowrap><b>ስውርነት</b></td><td>wreq-js — JA3 / JA4 TLS የጣት አሻራ ማስመሰል፣ ባለ 3-ደረጃ ፕሮክሲ</td></tr>
+  <tr><td nowrap><b>የመቋቋም ችሎታ</b></td><td>የወረዳ ሰባሪ፣ ገላጭ የኋላ ማጥፋት፣ ፀረ-ነጎድጓድ-መንጋ፣ ራስ-ኮምቦ ራስን መፈወስ</td></tr>
+  <tr><td nowrap><b>መግባት</b></td><td>pino — የተዋቀሩ JSON ምዝግብ ማስታወሻዎች ከጥያቄ አውድ ጋር</td></tr>
+  <tr><td nowrap><b>መሞከር</b></td><td>Node.js የሙከራ ሯጭ + Vitest — <b>60,000 + የማይንቀሳቀስ ሙከራ መግለጫዎች</b> በ8,400 + ክትትል የሚደረግባቸው የሙከራ ፋይሎች (ዩኒት፣ ውህደት፣ E2E፣ ደህንነት፣ ስነ-ምህዳር)</td></tr>
+  <tr><td nowrap><b>መድረኮች</b></td><td>ዴስክቶፕ (Electron) · አንድሮይድ (ቴርሙክስ) · PWA (ማንኛውም አሳሽ)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub ድርጊቶች — auto npm + Docker Hub በሚለቀቅበት ጊዜ ያትማል</td></tr>
+  <tr><td nowrap><b>አገናኞች</b></td><td><a href="https://omniroute.online">ድህረገፅ</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1799,15 +1799,15 @@ OmniRoute በታላላቅ ፕሮጀክቶች መሠረት ላይ ቆሟል። �
 
 ## 📄 ፈቃድ
 
-MIT ፈቃድ - ለዝርዝሮች [LICENSE](LICENSE) ይመልከቱ።
+MIT ፍቃድ - ለዝርዝሮች [LICENSE](LICENSE) ይመልከቱ።
 
 ---
 
 <div align="center">
 
-**[⬆ ወደ ላይ ተመለስ](#-omniroute)** · ለክፍት ምንጭ AI ማህበረሰብ በ❤️ የተሰራ።
+**[⬆ ወደ ላይ ተመለስ](#-omniroute)** ለክፍት ምንጭ AI ማህበረሰብ በ ❤️ የተሰራ።
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT ፈቃድ · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>የተፈጠረው በ <a href="https://github.com/diegosouzapw">ዲዬጎ ሱዛ</a> · OmniRoute v3.8.53 · መስቀለኛ መንገድ ≥ 22.22.2 · MIT ፈቃድ · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- ለማህበረሰብ ጥያቄ እና መልስ GitHub Discussions ነቅቷል -->
+<!-- GitHub Discussions enabled for community Q&A -->

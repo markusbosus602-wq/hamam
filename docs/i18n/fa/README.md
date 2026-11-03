@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="داشبورد OmniRoute" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
-# 🚀 OmniRoute — دروازه رایگان هوش مصنوعی
+# 🚀 OmniRoute — دروازه AI رایگان
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**ایجاد شده توسط [دیگو سوزا](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — هیچوقت کدنویسی را متوقف نکنید. هر ابزار هوش مصنوعی → ۳۸۰ ارائهدهنده — ۱۵۰+ رایگان — از طریق یک نقطه پایانی. Claude Code، Codex، Cursor، Cline، Copilot و Antigravity را به Claude / GPT / Gemini رایگان با بازگشت خودکار متصل کنید. فشردهسازی پشتهای RTK + Caveman تا ۱۵–۹۵٪ توکنها را ذخیره میکند (~۸۹٪ میانگین) — هرگز به محدودیتها نخورید. ۳۸۰ ارائهدهنده هوش مصنوعی · ۱۵۰+ پلن رایگان · ~۱.۶۲ میلیارد توکن رایگان در ماه · ۲۰ استراتژی مسیریابی · شروع از ۰ دلار."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1283,29 +1283,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1 نیز از آن 
 <br/>
 <div align="center">
 
-## 🛠️ پشته فناوری
+## 🛠️ Tech Stack
 
 </div>
 
 <table>
-  <tr><th align="left">لایه</th><th align="left">فناوری</th></tr>
+  <tr><th align="left">لایه</th><th align="left">تکنولوژی</th></tr>
   <tr><td nowrap><b>زمان اجرا</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>زبان</b></td><td>TypeScript 6.0 — <b>۱۰۰٪ TypeScript</b> در سراسر <code>src/</code> و <code>open-sse/</code> (از نسخه v2.0 در هسته هیچ <code>any</code> وجود ندارد)</td></tr>
+  <tr><td nowrap><b>زبان</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> در سراسر <code>src/</code> و <code>open-sse/</code> (صفر <code>any</code> در هسته از نسخه 2.0)</td></tr>
   <tr><td nowrap><b>چارچوب</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>پایگاه داده</b></td><td>better-sqlite3 (SQLite، ثبت وقایع WAL) + LowDB (JSON قدیمی) — ۱۴۷ ماژول دامنه، ۲۲۱ مهاجرت</td></tr>
-  <tr><td nowrap><b>حافظه</b></td><td>جستوجوی تماممتن SQLite FTS5 + embeddingهای برداری کوانتیزهشده با int8، زوال نوعدار</td></tr>
-  <tr><td nowrap><b>طرحوارهها</b></td><td>Zod 4 — اعتبارسنجی ورودی/خروجی ابزار MCP + قراردادهای API</td></tr>
-  <tr><td nowrap><b>پروتکلها</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>جریاندهی</b></td><td>رویدادهای ارسالشده از سرور (SSE) + پل WebSocket (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>فشردهسازی</b></td><td>خط لوله ۱۲ موتوره — RTK، Caveman، LLMLingua-2 (MobileBERT ONNX)، GCF، OmniGlyph</td></tr>
-  <tr><td nowrap><b>احراز هویت &amp; امنیت</b></td><td>OAuth 2.0 (PKCE) + JWT + کلیدهای API + احراز هویت دارای دامنه MCP · AES-256-GCM در حالت سکون · DOMPurify</td></tr>
-  <tr><td nowrap><b>پنهانکاری</b></td><td>wreq-js — جعل اثرانگشت TLS با JA3 / JA4، پراکسی ۳ سطحی</td></tr>
-  <tr><td nowrap><b>تابآوری</b></td><td>قطعکننده مدار، بازگشت نمایی، مقابله با هجوم همزمان، خودترمیمی خودکار ترکیبی</td></tr>
-  <tr><td nowrap><b>ثبت وقایع</b></td><td>pino — گزارشهای JSON ساختیافته با زمینه درخواست</td></tr>
-  <tr><td nowrap><b>آزمون</b></td><td>اجراکننده آزمون Node.js + Vitest — <b>بیش از ۶۰٬۰۰۰ اعلان آزمون ایستا</b> در بیش از ۸٬۴۰۰ فایل آزمون ردیابیشده (واحد، یکپارچهسازی، E2E، امنیت، اکوسیستم)</td></tr>
-  <tr><td nowrap><b>سکوها</b></td><td>رومیزی (Electron) · Android (Termux) · PWA (هر مرورگری)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — انتشار خودکار npm + انتشار در Docker Hub هنگام انتشار نسخه</td></tr>
-  <tr><td nowrap><b>پیوندها</b></td><td><a href="https://omniroute.online">وبسایت</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><td nowrap><b>پایگاه داده</b></td><td>better-sqlite3 (SQLite، WAL journaling) + LowDB (میراث JSON ) — 147 ماژول دامنه، 221 مهاجرت</td></tr>
+  <tr><td nowrap><b>حافظه</b></td><td>SQLite FTS5 متن کامل + int8-quantized embeddings vector, typed cay</td></tr>
+  <tr><td nowrap><b>طرحواره ها</b></td><td>Zod 4 — MCP ابزار I/O اعتبار سنجی قراردادهای + API</td></tr>
+  <tr><td nowrap><b>پروتکل ها</b></td><td>MCP (stdio / HTTP / SSE) + A2A 0.3 (JSON-RPC 2.0 + SSE)</td></tr>
+  <tr><td nowrap><b>پخش جریانی</b></td><td>رویدادهای ارسال شده توسط سرور (SSE) + WebSocket bridge (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>فشرده سازی</b></td><td>خط لوله 12 موتوره — RTK, غارنشین, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>امنیت &amp;</b></td><td>OAuth 2.0 (PKCE) + JWT + API کلیدهای + MCP scoped auth · AES-256-GCM در حالت استراحت · DOMPurify</td></tr>
+  <tr><td nowrap><b>مخفی کاری</b></td><td>جعل هویت اثر انگشت wreq-js — JA3 / JA4 TLS ، پروکسی 3 سطحی</td></tr>
+  <tr><td nowrap><b>تاب آوری</b></td><td>مدار شکن، عقب نشینی نمایی، ضد رعد و برق، گله، خود ترمیم خودکار ترکیبی</td></tr>
+  <tr><td nowrap><b>ورود به سیستم</b></td><td>سیاهههای مربوط JSON ساختار یافته pino — با زمینه درخواست</td></tr>
+  <tr><td nowrap><b>تست کردن</b></td><td>Node.js تست دونده + Vitest — <b>60000 اعلامیه تست استاتیک +</b> در سراسر 8400 فایل آزمایشی ردیابی شده + (واحد، ادغام، E2E، امنیت، اکوسیستم)</td></tr>
+  <tr><td nowrap><b>پلتفرم ها</b></td><td>دسکتاپ (Electron) · اندروید (Termux) · PWA (هر مرورگر)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — auto npm + Docker Hub را در زمان انتشار منتشر می کند</td></tr>
+  <tr><td nowrap><b>پیوندها</b></td><td><a href="https://omniroute.online">وب سایت</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
 </table>
 
 <div align="center">
@@ -1795,17 +1795,17 @@ OmniRoute بر شانههای غولها ایستاده است. این پروژ�
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>سطح سهمیهٔ Grok Build را شناسایی کرد؛ سپس OmniRoute قالب wire زنده را بهطور مستقل راستیآزمایی و اصلاح کرد.</td></tr>
 </table>
 
-## 📄 مجوز
+## مجوز 📄
 
-مجوز MIT - برای جزئیات به [LICENSE](LICENSE) مراجعه کنید.
+مجوز MIT - برای جزئیات بیشتر به [LICENSE](LICENSE) مراجعه کنید.
 
 ---
 
 <div align="center">
 
-**[⬆ بازگشت به بالا](#-omniroute)** · ساختهشده با ❤️ برای جامعهٔ متنباز هوش مصنوعی.
+**[⬆ بازگشت به بالا](#-omniroute)** · ساخته شده با ❤️ برای جامعه AI منبع باز.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · مجوز MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>ایجاد شده توسط <a href="https://github.com/diegosouzapw">دیگو سوزا</a> · OmniRoute v3.8.53 · Node ≥ 22.22.2 · MIT · <a href="https://omniroute.online">omniroute.online</a></sub>
 
 </div>
-<!-- GitHub Discussions برای پرسش و پاسخ جامعه فعال شده است -->
+<!-- GitHub Discussions enabled for community Q&A -->

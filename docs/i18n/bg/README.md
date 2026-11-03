@@ -6,16 +6,16 @@
 
 <div align="center">
 
-<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Табло" width="820"/>
+<img src="./docs/screenshots/MainOmniRoute.png" alt="OmniRoute Dashboard" width="820"/>
 
 <br/>
 <br/>
 
-# 🚀 OmniRoute — Безплатният AI шлюз
+# 🚀 OmniRoute — Безплатният AI портал
 
-**Created by [Diego Souza](https://github.com/diegosouzapw)**
+**Създаден от [Диего Соуза](https://github.com/diegosouzapw)**
 
-<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Никога не спирайте да кодирате. Всеки AI инструмент → 380 доставчици — 150+ безплатни — през един крайна точка. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity във БЕЗПЛАТЕН Claude / GPT / Gemini с автоматичен fallback. RTK + Caveman компресията спестява 15–95% токени (~89% средно) — никога не достигайте лимити. 380 AI доставчици · 150+ безплатни нива · ~1.62B безплатни токени/месец · 20 стратегии за маршрутизиране · $0 за старт."/>
+<img src="./docs/diagrams/readme-hero.svg" width="100%" alt="OmniRoute — Never stop coding. Every AI tool → 380 providers — 150+ free — through one endpoint. Claude Code, Codex, Cursor, Cline, Copilot & Antigravity into FREE Claude / GPT / Gemini with auto-fallback. RTK + Caveman stacked compression saves 15–95% tokens (~89% avg) — never hit limits. 380 AI providers · 150+ free tiers · ~1.62B free tokens/mo · 20 routing strategies · $0 to start."/>
 
 </div>
 
@@ -1294,29 +1294,29 @@ OMNIROUTE_SKIP_POSTINSTALL=1 npm install -g omniroute   # CI=1 също го п�
 <br/>
 <div align="center">
 
-## 🛠️ Технологичен стек
+## 🛠️ технически стек
 
 </div>
 
 <table>
-  <tr><th align="left">Слой</th><th align="left">Технология</th></tr>
-  <tr><td nowrap><b>Среда за изпълнение</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
-  <tr><td nowrap><b>Език</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> в <code>src/</code> и <code>open-sse/</code> (нула <code>any</code> в ядрото от v2.0)</td></tr>
-  <tr><td nowrap><b>Рамка</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
-  <tr><td nowrap><b>База данни</b></td><td>better-sqlite3 (SQLite, журнал с WAL) + LowDB (JSON наследена) — 147 домейн модула, 221 миграции</td></tr>
-  <tr><td nowrap><b>Памет</b></td><td>Пълнотекстово търсене с SQLite FTS5 + векторни embedding-и с int8 квантизация, типизирано затихване</td></tr>
-  <tr><td nowrap><b>Схеми</b></td><td>Zod 4 — валидиране на I/O на MCP инструментите + API договори</td></tr>
-  <tr><td nowrap><b>Протоколи</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
-  <tr><td nowrap><b>Поточно предаване</b></td><td>Server-Sent Events (SSE) + мост към WebSocket (<code>/v1/ws</code>)</td></tr>
-  <tr><td nowrap><b>Компресия</b></td><td>12-машинен конвейер — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
-  <tr><td nowrap><b>Удостоверяване и сигурност</b></td><td>OAuth 2.0 (PKCE) + JWT + API ключове + обхватно MCP удостоверяване · AES-256-GCM при съхранение · DOMPurify</td></tr>
-  <tr><td nowrap><b>Скритост</b></td><td>wreq-js — имитация на JA3 / JA4 TLS отпечатък, 3-степенен прокси</td></tr>
-  <tr><td nowrap><b>Устойчивост</b></td><td>Автоматичен прекъсвач, експоненциално изчакване, защита от thundering herd, автоматично комбинирано самовъзстановяване</td></tr>
-  <tr><td nowrap><b>Регистриране</b></td><td>pino — структурирани JSON регистри с контекст на заявката</td></tr>
-  <tr><td nowrap><b>Тестване</b></td><td>Тестов изпълнител на Node.js + Vitest — <b>над 60 000 статични декларации на тестове</b> в над 8 400 проследявани тестови файла (модулни, интеграционни, E2E, за сигурност, за екосистемата)</td></tr>
-  <tr><td nowrap><b>Платформи</b></td><td>Настолни компютри (Electron) · Android (Termux) · PWA (всеки браузър)</td></tr>
-  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Actions — автоматично публикуване в npm + Docker Hub при издаване</td></tr>
-  <tr><td nowrap><b>Връзки</b></td><td><a href="https://omniroute.online">Уебсайт</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker Hub</a></td></tr>
+  <tr><th align="left">Слой</th><th align="left">технология</th></tr>
+  <tr><td nowrap><b>Време за изпълнение</b></td><td>Node.js 22.x / 24.x LTS — <code>&gt;=22.22.2 &lt;23 || &gt;=24.0.0 &lt;27</code></td></tr>
+  <tr><td nowrap><b>език</b></td><td>TypeScript 6.0 — <b>100% TypeScript</b> през <code>src/</code> и <code>open-sse/</code> (нула <code>any</code> в ядрото от v2.0)</td></tr>
+  <tr><td nowrap><b>рамка</b></td><td>Next.js 16 + React 19 + Tailwind CSS 4</td></tr>
+  <tr><td nowrap><b>База данни</b></td><td>better-sqlite3 (SQLite, WAL журналиране) + LowDB (JSON наследство) — 147 домейн модула, 221 миграции</td></tr>
+  <tr><td nowrap><b>памет</b></td><td>SQLite FTS5 пълен текст + int8-quantized векторни вграждания, въведен разпад</td></tr>
+  <tr><td nowrap><b>Схеми</b></td><td>Zod 4 — MCP инструмент I/O валидиране + API договори</td></tr>
+  <tr><td nowrap><b>протоколи</b></td><td>MCP (stdio / HTTP / SSE) + A2A v0.3 (JSON-RPC 2.0 + SSE)</td></tr>
+  <tr><td nowrap><b>Поточно предаване</b></td><td>Събития, изпратени от сървъра (SSE) + WebSocket мост (<code>/v1/ws</code>)</td></tr>
+  <tr><td nowrap><b>Компресия</b></td><td>12-двигателен тръбопровод — RTK, Caveman, LLMLingua-2 (MobileBERT ONNX), GCF, OmniGlyph</td></tr>
+  <tr><td nowrap><b>Auth &amp; сигурност</b></td><td>OAuth 2.0 (PKCE) + JWT + API Ключове + MCP удостоверяване с обхват · AES-256-GCM в покой · DOMPurify</td></tr>
+  <tr><td nowrap><b>Стелт</b></td><td>wreq-js — JA3 / JA4 TLS имитиране на пръстови отпечатъци, прокси на 3 нива</td></tr>
+  <tr><td nowrap><b>Устойчивост</b></td><td>Прекъсвач, експоненциално отдръпване, анти-гръмотевично стадо, автоматично комбинирано самолечение</td></tr>
+  <tr><td nowrap><b>Сеч</b></td><td>pino — структурирани JSON регистрационни файлове с контекст на заявка</td></tr>
+  <tr><td nowrap><b>Тестване</b></td><td>Node.js тест бегач + Vitest — <b>60 000 + статични тестови декларации</b> в 8400 + проследени тестови файла (единица, интеграция, E2E, сигурност, екосистема)</td></tr>
+  <tr><td nowrap><b>Платформи</b></td><td>Десктоп (Electron) · Android (Termux) · PWA (всеки браузър)</td></tr>
+  <tr><td nowrap><b>CI/CD</b></td><td>GitHub Действия — auto npm публикуване + Docker Hub при пускане</td></tr>
+  <tr><td nowrap><b>Връзки</b></td><td><a href="https://omniroute.online">уебсайт</a> · <a href="https://www.npmjs.com/package/omniroute">npm</a> · <a href="https://hub.docker.com/r/diegosouzapw/omniroute">Docker хъб</a></td></tr>
 </table>
 
 <div align="center">
@@ -1806,17 +1806,17 @@ OmniRoute е изграден върху постиженията на гига�
   <tr><td nowrap><b><a href="https://github.com/steipete/CodexBar">CodexBar</a></b></td><td align="center">22,955</td><td>Идентифицира повърхността на квотата за Grok Build; след това OmniRoute независимо провери и коригира актуалния wire формат.</td></tr>
 </table>
 
-## 📄 Лиценз
+## 📄 лиценз
 
-MIT License – вижте [LICENSE](LICENSE) за подробности.
+MIT лиценз - вижте [LICENSE](LICENSE) за подробности.
 
 ---
 
 <div align="center">
 
-**[⬆ Обратно към началото](#-omniroute)** · Създаден с ❤️ за общността на отворения код в AI.
+**[⬆ Обратно в началото](#-omniroute)** · Създаден с ❤️ за AI общността с отворен код.
 
-<sub>Created by <a href="https://github.com/diegosouzapw">Diego Souza</a> · OmniRoute v3.8.53 · Node ≥22.22.2 · MIT License · <a href="https://omniroute.online">omniroute.online</a></sub>
+<sub>Създаден от <a href="https://github.com/diegosouzapw">Диего Соуза</a> · OmniRoute v3.8.53 · Възел ≥ 22.22.2 · MIT лиценз · <a href="https://omniroute.online">omniroute.онлайн</a></sub>
 
 </div>
-<!-- GitHub Discussions е активиран за въпроси и отговори в общността -->
+<!-- GitHub Discussions enabled for community Q&A -->
