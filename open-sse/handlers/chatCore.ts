@@ -1,3 +1,7 @@
+import type {
+  HttpAttemptSelection,
+  HttpAttemptRejectionSlot,
+} from "../utils/providerHttpAttempts.ts";
 import { finalizeTranslatedRequest } from "./chatCore/translatedRequestFinalize.ts";
 import { isPassiveCodex } from "../services/tokenRefresh/passiveCodex.ts";
 import {
@@ -177,6 +181,7 @@ import { resolveChatExecutor } from "./chatCore/searchProviderRejection.ts";
 import { normalizeClaudeUpstreamMessages as normalizeClaudeUpstreamMessagesFor } from "./chatCore/claudeUpstreamMessages.ts";
 import {
   persistAttemptLogs as persistAttemptLogsFor,
+  drainUpstreamHttpAttempts,
   type PersistAttemptLogsArgs,
 } from "./chatCore/attemptLogging.ts";
 import { stageTrace } from "./chatCore/stageTrace.ts";
@@ -515,6 +520,7 @@ async function handleChatCoreInner({
     payload?: unknown,
     maxDepth = 3
   ): EffectiveServiceTier | null => resolveReportedServiceTierFor(provider, payload, maxDepth);
+  let upstreamHttpSelection: HttpAttemptSelection | null = null;
   let providerResponse;
   // Failure usage record building extracted to chatCore/failureUsage.ts (#3501); the handler keeps
   // the fire-and-forget save + computes latencyMs, so the call sites stay byte-identical.
@@ -594,6 +600,7 @@ async function handleChatCoreInner({
   }
   const releaseTurnExecution = turnExecution.release;
   let turnExecutionHandedOffToStream = false;
+  let drainUnpersistedHttpAttempts = () => {};
 
   // Preserve chatCore's canonical formatting while the guarded body remains byte-stable.
   // prettier-ignore
@@ -928,6 +935,7 @@ async function handleChatCoreInner({
     }
     return persistAttemptLogsFor(args, {
       traceId,
+      httpAttempts: providerRequestCapture.httpAttempts,
       provider,
       connectionId,
       model,
@@ -1083,6 +1091,14 @@ async function handleChatCoreInner({
     videoTranscriptSensitive: videoBridgeObserved,
   };
   const providerRequestCapture = createPreparedRequestLogger(reqLogger, pendingScope);
+  drainUnpersistedHttpAttempts = drainUpstreamHttpAttempts.bind(null, {
+    httpAttempts: providerRequestCapture.httpAttempts,
+    correlationId,
+    traceId,
+    noLogEnabled: Boolean(noLogEnabled),
+    apiKeyInfo: apiKeyInfo ? { id: apiKeyInfo.id, name: apiKeyInfo.name } : null,
+    comboName: typeof comboName === "string" ? comboName : null,
+  });
   // 0. Log client raw request (before format conversion) — redacts video transcript
   // cues in the logged copy only; see videoBridgeSnapshotRedaction.ts.
   logClientRawRequestRedacted(reqLogger, clientRawRequest, videoBridgeObserved);
@@ -2581,8 +2597,10 @@ async function handleChatCoreInner({
   };
   const executeProviderRequest = (
     modelToCall: string = effectiveModel,
-    allowDedup: boolean = false
-  ) => executeProviderRequestLeaf(executeProviderRequestDeps, modelToCall, allowDedup);
+    allowDedup: boolean = false,
+    _policy?: { allowAccountRotation?: boolean },
+    rejection?: HttpAttemptRejectionSlot
+  ) => executeProviderRequestLeaf(executeProviderRequestDeps, modelToCall, allowDedup, rejection);
 
   // Snapshot + message count helpers extracted to chatCore/providerRequestRegistration.ts
   // (chatCore slice 2).
@@ -3218,6 +3236,7 @@ async function handleChatCoreInner({
       pipelineRecovered = streamingOutcome.carry.pipelineRecovered;
       providerHeaders = streamingOutcome.carry.providerHeaders;
       providerResponse = streamingOutcome.carry.providerResponse;
+      upstreamHttpSelection = streamingOutcome.carry.upstreamHttpSelection;
       providerUrl = streamingOutcome.carry.providerUrl;
     }
     if (streamingOutcome && streamingOutcome.response) return streamingOutcome.response;
@@ -3368,6 +3387,7 @@ async function handleChatCoreInner({
   }
 
   const streamingTailOutcome = await runStreamingTail({
+    upstreamHttpSelection,
     geminiPromptCacheMode,
     isScopedGeminiCacheTarget,
     tokensCompressed,
@@ -3454,6 +3474,9 @@ async function handleChatCoreInner({
   return streamingTailOutcome.result;
   } finally {
     if (!turnExecutionHandedOffToStream) {
+      try {
+        drainUnpersistedHttpAttempts();
+      } catch {}
       releaseTurnExecution();
     }
   }
