@@ -48,18 +48,6 @@ export const FEATURE_FLAG_DEFINITIONS: FeatureFlagDefinition[] = [
     warningLevel: "info",
   },
   {
-    key: "API_KEY_AUDIT_CLIENT_DETAILS_ENABLED",
-    label: "API Key Audit: Record Client IP and User-Agent",
-    description:
-      "Record the caller's IP address and user-agent on the audit-log rows written for successful API-key metadata and discovery reads (action api_key.auth.touch). Off by default: those rows still record which key was used, when, and on which path, without IP or user-agent.",
-    descriptionI18nKey: "featureFlagApiKeyAuditClientDetailsEnabledDescription",
-    category: "security",
-    defaultValue: "false",
-    type: "boolean",
-    requiresRestart: false,
-    warningLevel: "caution",
-  },
-  {
     key: "PII_REDACTION_ENABLED",
     label: "PII Redaction",
     description: "Redact personally identifiable information from requests",
@@ -91,6 +79,18 @@ export const FEATURE_FLAG_DEFINITIONS: FeatureFlagDefinition[] = [
     defaultValue: "redact",
     type: "enum",
     enumValues: ["redact", "warn", "block", "off"],
+    requiresRestart: false,
+    warningLevel: "info",
+  },
+  {
+    key: "PII_REVERSIBLE_VAULT_ENABLED",
+    label: "Reversible PII Token Vault",
+    description:
+      "Opt-in reversible PII pseudonymization vault: replaces detected PII with surrogate tokens upstream and restores original values on outbound responses",
+    descriptionI18nKey: "featureFlagPiiReversibleVaultEnabledDescription",
+    category: "security",
+    defaultValue: "false",
+    type: "boolean",
     requiresRestart: false,
     warningLevel: "info",
   },
