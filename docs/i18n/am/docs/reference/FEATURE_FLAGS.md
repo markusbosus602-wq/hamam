@@ -44,7 +44,7 @@
 
 ## የፍላጎቶች ዝርዝር
 
-በ6 ምድቦች ውስጥ 115 ፍላጎቶች። **ነባሪ** የፍቺው ነባሪ እሴት ነው — DB መተካት ወይም የአካባቢ ተለዋዋጭ ከሌለ የሚጠቀሙበት እሴት።
+በ6 ምድቦች ውስጥ 114 ፍላጎቶች። **ነባሪ** የፍቺው ነባሪ እሴት ነው — DB መተካት ወይም የአካባቢ ተለዋዋጭ ከሌለ የሚጠቀሙበት እሴት።
 
 ### ደህንነት (11)
 
@@ -112,7 +112,7 @@
 
 `UNPRICED_USAGE_BUDGET_POLICY` በግልጽ ሲዋቀር (ከአካባቢ በፊት የDB መተካት)፣ ከ`USAGE_LIMIT_IGNORE_UNPRICED` በላይ ቅድሚያ ያገኛል። ግልጽ የenum እሴት ከሌለ፣ የupstream ቡሊያን መርጦ መውጣት `count_as_zero` ይመርጣል፤ ካልሆነ ነባሪው `fail_closed` ነው። ልክ ያልሆኑ የenum እሴቶች እና ሊነበብ የማይችል የfeature-flag ማከማቻ በደህንነት ምክንያት ይዘጋሉ። ሁለቱም የመርጦ መውጫ አማራጮች ዋጋ ያለውን ወጪ አያሳንሱም፣ የዋጋ ማስላት ፍለጋ ካልተሳካም እንዲሁ አይተዉም። የማስፈጸሚያ ሂደቱ እና የአስተዳዳሪው ሪፖርት ተመሳሳይ ውጤታማ ፖሊሲን ይወስናሉ።
 
-### የሩጫ ጊዜ (55)
+### የሩጫ ጊዜ (54)
 
 | Key                                            | Type    | Default | Restart | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ---------------------------------------------- | ------- | ------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -159,7 +159,6 @@
 | `KIRO_TOOL_CALL_REPAIR_ENABLED`                | boolean | `true`  |         | የstreaming Kiro ምላሽ ማንኛውም የሚታይ output ከመኖሩ በፊት የተበላሸ `tool_call` wrapper (`input.name` ወይም `input.arguments` የጎደለው) ካመነጨ፣ ያንን ያግዱትና ጥያቄውን በማስተካከያ መመሪያ አንድ ጊዜ እንደገና ይላኩ፤ በዚህ ፈንታ turn-ን `invalid_kiro_tool_call` በማለት አይጨርሱት። ዳግም ሙከራው አንድ ተጨማሪ Kiro ጥያቄ ያስከፍላል፤ ሁለተኛው ውድቀት turn-ን `kiro_tool_call_repair_retry_failed` በማለት ያጠናቅቃል። በነባሪ እንደበራ ነው። የመጀመሪያው የተበላሸ wrapper ላይ turn-ን እንዲያበቃ ወደ `false` ያቀናብሩት።                                                                                                                                                                                                                                   |
 | `CATALOG_MIRROR_REFINEMENTS_ENABLED`           | boolean | `false` |         | በ`/v1/models` ላይ የ`claude/` discovery እና functional-gateway mirrorsን ያሻሽሉ። በነባሪ ጠፍቷል፦ ሁለቱም mirror passes እንደበፊቱ በትክክል ይሰራሉ። ሲነቃ፦ የ`claude/` discovery mirrors በተዘረዘሩ የreasoning-effort variants (`-low`/`-medium`/`-high`/`-xhigh`) ላይም ይሰራሉ፣ የrequest path ሊያመነጫቸው የማይችላቸውን አብሮ የተሰሩ `auto/*` ids ይዘላሉ፣ እንዲሁም ቀድሞ የተዘረዘረ aliasን ይዘላሉ፤ functional-gateway mirrors combos እና OmniRoute-የተዋሃዱ ids (`claude/`፣ `no-think/`) ይዘላሉ፣ ownerን ከ`owned_by` ይወስዳሉ፣ ownerን እንደራሱ gateway በፍጹም አይጠቀሙም፣ በ`blockedProviders` ውስጥ የተሰናከሉ gateways እና ከgatewayው authoritative live catalog ውጭ ያሉ ሞዴሎችን ይዘላሉ።                                                    |
 | ---------------------------------------------- | ------- | ------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ANTHROPIC_COMPATIBLE_MID_CONVERSATION_SYSTEM` | boolean | `false` |         | በመደበኛ `anthropic-compatible-*` relays (claude → claude passthrough) ላይ፣ የcached prompt prefix በturnዎች መካከል ቋሚ ሆኖ እንዲቆይ፣ በውይይት መካከል ያሉ `role: "system"` turnsን ወደ ከፍተኛ-ደረጃ `system` parameter ከማውጣት ይልቅ በ`messages[]` ውስጥ ያቆዩ። ይህ የሚሰራው client ራሱ `mid-conversation-system-2026-04-07` `anthropic-beta`ን ሲልክ ብቻ ነው (ወደ upstream እንዳለ ይተላለፋል)። በነባሪ ጠፍቷል፦ beta የሌላቸው relays `role: "system"` messagesን በ400 ስለሚቀበሉ እያንዳንዱ system turn እንደበፊቱ ወደ ላይኛው ደረጃ ይወጣል።                                                                                                                                                                                    |
 | `MODELS_DEV_EFFORT_TIERS_ENABLED`              | boolean | `false` |         | ኦፕሬተር overrideም ሆነ provider registry ምንም ካልያዘ፣ models.dev የሚያሳትመውን reasoning effort tiers (ወደ የታወቀው effort vocabulary ተገድቦ) ይጠቀሙ፤ እንዲሁም በ`/v1/models` `effort_tiers` እና combo tier intersections ውስጥ የተገለጸ ባዶ tier listን "no tiers" እንደሆነ ይቁጠሩ። በነባሪ ጠፍቷል፦ `effort_tiers` እና የተፈቱ `supportedThinkingEfforts` እንደበፊቱ በትክክል ይቆያሉ።                                                                                                                                                                                                                                                                                                                 |
 | `AUTO_REQUEST_RESOLVED_CAPABILITIES`           | boolean | `false` |         | auto/* requests የእጩዎች ስብስቡን በተፈቱ የሞዴል ችሎታዎች (vision፣ reasoning፣ thinking) እና በታዩ የጥራት ውጤቶች በአንድ bulk read ይገነባሉ (#16419)። በነባሪ ጠፍቷል፦ የrequest-time snapshot weights እንደበፊቱ በትክክል ይቆያሉ። ሲነቃ፦ እነዚህ signals ወደ snapshot weights ስለሚገቡ፣ የእጩዎች weights እና ምርጫ ሊለወጡ ይችላሉ።                                                                                                                                                                                                                                                                                                                                                                             |
 | `AUTO_COMBO_KEYLESS_TRANSPORT_GATE`            | boolean | `false` |         | የአካባቢ አሳሽ (`browserBacked`) ወይም በአካባቢ የተጫነ CLI (`isLocalCli`) የሚፈልግ ትራንስፖርት ያላቸውን ቁልፍ-አልባ (ማረጋገጫ-አልባ) አቅራቢዎች ከ`auto/*` እጩ ስብስብ ውጭ ያቆያል፤ ስለዚህ የተጣበቀ አባል በዒላማ-የተወሰነ የጊዜ ገደብ ድረስ የራስ-ሰር ጥያቄን ማቆም አይችልም (#17036)። በነባሪ ጠፍቷል፦ የቁልፍ-አልባ ስብስቡ አይለወጥም። ቀጥተኛ `<alias>/<model>` ጥሪዎች በሁለቱም መንገዶች ይሰራሉ።                                                                                                                                                                                                                                                                                                                                                    |
@@ -255,10 +254,10 @@
       "requiresRestart": false,
       "warningLevel": "caution",
     },
-    // ... ሁሉም 115 ፍላጎቶች
+    // ... ሁሉም 114 ፍላጎቶች
   ],
   "summary": {
-    "total": 115,
+    "total": 114,
     "active": 0,
     "inactive": 0,
     "overriddenByDb": 0,
