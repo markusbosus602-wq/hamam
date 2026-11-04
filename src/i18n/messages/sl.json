@@ -10654,6 +10654,7 @@
       "refreshFailures": "Zaznane so bile napake pri osveževanju žetonov",
       "unknown": "Stanje ni znano"
     },
+    "tokenHealthRefreshResult": "{refreshed} osveženih, {failed} neuspešnih, {skipped} preskočenih",
     "systemMonitor": {
       "metricsAriaLabel": "Sistemske metrike",
       "memory": "Pomnilnik",

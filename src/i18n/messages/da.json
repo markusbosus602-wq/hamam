@@ -10731,6 +10731,7 @@
       "refreshFailures": "Token opdateringsfejl registreret",
       "unknown": "Sundhedsstatus ukendt"
     },
+    "tokenHealthRefreshResult": "{refreshed} opdateret, {failed} mislykket, {skipped} udeladt",
     "systemMonitor": {
       "metricsAriaLabel": "Systemmålinger",
       "memory": "Hukommelse",
